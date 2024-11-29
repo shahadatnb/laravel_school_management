@@ -19,17 +19,21 @@
             <tr>
               <th>ID</th>
               <th>Sl</th>
-              <th>Name</th>
+              <th>Class Name</th>
+              <th>Shift Name</th>
+              <th>Section</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
             </thead>
             <tbody>
-                @foreach ($shifts as $item)
+                @foreach ($class_config as $item)
                 <tr>
                     <td>{{$item->id}}</td>
                     <td>{{$item->serial}}</td>
-                    <td>{{$item->name }}</td>
+                    <td>{{($item->class && $item->shift && $item->section) ? $item->class->name.'-'.$item->shift->name.'-'.$item->section->name : '' }}</td>
+                    <td>{{$item->shift? $item->shift->name : '' }}</td>
+                    <td>{{$item->section? $item->section->name : '' }}</td>
                     <td>{{$item->status=='1'?'Active':'Inactive' }}</td>
                     <td>
                       <div class="btn-group btn-group-sm">
@@ -39,9 +43,9 @@
                         <div class="dropdown-menu">
                           {{-- @if (Auth::user()->hasAnyRole(['Manager','Admin'])) --}}
                           <div class="dropdown-divider"></div>
-                            <a href="{{route('student.setup.shift.edit',$item->id)}}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="{{route('student.setup.class_config.edit',$item->id)}}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
                             <div class="dropdown-divider"></div>
-                            <form class="delete" action="{{ route('student.setup.shift.destroy',$item->id) }}" method="post">
+                            <form class="delete" action="{{ route('student.setup.class_config.destroy',$item->id) }}" method="post">
                               {{ csrf_field() }}
                               {{ method_field('DELETE') }}
                               <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete This Item?')"><i class="fas fa-trash"></i> Delete</button>

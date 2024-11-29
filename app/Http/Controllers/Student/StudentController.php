@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student\Student;
-use App\Models\Student\StudentPayment;
+use App\Models\Student\Section;
+use App\Models\Student\Shift;
+use App\Models\Student\Group;
 use App\Models\Student\StudentMark;
 use App\Models\Student\InvoicePayment;
 use Illuminate\Http\Request;
@@ -30,25 +32,36 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'department_id'=>'',
             'semester_id'=>'',
+            'section_id'=>'',
+            'shift_id'=>'',
+            'group_id'=>'',
             'reg_no'=>'',
-            'shift'=>'',
-            'student_group'=>'',
             'probidhan'=>'',
             'class_roll'=>'',
             'reg_no'=>''
         ];
-        $departments = $this->departmentArray();
+
         $semesters = $this->semesterArray();
+        $shifts = Shift::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $sections = Section::where('branch_id', session('branch')['id'])->pluck('name', 'id');
         $students = Student::where('branch_id', session('branch')['id'] )->latest();
-        if(!empty($request->department_id)){
-            $data['department_id'] = $request->department_id;
-            $students = $students->where('department_id', $request->department_id);
-        }
+        $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
         if(!empty($request->semester_id)){
             $data['semester_id'] = $request->semester_id;
             $students = $students->where('semester_id', $request->semester_id);
+        }
+        if(!empty($request->section_id)){
+            $data['section_id'] = $request->section_id;
+            $students = $students->where('section_id', $request->section_id);
+        }
+        if(!empty($request->shift_id)){
+            $data['shift_id'] = $request->shift;
+            $students = $students->where('shift_id',$request->shift_id);
+        }
+        if(!empty($request->group_id)){
+            $data['group_id'] = $request->group_id;
+            $students = $students->where('group_id', $request->group_id);
         }
         if(!empty($request->session)){
             $data['session'] = $request->session;
@@ -58,25 +71,13 @@ class StudentController extends Controller
             $data['reg_no'] = $request->reg_no;
             $students = $students->where('reg_no', $request->reg_no);
         }
-        if(!empty($request->shift)){
-            $data['shift'] = $request->shift;
-            $students = $students->where('shift','like', '%'.$request->shift.'%');
-        }
-        if(!empty($request->student_group)){
-            $data['student_group'] = $request->student_group;
-            $students = $students->where('student_group', $request->student_group);
-        }
-        if(!empty($request->probidhan)){
-            $data['probidhan'] = $request->probidhan;
-            $students = $students->where('probidhan', $request->probidhan);
-        }
         if(!empty($request->class_roll)){
             $data['class_roll'] = $request->class_roll;
             $students = $students->where('class_roll', $request->class_roll);
         }
         $students = $students->paginate(100);
 
-        return view('admin.student.student.index', compact('students','departments','semesters','data'));
+        return view('admin.student.student.index', compact('students','semesters','shifts','sections','groups','data'));
     }
 
     public function create()

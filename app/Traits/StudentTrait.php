@@ -2,25 +2,15 @@
 namespace App\Traits;
 
 use App\Models\Student\Course;
-use App\Models\Student\Department;
 use App\Models\Student\Semester;
 
 trait StudentTrait {
 
-    public function departmentArray() {
-        $parants = Department::where('status', 1)->get();
-        $plocations = [];
-        foreach ($parants as $parant) {
-            $plocations[$parant->id] = $parant->title;
-        }
-        return $plocations;
-    }
-
     public function semesterArray() {
-        $parants = Semester::where('status', 1)->get();
+        $parants = Semester::where('status', 1)->where('branch_id', session('branch')['id'])->get();
         $plocations = [];
         foreach ($parants as $parant) {
-            $plocations[$parant->id] = $parant->title;
+            $plocations[$parant->id] = $parant->name;
         }
         return $plocations;
     }

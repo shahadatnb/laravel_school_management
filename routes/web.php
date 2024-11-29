@@ -102,14 +102,14 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::resource('class_config', ClassConfigController::class);
         });
 
+        Route::get('student/admissionForm/{student}', [StudentController::class,'admissionForm'])->name('admissionForm');
+        Route::post('student/import', [StudentController::class,'import'])->name('student.import');
+        Route::resource('student', StudentController::class);
 
     });
-    Route::post('student/import', [StudentController::class,'import'])->name('student.import');
     Route::post('student/import-cgpa', [StudentController::class,'importCgpa'])->name('student.import.cgpa');
     Route::get('student/id_card', [StudentController::class,'IDCard'])->name('id_card');
     Route::get('student/student_statitics', [StudentController::class,'student_statitics'])->name('student_statitics');
-    Route::resource('student', StudentController::class);
-    Route::get('student/admissionForm/{student}', [StudentController::class,'admissionForm'])->name('admissionForm');
     Route::get('student/incomeList', [InvoiceController::class,'incomeList'])->name('incomeList');
     Route::resource('invoice', InvoiceController::class);
     Route::resource('attendance', AttendanceController::class);

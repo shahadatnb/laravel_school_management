@@ -84,7 +84,7 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item"><a href="{{ route("student.index") }}" class="nav-link {{ (request()->routeIs('student.*')) ? ' active' : '' }}">
+              <li class="nav-item"><a href="{{ route("student.student.index") }}" class="nav-link {{ (request()->routeIs('student.student.*')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> <p>{{__('Student List') }}</p></a>
               </li>
               <li class="nav-item"><a href="{{ route("student_statitics") }}" class="nav-link {{ (request()->routeIs('student_statitics')) ? ' active' : '' }}">
@@ -105,9 +105,7 @@
               {{-- <li class="nav-item"><a href="{{ route("invoiceHead.index") }}" class="nav-link {{ (request()->routeIs('invoiceHead.*')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> Invoice Head</a>
               </li> --}}
-              <li class="nav-item"><a href="{{ route("department.index") }}" class="nav-link {{ (request()->routeIs('department.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> <p>Department List</p></a>
-              </li>
+              
               <li class="nav-item"><a href="{{ route("id_card") }}" class="nav-link {{ (request()->routeIs('id_card')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> <p>ID Card Print</p></a>
               </li>

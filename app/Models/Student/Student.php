@@ -47,13 +47,21 @@ class Student extends Model
     public function createdBy(){
         return $this->belongsTo(User::class, 'created_by');
     }
-    
-    public function department(){
-        return $this->belongsTo(Department::class);
+
+    public function shift(){
+        return $this->belongsTo(Shift::class, 'shift_id');
+    }
+
+    public function section(){
+        return $this->belongsTo(Section::class, 'section_id');
     }
     
     public function semester(){
         return $this->belongsTo(Semester::class);
+    }
+
+    public function group(){
+        return $this->belongsTo(Group::class);
     }
     
     public function academicYear(){

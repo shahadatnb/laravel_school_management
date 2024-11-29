@@ -7,22 +7,22 @@
 <!-- Default box -->
 <div class="card">
     <div class="card-header d-print-none">
-          {!! Form::model($data,['route' => 'student.index','method'=>'get','class'=>'d-print-none row']) !!}
+          {!! Form::model($data,['route' => 'student.student.index','method'=>'get','class'=>'d-print-none row']) !!}
             {{-- <div class="col">
               {!! Form::select('session_id',$academicYear,null,['class'=>'form-control select2','placeholder'=> __('Academic Year')]) !!}
               {!! Form::text('session',null,['class'=>'form-control','placeholder'=> __('Session')]) !!}
             </div> --}}
             <div class="col-6 col-md-2">
-              {!! Form::select('department_id',$departments,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Department')]) !!}
-            </div>
-            <div class="col-6 col-md-2">
               {!! Form::select('semester_id',$semesters,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Semester/Class')]) !!}
             </div>
             <div class="col-6 col-md-2">
-              {!! Form::select('shift',['1st'=>'1st Shift','2nd'=>'2nd Shift'],null,['class'=>'form-control form-control-sm','placeholder'=> __('Shift')]) !!}
+              {!! Form::select('section_id',$sections,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Section')]) !!}
             </div>
             <div class="col-6 col-md-2">
-              {!! Form::select('student_group',['A'=>'A','B'=>'B'],null,['class'=>'form-control form-control-sm','placeholder'=> __('Group')]) !!}
+              {!! Form::select('shift',$shifts,null,['class'=>'form-control form-control-sm','placeholder'=> __('Shift')]) !!}
+            </div>
+            <div class="col-6 col-md-2">
+              {!! Form::select('group_id',$groups,null,['class'=>'form-control form-control-sm','placeholder'=> __('Group')]) !!}
             </div>
             <div class="col-3 col-md-1">
               {!! Form::text('reg_no',null,['class'=>'form-control form-control-sm','placeholder'=> __('Reg No')]) !!}
@@ -34,7 +34,7 @@
               <div class="btn btn-group">
                 <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-search"></i> Filter</button>
                 {{-- {{ Form::submit(__('Filter'),array('class'=>'btn btn-sm btn-success')) }} --}}
-                <a class="btn btn-primary btn-sm" href="{{ route('student.create')}}"><i class="fas fa-plus"></i> New</a>
+                <a class="btn btn-primary btn-sm" href="{{ route('student.student.create')}}"><i class="fas fa-plus"></i> New</a>
               </div>              
             </div>
           {!! Form::close() !!}
@@ -46,7 +46,7 @@
       @include('admin.layouts._message')
       <div class="row">
         <div class="col-6">
-        {{ Form::open(array('route'=>'student.import','method'=>'POST','files' => true)) }}
+        {{ Form::open(array('route'=>'student.student.import','method'=>'POST','files' => true)) }}
         <div class="form-group">
           <div class="input-group">
             <div class="custom-file">
@@ -73,13 +73,10 @@
               <th>{{__('Name')}}</th>
               <th>{{__('Class Roll')}}</th>
               <th>{{__('Reg No')}}</th>
-              <th>{{__('Semester')}}</th>
-              <th>{{__('Technology')}}</th>
+              <th>{{__('Class')}}</th>
+              <th>{{__('Section')}}</th>
               <th>{{__('Shift')}}</th>
               <th>{{__('Group')}}</th>
-              <th>{{__('Probidhan')}}</th>
-              <th>{{__('CGPA')}}</th>
-              <th>{{__('Address')}}</th>
               <th>{{__('Sex')}}</th>
               <th>{{__('Mobile')}}</th>
               <th>{{__('Father Name')}}</th>
@@ -99,12 +96,12 @@
                         <div class="dropdown-menu">
                           {{-- @if (Auth::user()->hasAnyRole(['Manager','Admin'])) --}}
                           <div class="dropdown-divider"></div>
-                            <a href="{{route('student.payments',$item->id)}}" class="dropdown-item"><i class="fas fa-money-bill-alt"></i> Payment</a>
-                            <a href="{{route('student.edit',$item->id)}}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
-                            <a href="{{route('student.show',$item->id)}}" class="dropdown-item"><i class="fas fa-eye"></i> Show</a>
-                            <a href="{{route('admissionForm',$item->id)}}" class="dropdown-item"><i class="fas fa-file-pdf"></i> Download</a>
+                            {{-- <a href="{{route('student.payments',$item->id)}}" class="dropdown-item"><i class="fas fa-money-bill-alt"></i> Payment</a> --}}
+                            <a href="{{route('student.student.edit',$item->id)}}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="{{route('student.student.show',$item->id)}}" class="dropdown-item"><i class="fas fa-eye"></i> Show</a>
+                            <a href="{{route('student.admissionForm',$item->id)}}" class="dropdown-item"><i class="fas fa-file-pdf"></i> Download</a>
                             <div class="dropdown-divider"></div>
-                            <form class="delete" action="{{ route('student.destroy',$item->id) }}" method="post">
+                            <form class="delete" action="{{ route('student.student.destroy',$item->id) }}" method="post">
                               {{ csrf_field() }}
                               {{ method_field('DELETE') }}
                               <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete This Item?')"><i class="fas fa-trash"></i> Delete</button>
@@ -118,13 +115,9 @@
                     <td>{{$item->name}}</td>
                     <td>{{$item->class_roll}}</td>
                     <td>{{$item->reg_no}}</td>
-                    <td>@if($item->semester){{$item->semester->title}}@endif</td>
-                    <td>@if($item->department){{$item->department->title}}@endif</td>
-                    <td>{{$item->shift}}</td>
-                    <td>{{$item->student_group}}</td>
-                    <td>{{$item->probidhan}}</td>
-                    <td>{{$item->cgpa}}</td>
-                    <td>{{$item->address}}</td>
+                    <td>{{ $item->class? $item->class->name : '' }}</td>
+                    <td>{{ $item->section? $item->section->name : '' }}</td>
+                    <td>{{ $item->shift? $item->shift->name : '' }}</td>
                     <td>{{$item->sex}}</td>
                     <td>{{$item->student_mobile}}</td>
                     <td>{{$item->fathersName}}</td>

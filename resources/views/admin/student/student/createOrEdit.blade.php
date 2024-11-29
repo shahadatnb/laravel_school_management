@@ -10,9 +10,9 @@
 @endsection
 @section('content')
 @if ($mode == 'edit')
-  {!! Form::model($student, array('route'=>['student.update',$student],'method'=>'PUT','files' => true)) !!}
+  {!! Form::model($student, array('route'=>['student.student.update',$student],'method'=>'PUT','files' => true)) !!}
 @else
-  {!! Form::open(array('route'=>['student.store'],'files' => true)) !!}
+  {!! Form::open(array('route'=>['student.student.store'],'files' => true)) !!}
 @endif
 <!-- Default box -->
 <div class="card card-outline card-info">
