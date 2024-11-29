@@ -8,77 +8,60 @@ use Illuminate\Http\Request;
 
 class AcademicYearController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $years = AcademicYear::where('branch_id', session('branch')['id'])->get();
+        return view('admin.student.setup.academic_year.index', compact('years'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('admin.student.setup.academic_year.createOrEdit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'year' => 'required',
+            'status' => 'required',
+        ]);
+
+        $academicYear = new AcademicYear;
+        $academicYear->year = $request->year;
+        $academicYear->branch_id = session('branch')['id'];
+        $academicYear->status = $request->status;
+        $academicYear->save();
+
+        session()->flash('success', "Saved.");
+        return redirect()->route('student.setup.academicYear.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Student\AcademicYear  $academicYear
-     * @return \Illuminate\Http\Response
-     */
     public function show(AcademicYear $academicYear)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Student\AcademicYear  $academicYear
-     * @return \Illuminate\Http\Response
-     */
     public function edit(AcademicYear $academicYear)
     {
-        //
+        return view('admin.student.setup.academic_year.createOrEdit', compact('academicYear'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Student\AcademicYear  $academicYear
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, AcademicYear $academicYear)
     {
-        //
+        $request->validate([
+            'year' => 'required',
+            'status' => 'required',
+        ]); 
+
+        $academicYear->year = $request->year;
+        $academicYear->sl = $request->sl;
+        $academicYear->status = $request->status;
+        $academicYear->save();
+
+        session()->flash('success', "Saved.");
+        return redirect()->route('student.setup.academicYear.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Student\AcademicYear  $academicYear
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(AcademicYear $academicYear)
     {
         //

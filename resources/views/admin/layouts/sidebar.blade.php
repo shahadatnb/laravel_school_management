@@ -46,12 +46,44 @@
               <p>Dashboard</p>
             </a>
           </li>          
-          <li class="nav-item has-treeview {{ (request()->routeIs('student.*','department.*','attendance.*','studentMark.*','invoiceHead.*','department.*','incomeList')) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ (request()->routeIs('student.*','department.*','attendance.*','studentMark.*','invoiceHead.*','department.*','incomeList')) ? 'active' : '' }}">
+          <li class="nav-item has-treeview {{ (request()->routeIs('student.*')) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (request()->routeIs('student.*')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-restroom"></i>
               <p>Student <i class="right fas fa-angle-left"></i> </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item has-treeview {{ (request()->routeIs('student.setup.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('student.setup.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>
+                    Setting
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("student.setup.academicYear.index") }}" class="nav-link {{ (request()->routeIs('student.setup.academicYear.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Academic Year') }}</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.setup.semester.index") }}" class="nav-link {{ (request()->routeIs('student.setup.semester.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Class') }}</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.setup.shift.index") }}" class="nav-link {{ (request()->routeIs('student.setup.shift.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Shift') }}</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.setup.section.index") }}" class="nav-link {{ (request()->routeIs('student.setup.section.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Section') }}</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.setup.group.index") }}" class="nav-link {{ (request()->routeIs('student.setup.group.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Group') }}</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.setup.category.index") }}" class="nav-link {{ (request()->routeIs('student.setup.category.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Category') }}</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.setup.class_config.index") }}" class="nav-link {{ (request()->routeIs('student.setup.class_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Class Config') }}</p></a>
+                  </li>
+                </ul>
+              </li>
               <li class="nav-item"><a href="{{ route("student.index") }}" class="nav-link {{ (request()->routeIs('student.*')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> <p>{{__('Student List') }}</p></a>
               </li>

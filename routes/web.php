@@ -11,11 +11,18 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\MenuController;
 
+use App\Http\Controllers\Student\AcademicYearController;
+use App\Http\Controllers\Student\SemesterController;
+use App\Http\Controllers\Student\ShiftController;
+use App\Http\Controllers\Student\SectionController;
+use App\Http\Controllers\Student\GroupController;
+use App\Http\Controllers\Student\CategoryController;
+use App\Http\Controllers\Student\ClassConfigController;
+
 use App\Http\Controllers\Student\ExamStudentController;
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
 use App\Http\Controllers\Student\CourseController;
-use App\Http\Controllers\Student\SemesterController;
 use App\Http\Controllers\Student\DepartmentController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\MarksController;
@@ -63,7 +70,12 @@ Route::prefix(config('app.admin_prefix','admin'))->group(function() {
     //Auth::routes(['register' => false]);//['verify'=> false]
 });
 
-Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=>'auth'], function(){
+Route::get('/dashboard', function () {
+    return redirect()->route('home');
+});
+
+Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=>'auth'], function(){  
+
     Route::get('/home', [AdminController::class,'home'])->name('home');
     Route::post('/branchSelect', [AdminController::class,'branchSelect'])->name('branchSelect');
     Route::get('/', [AdminController::class,'index'])->name('dashboard');
@@ -78,6 +90,20 @@ Route::get('/childLocation', [LocationController::class,'childLocation'])->name(
 Route::get('/branch_info', [BranchController::class,'branch_info'])->name('branch_info');
 
 Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth']], function(){
+    Route::prefix('student')->as('student.')->group(function() {
+        
+        Route::prefix('setup')->as('setup.')->group(function() {
+            Route::resource('academicYear', AcademicYearController::class);
+            Route::resource('semester', SemesterController::class);
+            Route::resource('shift', ShiftController::class);
+            Route::resource('section', SectionController::class);
+            Route::resource('group', GroupController::class);
+            Route::resource('category', CategoryController::class);
+            Route::resource('class_config', ClassConfigController::class);
+        });
+
+
+    });
     Route::post('student/import', [StudentController::class,'import'])->name('student.import');
     Route::post('student/import-cgpa', [StudentController::class,'importCgpa'])->name('student.import.cgpa');
     Route::get('student/id_card', [StudentController::class,'IDCard'])->name('id_card');
@@ -134,8 +160,7 @@ Route::group(['prefix'=>'student','middleware'=> ['auth']], function(){
     Route::get('complitePayment/{student}/{id}', [StudentController::class,'studentPaymentComplite'])->name('student.payment.complite');
 
     Route::resource('studentMark', MarksController::class);
-    Route::resource('department', DepartmentController::class);
-    Route::resource('semester', SemesterController::class);
+    Route::resource('department', DepartmentController::class);    
     Route::resource('course', CourseController::class);
     Route::resource('invoiceHead', InvoiceHeadController::class);
 });
