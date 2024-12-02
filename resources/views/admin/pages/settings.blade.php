@@ -94,6 +94,15 @@
               {!! Form::file('favicon') !!}
             </div>
           </div>
+          <div class="col-3">
+            @if($settings->head_sign != '')
+              <img src="{{asset('upload/site_file/'.$settings->head_sign)}}" alt="" width="100">
+            @endif
+            <div class="form-group">
+                {!! Form::label('head_sign', __('Head Signature'),['class'=>'']) !!}
+                {!! Form::file('head_sign') !!}
+            </div>
+          </div>
       </div>
       {{ Form::submit('Save',array('class'=>'btn btn-primary')) }}
       {!! Form::close() !!}

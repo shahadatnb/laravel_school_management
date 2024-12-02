@@ -17,7 +17,7 @@
         <table id="example1" class="table table-bordered table-sm table-striped">
             <thead>
             <tr>
-              <th>ID</th>
+              {{-- <th>ID</th> --}}
               <th>Sl</th>
               <th>Class Name</th>
               <th>Shift Name</th>
@@ -29,7 +29,7 @@
             <tbody>
                 @foreach ($class_config as $item)
                 <tr>
-                    <td>{{$item->id}}</td>
+                    {{-- <td>{{$item->id}}</td> --}}
                     <td>{{$item->serial}}</td>
                     <td>{{($item->class && $item->shift && $item->section) ? $item->class->name.'-'.$item->shift->name.'-'.$item->section->name : '' }}</td>
                     <td>{{$item->shift? $item->shift->name : '' }}</td>

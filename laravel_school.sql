@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 29, 2024 at 05:29 PM
+-- Generation Time: Dec 02, 2024 at 03:13 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -76,6 +76,7 @@ CREATE TABLE `branches` (
   `refer_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head_designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `head_sign` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -89,10 +90,10 @@ CREATE TABLE `branches` (
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_email`, `head_contact`, `logo`, `favicon`, `exp_date`, `created_at`, `updated_at`) VALUES
-(1, 'Branch One', 'branch1', 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', 'ashik@gmail.com', '01757839516', '1732516903.png', '1732517045.png', NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:17'),
-(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', 'ar@gmail.com', '01757839516', NULL, NULL, NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
-(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, '2024-11-25 11:22:00', '2024-11-25 11:22:00');
+INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_sign`, `head_email`, `head_contact`, `logo`, `favicon`, `exp_date`, `created_at`, `updated_at`) VALUES
+(1, 'Branch One', 'branch1', 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', '1732516903.png', '1732517045.png', NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:17'),
+(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', NULL, 'ar@gmail.com', '01757839516', NULL, NULL, NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
+(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, '2024-11-25 11:22:00', '2024-11-25 11:22:00');
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,8 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'General', 1, 1, '2024-11-29 13:07:24', '2024-11-29 13:07:24');
+(1, 1, 'General', 1, 1, '2024-11-29 13:07:24', '2024-11-29 13:07:24'),
+(2, 2, 'General', 1, 1, '2024-12-02 02:44:27', '2024-12-02 02:44:27');
 
 -- --------------------------------------------------------
 
@@ -140,7 +142,10 @@ CREATE TABLE `class_configs` (
 --
 
 INSERT INTO `class_configs` (`id`, `branch_id`, `class_id`, `shift_id`, `section_id`, `serial`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 11, 1, 1, 1, 1, '2024-11-29 16:53:24', '2024-11-29 16:53:24');
+(1, 1, 11, 1, 1, 1, 1, '2024-11-29 16:53:24', '2024-11-29 16:53:24'),
+(2, 2, 12, 2, 3, 1, 1, '2024-12-02 02:44:42', '2024-12-02 02:44:42'),
+(3, 2, 12, 2, 4, 2, 1, '2024-12-02 02:44:58', '2024-12-02 02:44:58'),
+(4, 2, 13, 2, 3, 3, 1, '2024-12-02 02:45:13', '2024-12-02 02:45:13');
 
 -- --------------------------------------------------------
 
@@ -2324,7 +2329,8 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'General', 1, 1, '2024-11-29 13:06:05', '2024-11-29 13:06:05');
+(1, 1, 'General', 1, 1, '2024-11-29 13:06:05', '2024-11-29 13:06:05'),
+(2, 2, 'Bangla', 1, 1, '2024-12-02 02:44:13', '2024-12-02 02:44:13');
 
 -- --------------------------------------------------------
 
@@ -3376,7 +3382,9 @@ CREATE TABLE `sections` (
 
 INSERT INTO `sections` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Boyes', 1, 1, '2024-11-29 12:47:09', '2024-11-29 12:47:09'),
-(2, 1, 'Girls', 2, 1, '2024-11-29 12:47:26', '2024-11-29 12:47:26');
+(2, 1, 'Girls', 2, 1, '2024-11-29 12:47:26', '2024-11-29 12:47:26'),
+(3, 2, 'A', 1, 1, '2024-12-02 02:43:19', '2024-12-02 02:43:19'),
+(4, 2, 'B', 2, 1, '2024-12-02 02:43:29', '2024-12-02 02:43:29');
 
 -- --------------------------------------------------------
 
@@ -3411,7 +3419,9 @@ INSERT INTO `semesters` (`id`, `branch_id`, `code`, `name`, `name_bn`, `serial`,
 (8, NULL, NULL, 'Basic', NULL, 0, 1, NULL, NULL),
 (9, NULL, 'Cancel', 'Cancel', NULL, 0, 0, NULL, NULL),
 (10, NULL, 'Complete', 'Complete', NULL, 0, 0, NULL, NULL),
-(11, 1, NULL, 'Play', NULL, 1, 1, '2024-11-29 12:15:39', '2024-11-29 12:16:16');
+(11, 1, NULL, 'Play', NULL, 1, 1, '2024-11-29 12:15:39', '2024-11-29 12:16:16'),
+(12, 2, NULL, 'Play', NULL, 1, 1, '2024-12-02 02:42:58', '2024-12-02 02:42:58'),
+(13, 2, NULL, 'One', NULL, 2, 1, '2024-12-02 02:43:08', '2024-12-02 02:43:08');
 
 -- --------------------------------------------------------
 
@@ -3500,7 +3510,8 @@ CREATE TABLE `shifts` (
 --
 
 INSERT INTO `shifts` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Day', 1, 1, '2024-11-29 12:37:12', '2024-11-29 12:37:12');
+(1, 1, 'Day', 1, 1, '2024-11-29 12:37:12', '2024-11-29 12:37:12'),
+(2, 2, 'Day', 1, 1, '2024-12-02 02:43:47', '2024-12-02 02:43:47');
 
 -- --------------------------------------------------------
 
@@ -4060,13 +4071,13 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `class_configs`
 --
 ALTER TABLE `class_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -4102,7 +4113,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `group_configs`
@@ -4204,13 +4215,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `semesters`
 --
 ALTER TABLE `semesters`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -4222,7 +4233,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `shifts`
 --
 ALTER TABLE `shifts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `students`

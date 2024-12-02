@@ -17,7 +17,7 @@
         <table id="example1" class="table table-bordered table-sm table-striped">
             <thead>
             <tr>
-              <th>ID</th>
+              {{-- <th>ID</th> --}}
               <th>Sl</th>
               <th>Name</th>
               <th>Status</th>
@@ -27,7 +27,7 @@
             <tbody>
                 @foreach ($groups as $item)
                 <tr>
-                    <td>{{$item->id}}</td>
+                    {{-- <td>{{$item->id}}</td> --}}
                     <td>{{$item->serial}}</td>
                     <td>{{$item->name }}</td>
                     <td>{{$item->status=='1'?'Active':'Inactive' }}</td>

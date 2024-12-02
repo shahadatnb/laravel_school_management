@@ -121,7 +121,16 @@
                 {!! Form::label('favicon', __('Favicon'),['class'=>'']) !!}
                 {!! Form::file('favicon') !!}
               </div>
-            </div>            
+            </div> 
+            <div class="col-3">
+              @if($branch->head_sign != '')
+                <img src="{{asset('upload/site_file/'.$branch->head_sign)}}" alt="" width="100">
+              @endif
+              <div class="form-group">
+                  {!! Form::label('head_sign', __('Head Signature'),['class'=>'']) !!}
+                  {!! Form::file('head_sign') !!}
+              </div>
+            </div>           
           @endif
         </div>
         

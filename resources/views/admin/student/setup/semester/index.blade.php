@@ -17,7 +17,7 @@
         <table id="example1" class="table table-bordered table-sm table-striped">
             <thead>
             <tr>
-              <th>ID</th>
+              {{-- <th>ID</th> --}}
               <th>Sl</th>
               <th>Name</th>
               <th>Name Bangla</th>
@@ -28,7 +28,7 @@
             <tbody>
                 @foreach ($years as $item)
                 <tr>
-                    <td>{{$item->id}}</td>
+                    {{-- <td>{{$item->id}}</td> --}}
                     <td>{{$item->serial}}</td>
                     <td>{{$item->name }}</td>
                     <td>{{$item->name_bn }}</td>

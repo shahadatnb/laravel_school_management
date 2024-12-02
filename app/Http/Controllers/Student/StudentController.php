@@ -385,9 +385,9 @@ class StudentController extends Controller
         ]);
 
         //dd($request->file('file')); exit;
-        
+        session()->put('import_student',['section_id'=>$request->section_id,'semester_id'=>$request->semester_id]); 
         Excel::import(new StudentsImport, $request->file('file'));
-
+        session()->forget('import_student');
         session()->flash('success', 'Imported Successfully!');
         return redirect()->back();
     }

@@ -63,6 +63,92 @@ class BranchController extends Controller
 
         $user->branches()->sync($branch->id);
 
+        /*
+        Post::create([
+            'user_id' => 1, 'status' => 1,
+            'branch_id' => $branch->id,
+            'post_type' => 'page',
+            'title' => 'Welcome to '.$branch->name,
+            'slug' => 'about-us',
+            'body' => 'Welcome to '.$branch->name.',<br> Here you can add your content, <br> and create your own website.',
+        ]);
+
+        Post::create([
+            'user_id' => 1, 'status' => 1,
+            'branch_id' => $branch->id,
+            'post_type' => 'page',
+            'title' => 'Contact Us',
+            'slug' => 'contact-us',
+            'body' => '
+                <p>Address: '.$branch->address.'</p>
+                <p>Phone: '.$branch->contact.'</p>
+                <p>Email: '.$branch->email.'</p>
+            ',
+        ]);
+
+        $menu = new Menu;
+        $menu->branch_id = $branch->id;
+        $menu->Title = 'Main Menu';
+        $menu->menu_id = 'main-menu';
+        $menu->save();
+
+        MenuItem::create([
+            'menu_id' => $menu->id,
+            'lebel' => 'Home',
+            'menu_url' => '/',
+            'menuType' => 'home',
+            'sl' => 1
+        ]);
+
+        MenuItem::create([
+            'menu_id' => $menu->id,
+            'lebel' => 'About Us',
+            'menu_url' => 'page/about-us',
+            'menuType' => 'others',
+            'sl' => 2
+        ]);
+
+        MenuItem::create([
+            'menu_id' => $menu->id,
+            'lebel' => 'Teachers',
+            'menu_url' => 'section/teacher',
+            'menuType' => 'others',
+            'sl' => 3
+        ]);
+
+        MenuItem::create([
+            'menu_id' => $menu->id,
+            'lebel' => 'Stuff',
+            'menu_url' => 'section/stuff',
+            'menuType' => 'others',
+            'sl' => 4
+        ]);
+
+        MenuItem::create([
+            'menu_id' => $menu->id,
+            'lebel' => 'Notices',
+            'menu_url' => 'section/notice',
+            'menuType' => 'others',
+            'sl' => 5
+        ]);
+
+
+        MenuItem::create([
+            'menu_id' => $menu->id,
+            'lebel' => 'Contact Us',
+            'menu_url' => 'page/contact-us',
+            'menuType' => 'others',
+            'sl' => 6
+        ]);
+
+        $munus = Menu::where('branch_id', $branch->id)->get();
+        foreach($munus as $m){
+            $settings[$m->menu_id] = MenuItem::with('subMenu')->withCount('subMenu')->where('menu_id',$m->id)->where('parent_id',null)->orderBy('sl')->orderBy('sl','ASC')->get()->toArray();
+        }
+
+        Cache::put($branch->subdomain, ['menus'=>$settings]);
+        */
+
         session()->flash('success','Successfully Save');
         return redirect()->route('branch.index');
     }
@@ -93,7 +179,8 @@ class BranchController extends Controller
             'head_contact' => 'nullable',
             'head_designation' => 'nullable|string|max:150',
             'logo' => 'nullable|mimes:jpg,jpeg,png|max:512',
-            'favicon' => 'nullable|mimes:jpg,jpeg,png|max:512',
+            'favicon' => 'nullable|mimes:jpg,jpeg,png|max:100',
+            'head_sign' => 'nullable|mimes:jpg,jpeg,png|max:100',
             'exp_date' => 'nullable|date',
         ]);
 
@@ -127,6 +214,18 @@ class BranchController extends Controller
             $request->favicon->move($upload_path, $fileName);
             $branch->favicon = $fileName;
         }
+
+        if(isset($request->head_sign)){
+            if ($branch->head_sign != '' && file_exists( public_path('upload\\site_file\\') . $branch->head_sign)) {
+                unlink(public_path('upload\\site_file\\') . $branch->head_sign);
+            }
+      
+            $fileName = time().'.'.$request->head_sign->extension();  
+            $upload_path = public_path('upload/site_file');
+            $request->head_sign->move($upload_path, $fileName);
+            $branch->head_sign = $fileName;
+        }
+        
         $branch->exp_date = $request->exp_date;
         $branch->status = $request->status ? 1 : 0;
 

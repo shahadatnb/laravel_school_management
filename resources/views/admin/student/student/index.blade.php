@@ -33,7 +33,7 @@
             <div class="col-6 col-md-2">
               <div class="btn btn-group">
                 <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-search"></i> Filter</button>
-                {{-- {{ Form::submit(__('Filter'),array('class'=>'btn btn-sm btn-success')) }} --}}
+                {{-- Total: {{ $students->total() }} --}}
                 <a class="btn btn-primary btn-sm" href="{{ route('student.student.create')}}"><i class="fas fa-plus"></i> New</a>
               </div>              
             </div>
@@ -44,25 +44,32 @@
     </div>
     <div class="card-body">
       @include('admin.layouts._message')
-      <div class="row">
+      {{ Form::open(array('route'=>'student.student.import','method'=>'POST','class'=>'row mb-3','files' => true)) }}
         <div class="col-6">
-        {{ Form::open(array('route'=>'student.student.import','method'=>'POST','files' => true)) }}
-        <div class="form-group">
-          <div class="input-group">
-            <div class="custom-file">
-              {!! Form::file('file',['class'=>'form-control','required'=>true]) !!}
+          <div class="row">
+            <div class="col-6">
+              {!! Form::select('semester_id',$semesters,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Semester/Class')]) !!}
             </div>
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Import</button>
-              <a href="{{ asset('assets/students.xlsx'); }}" class="btn btn-info"><i class="fas fa-file-excel"></i> Template</a>
+            <div class="col-6">
+              {!! Form::select('section_id',$sections,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Section')]) !!}
             </div>
           </div>
         </div>
-        {{ Form::close() }}
-        </div>
         <div class="col-6">
-          Total Student : {{ $students->total() }}
+        <div class="row">
+          <div class="input-group">
+            <div class="col-6">
+              {!! Form::file('file',['class'=>'form-control form-control-sm','required'=>true]) !!}
+            </div>
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Import</button>
+              <a href="{{ asset('assets/students.xlsx'); }}" class="btn btn-info btn-sm"><i class="fas fa-file-excel"></i> Template</a>
+            </div>
+          </div>
         </div>
+        </div>
+      {{ Form::close() }}
+        
       <div class="table-responsive">
         <table id="student" class="table table-sm table-bordered table-striped">
             <thead>

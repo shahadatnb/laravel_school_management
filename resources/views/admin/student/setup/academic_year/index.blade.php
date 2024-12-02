@@ -17,7 +17,7 @@
         <table id="example1" class="table table-bordered table-striped table-sm">
             <thead>
             <tr>
-              <th>ID</th>
+              {{-- <th>ID</th> --}}
               <th>Sl</th>
               <th>Year</th>
               <th>Status</th>
@@ -27,7 +27,7 @@
             <tbody>
                 @foreach ($years as $item)
                 <tr>
-                    <td>{{$item->id}}</td>
+                    {{-- <td>{{$item->id}}</td> --}}
                     <td>{{$item->sl}}</td>
                     <td>{{$item->year}}</td>
                     <td>{{$item->status=='1'?'Active':'Inactive' }}</td>
@@ -59,7 +59,7 @@
     </div>
     <!-- /.card-body -->
     <div class="card-footer">
-        Footer
+        
     </div>
     <!-- /.card-footer-->
 </div>

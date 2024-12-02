@@ -50,7 +50,8 @@ class AdminController extends Controller
             'head_contact' => 'nullable',
             'head_designation' => 'nullable|string|max:150',
             'logo' => 'nullable|mimes:jpg,jpeg,png|max:512',
-            'favicon' => 'nullable|mimes:jpg,jpeg,png|max:512',
+            'favicon' => 'nullable|mimes:jpg,jpeg,png|max:100',
+            'head_sign' => 'nullable|mimes:jpg,jpeg,png|max:100',
         ]);
 
         $branch = Branch::where('id', session('branch')['id'])->first();
@@ -83,6 +84,17 @@ class AdminController extends Controller
             $upload_path = public_path('upload/site_file');
             $request->favicon->move($upload_path, $fileName);
             $branch->favicon = $fileName;
+        }
+
+        if(isset($request->head_sign)){
+            if ($branch->head_sign != '' && file_exists( public_path('upload\\site_file\\') . $branch->head_sign)) {
+                unlink(public_path('upload\\site_file\\') . $branch->head_sign);
+            }
+      
+            $fileName = time().'.'.$request->head_sign->extension();  
+            $upload_path = public_path('upload/site_file');
+            $request->head_sign->move($upload_path, $fileName);
+            $branch->head_sign = $fileName;
         }
 
         $branch->save();       
