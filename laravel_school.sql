@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 02, 2024 at 03:13 AM
+-- Generation Time: Dec 02, 2024 at 11:58 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -76,7 +76,7 @@ CREATE TABLE `branches` (
   `refer_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head_designation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `head_sign` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `head_sign` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `head_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -104,7 +104,7 @@ INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`
 CREATE TABLE `categories` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` int UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `serial` tinyint UNSIGNED DEFAULT '0',
   `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -127,6 +127,7 @@ INSERT INTO `categories` (`id`, `branch_id`, `name`, `serial`, `status`, `create
 
 CREATE TABLE `class_configs` (
   `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `branch_id` int UNSIGNED NOT NULL,
   `class_id` bigint UNSIGNED NOT NULL,
   `shift_id` bigint UNSIGNED NOT NULL,
@@ -141,11 +142,13 @@ CREATE TABLE `class_configs` (
 -- Dumping data for table `class_configs`
 --
 
-INSERT INTO `class_configs` (`id`, `branch_id`, `class_id`, `shift_id`, `section_id`, `serial`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 11, 1, 1, 1, 1, '2024-11-29 16:53:24', '2024-11-29 16:53:24'),
-(2, 2, 12, 2, 3, 1, 1, '2024-12-02 02:44:42', '2024-12-02 02:44:42'),
-(3, 2, 12, 2, 4, 2, 1, '2024-12-02 02:44:58', '2024-12-02 02:44:58'),
-(4, 2, 13, 2, 3, 3, 1, '2024-12-02 02:45:13', '2024-12-02 02:45:13');
+INSERT INTO `class_configs` (`id`, `name`, `branch_id`, `class_id`, `shift_id`, `section_id`, `serial`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Play-Boyes-Day', 1, 11, 1, 1, 1, 1, '2024-11-29 16:53:24', '2024-12-02 10:51:22'),
+(2, NULL, 2, 12, 2, 3, 1, 1, '2024-12-02 02:44:42', '2024-12-02 02:44:42'),
+(3, NULL, 2, 12, 2, 4, 2, 1, '2024-12-02 02:44:58', '2024-12-02 02:44:58'),
+(4, NULL, 2, 13, 2, 3, 3, 1, '2024-12-02 02:45:13', '2024-12-02 02:45:13'),
+(5, 'One-Boyes-Day', 1, 14, 1, 1, 2, 1, '2024-12-02 10:17:50', '2024-12-02 10:51:08'),
+(7, 'Play-Girls-Day', 1, 11, 1, 2, 3, 1, '2024-12-02 10:53:55', '2024-12-02 10:53:55');
 
 -- --------------------------------------------------------
 
@@ -2317,7 +2320,7 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `groups` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` int UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `serial` tinyint UNSIGNED DEFAULT '0',
   `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -3211,8 +3214,8 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -3369,7 +3372,7 @@ INSERT INTO `roles_permissions` (`role_id`, `permission_id`) VALUES
 CREATE TABLE `sections` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` int UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `serial` tinyint UNSIGNED DEFAULT '0',
   `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -3397,7 +3400,7 @@ CREATE TABLE `semesters` (
   `branch_id` int UNSIGNED DEFAULT NULL,
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name_bn` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name_bn` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `serial` tinyint UNSIGNED DEFAULT '0',
   `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -3421,7 +3424,8 @@ INSERT INTO `semesters` (`id`, `branch_id`, `code`, `name`, `name_bn`, `serial`,
 (10, NULL, 'Complete', 'Complete', NULL, 0, 0, NULL, NULL),
 (11, 1, NULL, 'Play', NULL, 1, 1, '2024-11-29 12:15:39', '2024-11-29 12:16:16'),
 (12, 2, NULL, 'Play', NULL, 1, 1, '2024-12-02 02:42:58', '2024-12-02 02:42:58'),
-(13, 2, NULL, 'One', NULL, 2, 1, '2024-12-02 02:43:08', '2024-12-02 02:43:08');
+(13, 2, NULL, 'One', NULL, 2, 1, '2024-12-02 02:43:08', '2024-12-02 02:43:08'),
+(14, 1, NULL, 'One', NULL, 2, 1, '2024-12-02 10:12:16', '2024-12-02 10:12:16');
 
 -- --------------------------------------------------------
 
@@ -3498,7 +3502,7 @@ INSERT INTO `settings` (`id`, `sl`, `name`, `description`, `value`, `category`, 
 CREATE TABLE `shifts` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` int UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `serial` tinyint UNSIGNED DEFAULT '0',
   `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -3546,8 +3550,8 @@ CREATE TABLE `students` (
   `studentBirthRegNo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `shift_id` int UNSIGNED DEFAULT NULL,
   `group_id` int UNSIGNED DEFAULT NULL,
+  `category_id` int UNSIGNED DEFAULT NULL,
   `photo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `session` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `jscBoard` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `jscResistration` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -3562,7 +3566,7 @@ CREATE TABLE `students` (
   `Bank_Mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `accountName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `accountNumber` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `academicYear` smallint DEFAULT NULL,
+  `academic_year_id` int DEFAULT NULL,
   `others` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -3572,18 +3576,19 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`id`, `branch_id`, `reg_no`, `class_roll`, `name`, `dateOfBirth`, `mobile`, `religion`, `section_id`, `semester_id`, `fathersName`, `mobileFather`, `mothersName`, `mobileMother`, `sex`, `presentVillage`, `presentPost`, `presentUpazila`, `presentZila`, `permanentVillage`, `permanentPost`, `permanentUpazila`, `permanentZila`, `studentBirthRegNo`, `shift_id`, `group_id`, `photo`, `session`, `Comment`, `jscBoard`, `jscResistration`, `jscExamYear`, `jscBoardRoll`, `jscCgpa`, `guardianName`, `mobileGuardian`, `guardianNID`, `guardianRelation`, `MISStudentID`, `Bank_Mobile`, `accountName`, `accountNumber`, `academicYear`, `others`, `created_at`, `updated_at`) VALUES
-(1, 1, '20221001', 20221001, 'শাহাদৎ হোসেন', NULL, '01757839516', 'Islam', 1, 6, 'মোস্তফা কামাল', '01912624881', 'সাজেদা বেগম', '01912624882', 'Male', NULL, 'kharkhari', 545, 391, 'Kharkhari, Rajshahi', 'kharkhari', 545, 391, NULL, 1, 1, 'students/1707924977.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'মোস্তফা কামাল', '01912624883', '5465652623', 'Father', NULL, NULL, NULL, NULL, NULL, NULL, '2022-10-07 03:59:48', '2024-02-14 15:36:17'),
-(2, 1, '20223001', 20223001, 'Saima', '2014-07-10', '01757839516', 'Islam', 4, 1, 'Shahadat Hosain', '01757839516', 'Azmira Khatun', NULL, 'Female', 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, NULL, 1, 1, 'students/1709823888.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:09:57', '2024-03-07 15:04:48'),
-(3, 1, '20221011', 20221011, 'Mamun', '2022-08-09', '01757839516', 'Islam', 1, 2, 'Sumon', '01757839516', 'Azmira Khatun', '01757839516', 'Male', 'Kechuatoil', 'Kharkhari', 499, 380, 'Kechuatoil', 'Kharkhari', 405, 380, NULL, 1, 1, 'students/1709823983.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:13:59', '2024-03-07 15:06:23'),
-(4, 1, '20221002', 20221002, 'Masun', '2022-11-15', '01757839516', NULL, 1, 2, 'Shahadat Hosain', 'বাংলাদেশি', 'Azmira Khatun', NULL, 'Male', 'Kechuatoil', 'Kharkhari', 403, 339, 'Kechuatoil', 'Kharkhari', 403, 339, NULL, 1, 1, NULL, '2022', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:17:39', '2024-01-09 03:04:32'),
-(5, 1, '20172001', 20172001, 'Abu Ahmed Rafi', '2006-02-01', '01757839516', NULL, 2, 1, 'Azam Ali', 'বাংলাদেশি', 'Rojeda', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, '2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:33:02', '2024-01-09 03:04:32'),
-(6, 1, '20172002', 20172002, 'Selim', '2014-07-10', '01757839516', NULL, 2, 1, 'Sumon', 'বাংলাদেশি', 'Mother', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, '2017', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:35:03', '2024-01-09 03:04:32'),
-(7, 1, '20221003', 20221003, 'Masun', '2022-11-15', '01757839516', NULL, 1, 1, 'Shahadat Hosain', 'বাংলাদেশি', 'Azmira Khatun', NULL, 'Male', 'Kechuatoil', 'Kharkhari', 403, 339, 'Kechuatoil', 'Kharkhari', 403, 339, NULL, 1, 1, NULL, '2022', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:17:39', '2024-01-09 03:04:32'),
-(8, 1, '20222001', 20222001, 'Nabila', '2023-01-01', '01757839516', NULL, 2, 1, 'Ahmen', NULL, 'Nipa', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '2022', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-01-17 10:35:22', '2024-01-09 03:04:32'),
-(9, 1, '20203001', 20203001, 'Rikat', '2010-09-06', '01757839516', NULL, 3, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 545, 391, 'Kacutaol', 'kharkhari', 545, 391, NULL, 1, 1, 'students/1693974450.jpg', '2020', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-06 04:27:30', '2024-01-09 03:04:32'),
-(10, 1, '20231001', 20231001, 'Md. Nasiruddin', '1990-09-12', '01739201222', NULL, 1, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 544, 391, 'Kacutaol', 'kharkhari', 403, 391, NULL, 1, 1, NULL, '2023', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-12 08:30:25', '2024-01-09 03:04:32'),
-(12, 1, '56565656', 56565656, 'Mahfuz', NULL, '8801757839516', NULL, 1, 1, NULL, '1912624881', NULL, NULL, 'Male', 'soriotpur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, '2022', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 03:07:57', '2024-01-09 03:04:32');
+INSERT INTO `students` (`id`, `branch_id`, `reg_no`, `class_roll`, `name`, `dateOfBirth`, `mobile`, `religion`, `section_id`, `semester_id`, `fathersName`, `mobileFather`, `mothersName`, `mobileMother`, `sex`, `presentVillage`, `presentPost`, `presentUpazila`, `presentZila`, `permanentVillage`, `permanentPost`, `permanentUpazila`, `permanentZila`, `studentBirthRegNo`, `shift_id`, `group_id`, `category_id`, `photo`, `Comment`, `jscBoard`, `jscResistration`, `jscExamYear`, `jscBoardRoll`, `jscCgpa`, `guardianName`, `mobileGuardian`, `guardianNID`, `guardianRelation`, `MISStudentID`, `Bank_Mobile`, `accountName`, `accountNumber`, `academic_year_id`, `others`, `created_at`, `updated_at`) VALUES
+(1, 1, '20221001', 20221001, 'শাহাদৎ হোসেন', NULL, '01757839516', 'Islam', 1, 6, 'মোস্তফা কামাল', '01912624881', 'সাজেদা বেগম', '01912624882', 'Male', NULL, 'kharkhari', 545, 391, 'Kharkhari, Rajshahi', 'kharkhari', 545, 391, NULL, 1, 1, NULL, 'students/1707924977.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 'মোস্তফা কামাল', '01912624883', '5465652623', 'Father', NULL, NULL, NULL, NULL, NULL, NULL, '2022-10-07 03:59:48', '2024-02-14 15:36:17'),
+(2, 1, '20223001', 20223001, 'Saima', '2014-07-10', '01757839516', 'Islam', 5, 1, 'Shahadat Hosain', '01757839516', 'Azmira Khatun', NULL, 'Female', 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, NULL, 1, 1, NULL, 'students/1709823888.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:09:57', '2024-03-07 15:04:48'),
+(3, 1, '20221011', 20221011, 'Mamun', '2022-08-09', '01757839516', 'Islam', 1, 2, 'Sumon', '01757839516', 'Azmira Khatun', '01757839516', 'Male', 'Kechuatoil', 'Kharkhari', 499, 380, 'Kechuatoil', 'Kharkhari', 405, 380, NULL, 1, 1, NULL, 'students/1709823983.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:13:59', '2024-03-07 15:06:23'),
+(4, 1, '20221002', 20221002, 'Masun', '2022-11-15', '01757839516', NULL, 1, 2, 'Shahadat Hosain', 'বাংলাদেশি', 'Azmira Khatun', NULL, 'Male', 'Kechuatoil', 'Kharkhari', 403, 339, 'Kechuatoil', 'Kharkhari', 403, 339, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:17:39', '2024-01-09 03:04:32'),
+(5, 1, '20172001', 20172001, 'Abu Ahmed Rafi', '2006-02-01', '01757839516', NULL, 5, 1, 'Azam Ali', 'বাংলাদেশি', 'Rojeda', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:33:02', '2024-01-09 03:04:32'),
+(6, 1, '20172002', 20172002, 'Selim', '2014-07-10', '01757839516', NULL, 5, 1, 'Sumon', 'বাংলাদেশি', 'Mother', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:35:03', '2024-01-09 03:04:32'),
+(7, 1, '20221003', 20221003, 'Masun', '2022-11-15', '01757839516', NULL, 1, 1, 'Shahadat Hosain', 'বাংলাদেশি', 'Azmira Khatun', NULL, 'Male', 'Kechuatoil', 'Kharkhari', 403, 339, 'Kechuatoil', 'Kharkhari', 403, 339, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:17:39', '2024-01-09 03:04:32'),
+(8, 1, '20222001', 20222001, 'Nabila', '2023-01-01', '01757839516', NULL, 5, 1, 'Ahmen', NULL, 'Nipa', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-01-17 10:35:22', '2024-01-09 03:04:32'),
+(9, 1, '20203001', 20203001, 'Rikat', '2010-09-06', '01757839516', NULL, 5, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 545, 391, 'Kacutaol', 'kharkhari', 545, 391, NULL, 1, 1, NULL, 'students/1693974450.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-06 04:27:30', '2024-01-09 03:04:32'),
+(10, 1, '20231001', 20231001, 'Md. Nasiruddin', '1990-09-12', '01739201222', NULL, 1, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 544, 391, 'Kacutaol', 'kharkhari', 403, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-12 08:30:25', '2024-01-09 03:04:32'),
+(12, 1, '56565656', 56565656, 'Mahfuz', NULL, '8801757839516', NULL, 1, 1, NULL, '1912624881', NULL, NULL, 'Male', 'soriotpur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 03:07:57', '2024-01-09 03:04:32'),
+(13, 1, '56565657', 5, 'Akbok Ali', '2024-12-01', '01912624881', 'Islam', 1, 11, 'Father', NULL, 'Mother', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '01757839516', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-02 11:54:48', '2024-12-02 11:57:23');
 
 -- --------------------------------------------------------
 
@@ -3631,7 +3636,8 @@ INSERT INTO `student_marks` (`id`, `semester_id`, `student_id`, `paid_confirm`, 
 (19, 1, 11, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2023-12-25 05:14:10', '2023-12-25 05:14:10'),
 (20, 1, 12, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-01-01 03:07:57', '2024-01-01 03:07:57'),
 (21, 7, 2, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-01-07 05:13:59', '2024-01-07 05:13:59'),
-(22, 8, 2, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-01-07 05:14:14', '2024-01-07 05:14:14');
+(22, 8, 2, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-01-07 05:14:14', '2024-01-07 05:14:14'),
+(23, 1, 13, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-12-02 11:54:48', '2024-12-02 11:54:48');
 
 -- --------------------------------------------------------
 
@@ -4077,7 +4083,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `class_configs`
 --
 ALTER TABLE `class_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -4221,7 +4227,7 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT for table `semesters`
 --
 ALTER TABLE `semesters`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -4239,13 +4245,13 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `student_marks`
 --
 ALTER TABLE `student_marks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `student_payments`

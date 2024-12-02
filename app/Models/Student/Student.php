@@ -12,7 +12,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'reg_no','class_roll','name','department_id','semester_id','fathersName','mothersName','sex','address','presentPost','presentUpazila','presentZila','permanentVillage','permanentPost','permanentUpazila','permanentZila','dateOfBirth','shift','student_group','probidhan','contact_number','mobileFather','photo','session','cgpa'
+        'branch_id','reg_no','class_roll','name','section_id','semester_id','shift_id','group_id','category_id','Comment','religion','academic_year_id','fathersName','mothersName','sex','address','presentPost','presentUpazila','presentZila','permanentVillage','permanentPost','permanentUpazila','permanentZila','dateOfBirth','mobile','photo','mobileFather','mobileMother'
     ];
 /*
     public function invoice(){
@@ -48,12 +48,12 @@ class Student extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function shift(){
-        return $this->belongsTo(Shift::class, 'shift_id');
+    public function category(){
+        return $this->belongsTo(Category::class, 'shift_id');
     }
 
     public function section(){
-        return $this->belongsTo(Section::class, 'section_id');
+        return $this->belongsTo(ClassConfig::class, 'section_id');
     }
     
     public function semester(){

@@ -3,16 +3,27 @@ namespace App\Traits;
 
 use App\Models\Student\Student;
 use App\Models\Student\Semester;
+use App\Models\Student\ClassConfig;
 
 trait StudentTrait {
 
     public function semesterArray() {
-        $parants = Semester::where('status', 1)->where('branch_id', session('branch')['id'])->get();
-        $plocations = [];
-        foreach ($parants as $parant) {
-            $plocations[$parant->id] = $parant->name;
+        $semesters = Semester::where('status', 1)->where('branch_id', session('branch')['id'])->get();
+        $datas = [];
+        foreach ($semesters as $semester) {
+            $datas[$semester->id] = $semester->name;
         }
-        return $plocations;
+        return $datas;
+    }
+
+    public function sectionArray() {
+        $groups = ClassConfig::where('status', 1)->where('branch_id', session('branch')['id'])->get();
+        //dd($groups);
+        $datas = [];        
+        foreach ($groups as $group) {            
+            $datas[$group->id] = $group->name;
+        }
+        return $datas;
     }
 
     public function newReg(){

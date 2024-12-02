@@ -9,7 +9,7 @@ class ClassConfig extends Model
 {
     use HasFactory;
 
-    public function class()
+    public function semester()
     {
         return $this->belongsTo(Semester::class, 'class_id');
     }

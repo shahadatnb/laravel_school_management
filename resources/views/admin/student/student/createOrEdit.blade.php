@@ -19,10 +19,10 @@
     <div class="card-header">
         <h3 class="card-title">{{__('Student')}}</h3>
         <div class="card-tools">
-          <a href="{{route('student.index')}}" class="btn btn-sm btn-info"><i class="far fa-arrow-alt-circle-left"></i> Back</a>
+          <a href="{{route('student.student.index')}}" class="btn btn-sm btn-info"><i class="far fa-arrow-alt-circle-left"></i> Back</a>
           {!! Form::submit(__('Submit'),['class'=>'btn btn-sm btn-danger']) !!}
           @if ($mode == 'edit')
-          <a href="{{route('student.show',$student->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> View</a>
+          <a href="{{route('student.student.show',$student->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-eye"></i> View</a>
           @endif
         </div>
     </div>
@@ -73,30 +73,28 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group mb-1">
-            {!! Form::label('semester_id', __('Class'),['class'=>'mb-1']) !!}
-            {!! Form::select('semester_id',$semesters,null,['class'=>'form-control form-control-sm select2','required'=>'required','placeholder'=> __('Class')]) !!}
+            {!! Form::label('section_id', __('Section'),['class'=>'mb-1']) !!}
+            {!! Form::select('section_id',$sections,null,['class'=>'form-control form-control-sm select2','required'=>'required','placeholder'=> __('Section')]) !!}
             </div>
           </div>
           <div class="col-sm-6">
             <div class="form-group mb-1">
-            {!! Form::label('department_id', __('Department'),['class'=>'mb-1']) !!}
-            {!! Form::select('department_id',$departments,null,['class'=>'form-control form-control-sm select2','required'=>'required','placeholder'=> __('Department')]) !!}
+            {!! Form::label('group_id', __('Group'),['class'=>'mb-1']) !!}
+            {!! Form::select('group_id',$groups,null,['class'=>'form-control form-control-sm select2','required'=>'required','placeholder'=> __('Group')]) !!}
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group mb-1">
-              {!! Form::label('student_group', __('Group'),['class'=>'mb-1']) !!}
-              {!! Form::select('student_group',['A'=>'A','B'=>'B'],null,['class'=>'form-control form-control-sm','placeholder'=> __('Group')]) !!}
+              {!! Form::label('category_id', __('Category'),['class'=>'mb-1']) !!}
+              {!! Form::select('category_id',$catetories,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Category')]) !!}
             </div>
           </div>
-        </div>
-        <div class="row">
           <div class="col-6">
             <div class="form-group mb-1">
-              {!! Form::label('contact_number', __('Contact Number'),['class'=>'mb-1']) !!}
-              {!! Form::text('contact_number',null,['class'=>'form-control form-control-sm','placeholder'=> __('Contact Number')]) !!}
+              {!! Form::label('mobile', __('Mobile Number'),['class'=>'mb-1']) !!}
+              {!! Form::text('mobile',null,['class'=>'form-control form-control-sm','placeholder'=> __('Mobile Number')]) !!}
             </div>
           </div>
         </div>

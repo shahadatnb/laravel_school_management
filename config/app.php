@@ -18,6 +18,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'admin_prefix' => env('APP_ADMIN_PREFIX', 'admin'),
+    'app_domain' => env('APP_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------

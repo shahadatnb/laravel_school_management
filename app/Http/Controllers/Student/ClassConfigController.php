@@ -45,6 +45,14 @@ class ClassConfigController extends Controller
         $classConfig->status = $request->status;
         $classConfig->save();
 
+        $semester = $classConfig->semester? $classConfig->semester->name : '';
+        $section = $classConfig->section? $classConfig->section->name : '';
+        $shift = $classConfig->shift? $classConfig->shift->name : ''; 
+        
+        $class_config = ClassConfig::find($classConfig->id);
+        $class_config->name = $semester.'-'.$section.'-'.$shift;
+        $class_config->save();
+
         session()->flash('success', "Saved");
         return redirect()->route('student.setup.class_config.index');
     }
@@ -86,6 +94,14 @@ class ClassConfigController extends Controller
         $classConfig->serial = $request->serial;
         $classConfig->status = $request->status;
         $classConfig->save();
+
+        $semester = $classConfig->semester? $classConfig->semester->name : '';
+        $section = $classConfig->section? $classConfig->section->name : '';
+        $shift = $classConfig->shift? $classConfig->shift->name : ''; 
+
+        $class_config = ClassConfig::find($classConfig->id);
+        $class_config->name = $semester.'-'.$section.'-'.$shift;
+        $class_config->save();
 
         session()->flash('success', "Updated");
         return redirect()->route('student.setup.class_config.index');

@@ -13,16 +13,16 @@
               {!! Form::text('session',null,['class'=>'form-control','placeholder'=> __('Session')]) !!}
             </div> --}}
             <div class="col-6 col-md-2">
-              {!! Form::select('semester_id',$semesters,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Semester/Class')]) !!}
-            </div>
-            <div class="col-6 col-md-2">
               {!! Form::select('section_id',$sections,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Section')]) !!}
             </div>
             <div class="col-6 col-md-2">
-              {!! Form::select('shift',$shifts,null,['class'=>'form-control form-control-sm','placeholder'=> __('Shift')]) !!}
-            </div>
-            <div class="col-6 col-md-2">
               {!! Form::select('group_id',$groups,null,['class'=>'form-control form-control-sm','placeholder'=> __('Group')]) !!}
+            </div>
+            {{-- <div class="col-6 col-md-2">
+              {!! Form::select('semester_id',$semesters,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Semester/Class')]) !!}
+            </div> --}}
+            <div class="col-6 col-md-2">
+              {!! Form::select('category_id',$catetories,null,['class'=>'form-control form-control-sm','placeholder'=> __('Category')]) !!}
             </div>
             <div class="col-3 col-md-1">
               {!! Form::text('reg_no',null,['class'=>'form-control form-control-sm','placeholder'=> __('Reg No')]) !!}
@@ -47,11 +47,14 @@
       {{ Form::open(array('route'=>'student.student.import','method'=>'POST','class'=>'row mb-3','files' => true)) }}
         <div class="col-6">
           <div class="row">
-            <div class="col-6">
-              {!! Form::select('semester_id',$semesters,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Semester/Class')]) !!}
-            </div>
-            <div class="col-6">
+            <div class="col-4">
               {!! Form::select('section_id',$sections,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Section')]) !!}
+            </div>
+            <div class="col-4">
+              {!! Form::select('group_id',$groups,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Group')]) !!}
+            </div>
+            <div class="col-4">
+              {!! Form::select('category_id',$catetories,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Category')]) !!}
             </div>
           </div>
         </div>
@@ -74,7 +77,7 @@
         <table id="student" class="table table-sm table-bordered table-striped">
             <thead>
             <tr>
-              <th>ID</th>
+              {{-- <th>ID</th> --}}
               <th class="not-exported d-print-none">Action</th>
               <th class="not-exported">{{__('Photo')}}</th>
               <th>{{__('Name')}}</th>
@@ -82,8 +85,8 @@
               <th>{{__('Reg No')}}</th>
               <th>{{__('Class')}}</th>
               <th>{{__('Section')}}</th>
-              <th>{{__('Shift')}}</th>
               <th>{{__('Group')}}</th>
+              <th>{{__('Category')}}</th>
               <th>{{__('Sex')}}</th>
               <th>{{__('Mobile')}}</th>
               <th>{{__('Father Name')}}</th>
@@ -94,7 +97,7 @@
             <tbody>
                 @foreach ($students as $item)
                 <tr>
-                    <td>{{$item->id}}</td>
+                    {{-- <td>{{$item->id}}</td> --}}
                     <td class="d-print-none not-exported">
                       <div class="btn-group btn-group-sm">
                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -122,11 +125,12 @@
                     <td>{{$item->name}}</td>
                     <td>{{$item->class_roll}}</td>
                     <td>{{$item->reg_no}}</td>
-                    <td>{{ $item->class? $item->class->name : '' }}</td>
-                    <td>{{ $item->section? $item->section->name : '' }}</td>
-                    <td>{{ $item->shift? $item->shift->name : '' }}</td>
+                    <td>{{$item->semester? $item->semester->name : '' }}</td>
+                    <td>{{$item->section? $item->section->name : '' }}</td>
+                    <td>{{$item->group? $item->group->name : '' }}</td>
+                    <td>{{$item->category? $item->category->name : '' }}</td>
                     <td>{{$item->sex}}</td>
-                    <td>{{$item->student_mobile}}</td>
+                    <td>{{$item->mobile}}</td>
                     <td>{{$item->fathersName}}</td>
                     <td>{{$item->mothersName}}</td>
                     <td>{{$item->mobileFather}}</td>                    

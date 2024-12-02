@@ -31,7 +31,7 @@
                 <tr>
                     {{-- <td>{{$item->id}}</td> --}}
                     <td>{{$item->serial}}</td>
-                    <td>{{($item->class && $item->shift && $item->section) ? $item->class->name.'-'.$item->shift->name.'-'.$item->section->name : '' }}</td>
+                    <td>{{$item->name }}</td>
                     <td>{{$item->shift? $item->shift->name : '' }}</td>
                     <td>{{$item->section? $item->section->name : '' }}</td>
                     <td>{{$item->status=='1'?'Active':'Inactive' }}</td>

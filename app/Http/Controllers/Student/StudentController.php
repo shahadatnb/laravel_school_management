@@ -9,12 +9,14 @@ use App\Models\Student\Shift;
 use App\Models\Student\Group;
 use App\Models\Student\StudentMark;
 use App\Models\Student\InvoicePayment;
+use App\Models\Student\Category;
 use Illuminate\Http\Request;
 use App\Traits\StudentTrait;
 use App\Traits\CommonTrait;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\StudentsImport;
 use App\Imports\ImportCgpa;
+use App\Models\Student\ClassConfig;
 use Image;
 //use PDF;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -34,7 +36,7 @@ class StudentController extends Controller
         $data = [
             'semester_id'=>'',
             'section_id'=>'',
-            'shift_id'=>'',
+            'category_id'=>'',
             'group_id'=>'',
             'reg_no'=>'',
             'probidhan'=>'',
@@ -43,10 +45,11 @@ class StudentController extends Controller
         ];
 
         $semesters = $this->semesterArray();
-        $shifts = Shift::where('branch_id', session('branch')['id'])->pluck('name', 'id');
-        $sections = Section::where('branch_id', session('branch')['id'])->pluck('name', 'id');
-        $students = Student::where('branch_id', session('branch')['id'] )->latest();
+        //$shifts = Shift::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $sections = $this->sectionArray();
         $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $students = Student::where('branch_id', session('branch')['id'] )->latest();
         if(!empty($request->semester_id)){
             $data['semester_id'] = $request->semester_id;
             $students = $students->where('semester_id', $request->semester_id);
@@ -55,13 +58,13 @@ class StudentController extends Controller
             $data['section_id'] = $request->section_id;
             $students = $students->where('section_id', $request->section_id);
         }
-        if(!empty($request->shift_id)){
-            $data['shift_id'] = $request->shift;
-            $students = $students->where('shift_id',$request->shift_id);
-        }
         if(!empty($request->group_id)){
             $data['group_id'] = $request->group_id;
             $students = $students->where('group_id', $request->group_id);
+        }
+        if(!empty($request->category_id)){
+            $data['category_id'] = $request->category_id;
+            $students = $students->where('category_id',$request->category_id);
         }
         if(!empty($request->session)){
             $data['session'] = $request->session;
@@ -77,20 +80,21 @@ class StudentController extends Controller
         }
         $students = $students->paginate(100);
 
-        return view('admin.student.student.index', compact('students','semesters','shifts','sections','groups','data'));
+        return view('admin.student.student.index', compact('students','semesters','catetories','sections','groups','data'));
     }
 
     public function create()
     {
-        $departments = $this->departmentArray();
-        $semesters = $this->semesterArray();
         $academicYear = $this->academicYear();
-        //$invoiceHeads = $this->invoiceHeadArray();        
+        $semesters = $this->semesterArray();
+        $sections = $this->sectionArray();
+        $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');      
         $locations = $this->zilaArray();
         $presentUpazila = [];
         $permanentUpazila = [];
         $mode = 'create';
-        return view('admin.student.student.createOrEdit', compact('mode','departments','locations','presentUpazila','permanentUpazila','academicYear','semesters'));
+        return view('admin.student.student.createOrEdit', compact('mode','catetories','groups','sections','locations','presentUpazila','permanentUpazila','academicYear','semesters'));
     }
 
     protected function acValidator($data)
@@ -100,7 +104,7 @@ class StudentController extends Controller
             // 'session_id'=>['required','numeric'],
             //'probidhan'=>['required','string'],
             //'session'=>['required','string'],
-            'department_id'=>['required','numeric'],
+            'section_id'=>['required','numeric'],
             'fathersName'=>['nullable','string'],
             'mothersName'=>['nullable','string'],
             'presentVillage'=>['nullable','string'],
@@ -111,33 +115,15 @@ class StudentController extends Controller
             'permanentPost'=>['nullable','string'],
             'permanentUpazila'=>['nullable','string'],
             'permanentZila'=>['nullable','string'],
-            'shift'=>['required','string'],
-            'student_group'=>['required','string'],
+            'group_id'=>['required'],
+            'category_id'=>['required'],
             'photo'=>'nullable|mimes:jpg,jpeg,png|max:512',
             'sex'=>['nullable'],
             'cgpa' => ['nullable', 'numeric', 'max:10'],
             //'dateOfBirth'=>['required'],
-            'contact_number'=>['required','numeric','digits:11'],//,'unique:students'
+            'mobile'=>['required','numeric','digits:11'],//,'unique:students'
             'mobileFather'=>['nullable','numeric','digits:11'],
         ];
-    }
-
-    private function newReg($dept,$session){
-        $student = Student::where('branch_id', session('branch')['id'])->where('department_id',$dept)->where('session',$session)->orderBy('reg_no','desc')->first();
-		if($student){
-            /*
-			$year = substr($student->reg_no,0,4);
-			if($year == date('Y')){
-				return ++$student->reg_no;
-			}else{
-				return date('Y').$dept.'001';
-			}
-            */
-            return ++$student->reg_no;
-		}else{
-			return date('y').'001';
-		}
-
     }
 
     public function store(Request $request)
@@ -147,23 +133,27 @@ class StudentController extends Controller
         //$data['mobile'] = ['required','numeric','digits:11','unique:students'];
         $this->validate($request, $data);
 
+        $section = ClassConfig::find($request->section_id);
+//dd($section);
         $student = new Student;
         //$student->reg_no = $this->newReg($request->department_id,$request->session);
 
         $student->branch_id = session('branch')['id'];
-        $student->reg_no = $request->reg_no;
+        //$student->reg_no = $request->reg_no;
+        $student->reg_no = $this->newReg();
         $student->class_roll = $request->class_roll;
         $student->name = $request->name;
         $student->studentBirthRegNo = $request->studentBirthRegNo;
         $student->sex = $request->sex;
-        $student->contact_number = $request->contact_number;
-        $student->session = $request->session;
-        $student->department_id = $request->department_id;
-        $student->semester_id  = $request->semester_id ;
-        $student->student_group = $request->student_group;
+        $student->mobile = $request->mobile;
+        //$student->session = $request->session;
+        $student->section_id = $request->section_id;
+        $student->semester_id  = $section->class_id;
+        $student->shift_id = $section->shift_id;
+        $student->group_id = $request->group_id;
+        $student->category_id = $request->category_id;
         $student->Comment = $request->Comment;
         $student->religion = $request->religion;
-        $student->shift = $request->shift;
         $student->dateOfBirth = $request->dateOfBirth;
 
         $student->fathersName = $request->fathersName;
@@ -172,7 +162,6 @@ class StudentController extends Controller
         $student->mobileMother = $request->mobileMother;
         $student->guardianName = $request->guardianName;
         $student->mobileGuardian = $request->mobileGuardian;
-        $student->guardianDateOfBirth = $request->guardianDateOfBirth;
         $student->guardianNID = $request->guardianNID;
         $student->guardianRelation = $request->guardianRelation;
 
@@ -196,7 +185,7 @@ class StudentController extends Controller
         $student->accountName = $request->accountName;
         $student->accountNumber = $request->accountNumber;
 
-        $student->academicYear = $request->academicYear;
+        $student->academic_year_id = $request->academic_year_id;
         $student->others = $request->others;
         /*
         if(isset($request->photo)){  
@@ -228,7 +217,7 @@ class StudentController extends Controller
         StudentMark::create(['semester_id'=>1,'student_id'=>$student->id]);
 
         session()->flash('success', "Student Saved");
-        return redirect()->route('student.index');
+        return redirect()->route('student.student.index');
     }
 
 
@@ -283,9 +272,12 @@ class StudentController extends Controller
 
     public function edit(Student $student)
     {
-        $departments = $this->departmentArray();
         $semesters = $this->semesterArray();
         $academicYear = $this->academicYear();
+        $sections = $this->sectionArray();
+        $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');  
+
         $presentUpazila = $permanentUpazila = [];
 
         //$invoiceHeads = $this->invoiceHeadArray();
@@ -301,7 +293,7 @@ class StudentController extends Controller
         //$payments = InvoicePayment::where('student_id',$student->id)->get();
 
         $mode = 'edit';
-        return view('admin.student.student.createOrEdit', compact('mode','departments','student','semesters','locations','presentUpazila','permanentUpazila','academicYear'));
+        return view('admin.student.student.createOrEdit', compact('mode','catetories','groups','sections','student','semesters','locations','presentUpazila','permanentUpazila','academicYear'));
     }
 
     public function update(Request $request, Student $student)
@@ -311,20 +303,23 @@ class StudentController extends Controller
         $data['reg_no'] = ['nullable','unique:students,reg_no,'.$student->id];
         $this->validate($request, $data);
 
+        $section = ClassConfig::find($request->section_id);
+
         $student->branch_id = session('branch')['id'];
         $student->reg_no = $request->reg_no;
         $student->class_roll = $request->class_roll;
         $student->name = $request->name;
         $student->studentBirthRegNo = $request->studentBirthRegNo;
         $student->sex = $request->sex;
-        $student->contact_number = $request->contact_number;
-        $student->session = $request->session;
-        $student->department_id = $request->department_id;
-        $student->semester_id  = $request->semester_id ;
-        $student->student_group = $request->student_group;
+        $student->mobile = $request->mobile;
+        //$student->session = $request->session;
+        $student->section_id = $request->section_id;
+        $student->semester_id  = $section->class_id;
+        $student->shift_id = $section->shift_id;
+        $student->group_id = $request->group_id;
+        $student->category_id = $request->category_id;
         $student->Comment = $request->Comment;
         $student->religion = $request->religion;
-        $student->shift = $request->shift;
         $student->dateOfBirth = $request->dateOfBirth;
 
         $student->fathersName = $request->fathersName;
@@ -333,7 +328,6 @@ class StudentController extends Controller
         $student->mobileMother = $request->mobileMother;
         $student->guardianName = $request->guardianName;
         $student->mobileGuardian = $request->mobileGuardian;
-        $student->guardianDateOfBirth = $request->guardianDateOfBirth;
         $student->guardianNID = $request->guardianNID;
         $student->guardianRelation = $request->guardianRelation;
 
@@ -357,7 +351,7 @@ class StudentController extends Controller
         $student->accountName = $request->accountName;
         $student->accountNumber = $request->accountNumber;
 
-        $student->academicYear = $request->academicYear;
+        $student->academic_year_id = $request->academic_year_id;
         $student->others = $request->others;
 
         $image = $request->file('photo');
