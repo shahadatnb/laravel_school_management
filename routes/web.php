@@ -19,14 +19,15 @@ use App\Http\Controllers\Student\GroupController;
 use App\Http\Controllers\Student\CategoryController;
 use App\Http\Controllers\Student\ClassConfigController;
 
-use App\Http\Controllers\Student\ExamStudentController;
+use App\Http\Controllers\Exam\ExanListController;
+use App\Http\Controllers\Exam\ExanSubjectController;
+
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
 use App\Http\Controllers\Student\CourseController;
 use App\Http\Controllers\Student\DepartmentController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\MarksController;
-use App\Http\Controllers\Student\ExamHallController;
 use App\Http\Controllers\Student\AttendanceController;
 
 use App\Http\Controllers\Auth\Admission\AdmissionForgotPasswordController;
@@ -107,6 +108,15 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         Route::resource('student', StudentController::class);
 
     });
+
+    Route::prefix('exan')->as('exan.')->group(function() {
+        
+        Route::prefix('setup')->as('setup.')->group(function() {
+            Route::resource('exanList', ExanListController::class);
+            Route::resource('exanSubject', ExanSubjectController::class);
+        });
+    });
+
     Route::post('student/import-cgpa', [StudentController::class,'importCgpa'])->name('student.import.cgpa');
     Route::get('student/id_card', [StudentController::class,'IDCard'])->name('id_card');
     Route::get('student/student_statitics', [StudentController::class,'student_statitics'])->name('student_statitics');
@@ -115,14 +125,6 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
     Route::resource('attendance', AttendanceController::class);
     Route::get('attendance/report', [AttendanceController::class,'attendanceReport'])->name('attendance.report');
 
-    
-    Route::get('student/examineeCount', [ExamStudentController::class,'examineeCount'])->name('examineeCount');
-    Route::post('student/examStudentimport', [ExamStudentController::class,'import'])->name('exam.student.import');
-    Route::resource('examStudent', ExamStudentController::class);
-    
-    Route::resource('examHall', ExamHallController::class);
-    Route::post('/getStudentsByGroup', [ExamHallController::class,'getStudentsByGroup'])->name('getStudentsByGroup');
-    Route::post('/saveSeats/{examHall}', [ExamHallController::class,'saveSeats'])->name('examhall.saveSeats');
 
     Route::resource('admission', AdmissionController::class);
     Route::resource('admission_class', AdmissionClassController::class);
