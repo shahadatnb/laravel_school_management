@@ -375,11 +375,22 @@ class StudentController extends Controller
 
     public function import(Request $request){
         $request->validate([
+            'section_id' => 'required',
+            'group_id' => 'required',
+            'category_id' => 'required',
             'file' => 'required|mimes:xlsx,xls',
         ]);
 
-        //dd($request->file('file')); exit;
-        session()->put('import_student',['section_id'=>$request->section_id,'semester_id'=>$request->semester_id]); 
+        $class_config = ClassConfig::find($request->section_id);
+        
+        session()->put('import_student',[
+            'section_id'=>$request->section_id,
+            'semester_id'=>$class_config->class_id,
+            'shift_id'=>$class_config->shift_id,
+            'group_id'=>$request->group_id,
+            'category_id'=>$request->category_id
+        ]);
+
         Excel::import(new StudentsImport, $request->file('file'));
         session()->forget('import_student');
         session()->flash('success', 'Imported Successfully!');

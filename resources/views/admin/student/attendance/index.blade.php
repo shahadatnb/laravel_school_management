@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 @section('title',__("Students Attendance"))
 @section('css')
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/b-print-1.7.0/datatables.min.css"/>
+<link rel="stylesheet" href="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
 @endsection
 @section('content')
 <!-- Default box -->
@@ -13,28 +13,27 @@
               {!! Form::text('session',null,['class'=>'form-control','placeholder'=> __('Session')]) !!}
             </div> --}}
             <div class="col-6 col-md-2">
-              {!! Form::select('department_id',$departments,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Department')]) !!}
+              {!! Form::select('section_id',$sections,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Section')]) !!}
             </div>
             <div class="col-6 col-md-2">
-              {!! Form::select('semester_id',$semesters,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Semester/Class')]) !!}
+              {!! Form::select('category_id',$catetories,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Category')]) !!}
             </div>
             <div class="col-6 col-md-2">
-              {!! Form::select('shift',['1st'=>'1st Shift','2nd'=>'2nd Shift'],null,['class'=>'form-control form-control-sm','placeholder'=> __('Shift')]) !!}
+              {!! Form::select('group_id',$groups,null,['class'=>'form-control form-control-sm select2','placeholder'=> __('Group')]) !!}
             </div>
+
             <div class="col-6 col-md-2">
-              {!! Form::select('student_group',['A'=>'A','B'=>'B'],null,['class'=>'form-control form-control-sm','placeholder'=> __('Group')]) !!}
-            </div>
-            <div class="col-3 col-md-1">
-              {!! Form::text('reg_no',null,['class'=>'form-control form-control-sm','placeholder'=> __('Reg No')]) !!}
-            </div>
-            <div class="col-3 col-md-1">
-              {!! Form::text('class_roll',null,['class'=>'form-control form-control-sm','placeholder'=> __('Class Roll')]) !!}
+              <div class="input-group" id="date2" data-target-input="nearest">
+                {!! Form::text('date',null,['class'=>'form-control form-control-sm datetimepicker-input','required'=>true,'placeholder'=>__('Date'),
+                'data-target'=>'#date2', 'data-inputmask-alias'=>'datetime','data-inputmask-inputformat'=>'yyyy/mm/dd','data-mask'=>'data-mask']) !!}
+                <div class="input-group-append" data-target="#date2" data-toggle="datetimepicker">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+              </div>
             </div>
             <div class="col-6 col-md-2">
               <div class="btn btn-group">
                 <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-search"></i> Filter</button>
-                {{-- {{ Form::submit(__('Filter'),array('class'=>'btn btn-sm btn-success')) }} --}}
-                <a class="btn btn-primary btn-sm" href="{{ route('student.create')}}"><i class="fas fa-plus"></i> New</a>
               </div>              
             </div>
           {!! Form::close() !!}
@@ -43,7 +42,12 @@
       </div>
     </div>
     <div class="card-body">
-      @include('admin.layouts._message')        
+      @include('admin.layouts._message')  
+      {!! Form::open(['route' => 'attendance.store','method'=>'post','class'=>'promote_form']) !!}
+      <input type="hidden" name="date" value="{{ $data['date'] }}">
+      <input type="hidden" name="category_id" value="{{ $data['category_id'] }}">
+      <input type="hidden" name="section_id" value="{{ $data['section_id'] }}">
+      <input type="hidden" name="group_id" value="{{ $data['group_id'] }}">
       <div class="table-responsive">
         <table id="student" class="table table-sm table-bordered table-striped">
             <thead>
@@ -51,83 +55,48 @@
               <th>{{__('Class Roll')}}</th>
               <th>{{__('Name')}}</th>
               <th>{{__('Reg No')}}</th>
-              <th>{{__('Action')}}</th>
+              <th>
+                <input class="checkbox" id="selectAll" name="selectAll" type="checkbox"> <label for="selectAll">Attened All</label>
+              </th>
             </tr>
             </thead>
             <tbody>
+              {{-- @dd($attendances) --}}
                 @foreach ($students as $item)
                 <tr>                    
                     <td>{{$item->class_roll}}</td>
                     <td>{{$item->name}}</td>
-                    <td>{{$item->reg_no}}</td>                    
+                    <td>{{$item->reg_no}}</td>
                     <td>
-                      
+                      <input type="hidden" name="student_id[]" value="{{$item->id}}">
+                      <input class="student_list" name="student_list[]" type="checkbox" {{ in_array($item->id, $attendances) ? 'checked' : ''}} value="{{$item->id}}">
                     </td>                    
                 </tr>
                 @endforeach
             </tbody>
         </table>
       </div>
+      <button type="submit" class="btn btn-primary d-print-none"><i class="fas fa-check"></i> {{__('Save Attendance')}}</button>
+      {!! Form::close() !!}
     </div>
 </div>
 <!-- /.card -->
 @endsection
 @section('js')
-{{-- <script src="{{asset('/assets/admin')}}/plugins/datatables/datatables.min.js"></script> --}}
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="//cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/b-print-1.7.0/datatables.min.js"></script>
+<script src="{{ asset('assets/admin/plugins/moment/moment.min.js') }}"> </script>
+<!-- Tempusdominus -->
+<script src="{{ asset('assets/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"> </script>
 <script>
     $(function () {
-      // $("#example1").DataTable({
-      //   "responsive": true,
-      //   "autoWidth": false,
-      // });
+      $('#date2').datetimepicker({
+            //format: 'DD/MM/YYYY'
+            format: 'YYYY-MM-DD'
+        });
 
-      var header = $('#report-header').html();
-		
-        $('#student').DataTable( {
-            dom: '<"row d-print-none"<"col"B><"col"f><"col text-right"l>>tip',
-            buttons: [
-				'copy',
-				{
-                extend: 'excel',
-					text: '<i title="Excel" class="far fa-file-excel"></i>',
-                	messageTop: header,
-                  exportOptions: {
-                    columns: ':visible:Not(.not-exported)',
-                    rows: ':visible'
-                  },
-            	},
-                {
-					extend: 'pdfHtml5',	//pdf
-					text: '<i title="PDF" class="far fa-file-pdf"></i>',
-					messageTop: header,
-					exportOptions: {
-						columns: ':visible:Not(.not-exported)',
-						rows: ':visible'
-					},
-				},
-				{
-					extend: 'print',
-					text: '<i title="Print" class="fas fa-print"></i>',
-					messageTop: header,
-					title: '',
-					exportOptions: {
-						columns: ':visible:Not(.not-exported)',
-						rows: ':visible'
-					},
-					messageBottom: null
-				},
-				{
-                  extend: 'colvis',
-                  text: '<i title="column visibility" class="fa fa-eye"></i>',
-                  columns: ':gt(0)'
-              },
-            ],
-            "paging":   false,
-            //"ordering": false,
-        } );
+      $(':checkbox[name=selectAll]').click (function () {
+        //$(':checkbox[name=student_list]').prop('checked', this.checked);
+        $('.student_list').prop('checked', this.checked);
+      });
     });
   </script>
 @endsection

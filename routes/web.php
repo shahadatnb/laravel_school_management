@@ -113,6 +113,8 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
     Route::get('student/incomeList', [InvoiceController::class,'incomeList'])->name('incomeList');
     Route::resource('invoice', InvoiceController::class);
     Route::resource('attendance', AttendanceController::class);
+    Route::get('attendance/report', [AttendanceController::class,'attendanceReport'])->name('attendance.report');
+
     
     Route::get('student/examineeCount', [ExamStudentController::class,'examineeCount'])->name('examineeCount');
     Route::post('student/examStudentimport', [ExamStudentController::class,'import'])->name('exam.student.import');
