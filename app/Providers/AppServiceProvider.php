@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         //URL::forceScheme('https');
 
+        /*
         Validator::extend('unique_with', function ($attribute, $value, $parameters, $validator) {
             $request = request()->all();
     
@@ -52,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
                     ->where($clauses)
                     ->exists();
         });
-    
+    */
         /*
         Validator::extend('unique_with', function ($attribute, $value, $parameters, $validator) {
               $count = DB::table('users')->where('placementId', $value)->count();
@@ -63,6 +64,23 @@ class AppServiceProvider extends ServiceProvider
               
             });
         */
+        
+        Validator::extend('unique_with', function ($attribute, $value, $parameters, $validator) {
+          //dd($attribute, $value, $parameters, $validator);
+          $table = array_shift($parameters);
+          $field = array_shift($parameters);
+          $skipId = array_shift($parameters);
+          $count = DB::table($table)->where($field, $value)->where('branch_id', session('branch')['id']);
+          if($skipId != null){
+            $count = $count->where('id', '!=', $skipId);
+          }
+          $count = $count->count();
+          if($count > 0){
+            return false;
+          }
+          return true;
+        });
+
         \View::share('postType', $this->postType);
 
         

@@ -19,13 +19,13 @@ use App\Http\Controllers\Student\GroupController;
 use App\Http\Controllers\Student\CategoryController;
 use App\Http\Controllers\Student\ClassConfigController;
 
-use App\Http\Controllers\Exam\ExanListController;
-use App\Http\Controllers\Exam\ExanSubjectController;
+use App\Http\Controllers\Exam\ExamListController;
+use App\Http\Controllers\Exam\ExamSubjectController;
+use App\Http\Controllers\Exam\ExamShortCodeController;
+use App\Http\Controllers\Exam\ExamGradeController;
 
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
-use App\Http\Controllers\Student\CourseController;
-use App\Http\Controllers\Student\DepartmentController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\MarksController;
 use App\Http\Controllers\Student\AttendanceController;
@@ -90,7 +90,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=>'auth']
 Route::get('/childLocation', [LocationController::class,'childLocation'])->name('childLocation');
 Route::get('/branch_info', [BranchController::class,'branch_info'])->name('branch_info');
 
-Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth']], function(){
+Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth','branch']], function(){
     Route::prefix('student')->as('student.')->group(function() {
         
         Route::prefix('setup')->as('setup.')->group(function() {
@@ -109,11 +109,14 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
 
     });
 
-    Route::prefix('exan')->as('exan.')->group(function() {
+    Route::prefix('exam')->as('exam.')->group(function() {
         
         Route::prefix('setup')->as('setup.')->group(function() {
-            Route::resource('exanList', ExanListController::class);
-            Route::resource('exanSubject', ExanSubjectController::class);
+            Route::resource('examList', ExamListController::class)->except('show');
+            Route::resource('examSubject', ExamSubjectController::class)->except('show');
+            Route::post('examShortCode/mass_update', [ExamShortCodeController::class,'mass_update'])->name('examShortCode.mass_update');
+            Route::resource('examShortCode', ExamShortCodeController::class)->except('show','edit','update','create');
+            Route::resource('examGrade', ExamGradeController::class)->except('show','edit','create');
         });
     });
 
@@ -125,7 +128,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
     Route::resource('attendance', AttendanceController::class);
     Route::get('attendance/report', [AttendanceController::class,'attendanceReport'])->name('attendance.report');
 
-
+/*
     Route::resource('admission', AdmissionController::class);
     Route::resource('admission_class', AdmissionClassController::class);
     Route::resource('admission_trade', AdmissionTradeController::class);
@@ -137,7 +140,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
     Route::get('application_result_summary', [AdmissionResultController::class,'application_result_summary'])->name('application_result_summary');
     Route::get('application_result_details', [AdmissionResultController::class,'application_result_details'])->name('application_result_details');
     Route::get('application_waiting_list', [AdmissionResultController::class,'application_waiting_list'])->name('application_waiting_list');
-
+*/
     
     Route::resource('posts', PostsController::class);
 //    Route::get('PostDelete/{id}',[PostsController::class, 'PostDelete')->name('PostDelete');
@@ -163,9 +166,6 @@ Route::group(['prefix'=>'student','middleware'=> ['auth']], function(){
     Route::post('studentPayment', [StudentController::class,'studentPayment'])->name('student.payment');
     Route::get('complitePayment/{student}/{id}', [StudentController::class,'studentPaymentComplite'])->name('student.payment.complite');
 
-    Route::resource('studentMark', MarksController::class);
-    Route::resource('department', DepartmentController::class);    
-    Route::resource('course', CourseController::class);
     Route::resource('invoiceHead', InvoiceHeadController::class);
 });
 

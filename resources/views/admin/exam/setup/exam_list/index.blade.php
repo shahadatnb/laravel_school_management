@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title', __("Category"))
+@section('title', __("Exam"))
 @section('css')
 <link rel="stylesheet" href="{{asset('/assets/admin')}}/plugins/datatables/datatables.min.css">
 @endsection
@@ -7,9 +7,9 @@
 <!-- Default box -->
 <div class="card">
     <div class="card-header">
-        <h3 class="card-title">{{__('Category')}}</h3>
+        <h3 class="card-title">{{__('Exam')}}</h3>
         <div class="card-tools">
-          <a class="btn btn-primary btn-sm" href="{{ route('student.setup.category.create')}}">New Item</a>
+          <a class="btn btn-primary btn-sm" href="{{ route('exam.setup.examList.create')}}">New Item</a>
         </div>
     </div>
     <div class="card-body">
@@ -25,7 +25,7 @@
             </tr>
             </thead>
             <tbody>
-                @foreach ($categories as $item)
+                @foreach ($examList as $item)
                 <tr>
                     {{-- <td>{{$item->id}}</td> --}}
                     <td>{{$item->serial}}</td>
@@ -39,9 +39,9 @@
                         <div class="dropdown-menu">
                           {{-- @if (Auth::user()->hasAnyRole(['Manager','Admin'])) --}}
                           <div class="dropdown-divider"></div>
-                            <a href="{{route('student.setup.category.edit',$item->id)}}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
+                            <a href="{{route('exam.setup.examList.edit',$item->id)}}" class="dropdown-item"><i class="fas fa-edit"></i> Edit</a>
                             <div class="dropdown-divider"></div>
-                            <form class="delete" action="{{ route('student.setup.category.destroy',$item->id) }}" method="post">
+                            <form class="delete" action="{{ route('exam.setup.examList.destroy',$item->id) }}" method="post">
                               {{ csrf_field() }}
                               {{ method_field('DELETE') }}
                               <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete This Item?')"><i class="fas fa-trash"></i> Delete</button>

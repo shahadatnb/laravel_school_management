@@ -1,20 +1,20 @@
 @extends('admin.layouts.layout')
-@section('title',__("Category"))
+@section('title',__("Exam Subject"))
 @section('content')
 <!-- Default box -->
 <div class="card card-outline card-info">
     <div class="card-header">
-        <h3 class="card-title">{{__('Category')}}</h3>
+        <h3 class="card-title">{{__('Exam Subject')}}</h3>
         <div class="card-tools">
-          <a href="{{route('student.setup.category.index')}}" class="btn btn-sm btn-info"><i class="fas fa-arrow-alt-circle-left"></i> Back</a>
+          <a href="{{route('exam.setup.examSubject.index')}}" class="btn btn-sm btn-info"><i class="fas fa-arrow-alt-circle-left"></i> Back</a>
         </div>
     </div>
     <div class="card-body">
       @include('admin.layouts._message')
-      @if (request()->route()->getName() == 'student.setup.category.edit')
-        {!! Form::model($category, array('route'=>['student.setup.category.update',$category],'method'=>'PUT','files' => true)) !!}
+      @if (request()->route()->getName() == 'exam.setup.examSubject.edit')
+        {!! Form::model($examSubject, array('route'=>['exam.setup.examSubject.update',$examSubject],'method'=>'PUT','files' => true)) !!}
       @else
-        {!! Form::open(array('route'=>['student.setup.category.store'],'files' => true)) !!}
+        {!! Form::open(array('route'=>['exam.setup.examSubject.store'],'files' => true)) !!}
       @endif
         <div class="row">
           <div class="col-4">

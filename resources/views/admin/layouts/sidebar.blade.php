@@ -90,15 +90,7 @@
               <li class="nav-item"><a href="{{ route("student_statitics") }}" class="nav-link {{ (request()->routeIs('student_statitics')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> <p>{{__('Student Statistics') }}</p></a>
               </li>
-              <li class="nav-item"><a href="{{ route("studentMark.index") }}" class="nav-link {{ (request()->routeIs('studentMark.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> <p>{{__('Marks Entry') }}</p></a>
-              </li>
-              <li class="nav-item"><a href="{{ route("student.promotion") }}" class="nav-link {{ (request()->routeIs('student.promotion')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> {{__('Promotion')}}</a>
-              </li>
-              <li class="nav-item"><a href="{{ route("student.marksheet") }}" class="nav-link {{ (request()->routeIs('student.marksheet')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> {{__('Marksheet')}}/{{__('Certificate')}}</a>
-              </li>
+
               {{-- <li class="nav-item"><a href="{{ route("incomeList") }}" class="nav-link {{ (request()->routeIs('incomeList')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> {{__('Income List')}}</a>
               </li> --}}
@@ -117,82 +109,36 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item has-treeview {{ (request()->routeIs('examStudent.*','examHall.*','examineeCount','hallSetup')) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ (request()->routeIs('examStudent.*','examHall.*','examineeCount','hallSetup')) ? 'active' : '' }}">
+          <li class="nav-item has-treeview {{ (request()->routeIs('exam.*')) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (request()->routeIs('exam.*')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-book"></i>
               <p>Exam <i class="right fas fa-angle-left"></i> </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="{{ route("examStudent.index") }}" class="nav-link {{ (request()->routeIs('examStudent.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> {{__('Exam Students')}}</a>
-              </li>
-              <li class="nav-item"><a href="{{ route("examineeCount") }}" class="nav-link {{ (request()->routeIs('examineeCount')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> {{__('Examinee count')}}</a>
-              </li>
-              <li class="nav-item"><a href="{{ route("examHall.index") }}" class="nav-link {{ (request()->routeIs('examHall.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> Exam Hall List</a>
-              </li>
-              {{-- <li class="nav-item"><a href="{{ route("hallSetup") }}" class="nav-link {{ (request()->routeIs('hallSetup')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> Student Hall Setup</a>
-              </li> --}}
-              {{-- <li class="nav-item"><a href="{{ route("course.index") }}" class="nav-link {{ (request()->routeIs('course.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> Course List</a>
-              </li> --}}
-              <li class="nav-item"><a href="{{ route('location.index') }}" class="nav-link {{ (request()->routeIs('location.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> Location</a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="nav-item has-treeview {{ (request()->routeIs('admission.*','admission_class.*','admission_trade.*','application_*')) ? 'menu-open' : '' }}">
-            <a href="#" class="nav-link {{ (request()->routeIs('admission.*','admission_class.*','admission_trade.*','application_*')) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-book"></i>
-              <p>Admission <i class="right fas fa-angle-left"></i> </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item"><a href="{{ route("admission.index") }}" class="nav-link {{ (request()->routeIs('admission.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> {{__('Admission List')}}</a>
-              </li>
-              <li class="nav-item"><a href="{{ route("admission_result.index") }}" class="nav-link {{ (request()->routeIs('admission_result.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> {{__('Admission Result')}}</a>
-              </li>
-              <li class="nav-item"><a href="{{ route("admission_class.index") }}" class="nav-link {{ (request()->routeIs('admission_class.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> Admission Class</a>
-              </li>
-              <li class="nav-item"><a href="{{ route("admission_trade.index") }}" class="nav-link {{ (request()->routeIs('admission_trade.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> Admission Trade</a>
-              </li>
-              <li class="nav-item"><a href="{{ route("admission_quota.index") }}" class="nav-link {{ (request()->routeIs('admission_quota.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> Admission Quota</a>
-              </li>
-              <li class="nav-item has-treeview {{ (request()->routeIs('application_*')) ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon far fa-list-alt"></i>
+              <li class="nav-item has-treeview {{ (request()->routeIs('exam.setup.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('exam.setup.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-cogs"></i>
                   <p>
-                    Report
+                    Setting
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview" {{ (request()->routeIs('application_*')) ? 'style="display: block;"' : '' }}>
-                  <li class="nav-item"><a href="{{ route("application_payment_list") }}" class="nav-link {{ (request()->routeIs('admission_payment_list')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> Admission Payment</a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("exam.setup.examList.index") }}" class="nav-link {{ (request()->routeIs('exam.setup.exanList.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Exam')}}</a>
                   </li>
-                  <li class="nav-item"><a href="{{ route("application_summary") }}" class="nav-link {{ (request()->routeIs('application_summary')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> Application Summary</a>
+                  <li class="nav-item"><a href="{{ route("exam.setup.examSubject.index") }}" class="nav-link {{ (request()->routeIs('exam.setup.exanSubject.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Subject')}}</a>
                   </li>
-                  <li class="nav-item"><a href="{{ route("application_result_summary") }}" class="nav-link {{ (request()->routeIs('application_result_summary')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> Result Summary</a>
-                  </li>
-                  <li class="nav-item"><a href="{{ route("application_result_details") }}" class="nav-link {{ (request()->routeIs('application_result_details')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> Result Details</a>
-                  </li>
-                  <li class="nav-item"><a href="{{ route("application_waiting_list") }}" class="nav-link {{ (request()->routeIs('application_waiting_list')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> Waiting List</a>
+                  <li class="nav-item"><a href="{{ route("exam.setup.examShortCode.index") }}" class="nav-link {{ (request()->routeIs('exam.setup.examShortCode.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Exam Short Code')}}</a>
                   </li>
                 </ul>
               </li>
             </ul>
           </li>
+
+          
           <li class="nav-item has-treeview {{ (request()->routeIs('posts*','menu*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-list-alt"></i>

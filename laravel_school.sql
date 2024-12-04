@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 03, 2024 at 02:09 PM
+-- Generation Time: Dec 04, 2024 at 12:06 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -180,15 +180,15 @@ CREATE TABLE `courses` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `exan_lists`
+-- Table structure for table `exam_grades`
 --
 
-CREATE TABLE `exan_lists` (
+CREATE TABLE `exam_grades` (
   `id` bigint UNSIGNED NOT NULL,
-  `branch_id` int UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `serial` tinyint UNSIGNED DEFAULT '0',
-  `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
+  `branch_id` bigint UNSIGNED NOT NULL,
+  `class_id` bigint UNSIGNED NOT NULL,
+  `grade` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `grade_range` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -196,10 +196,24 @@ CREATE TABLE `exan_lists` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `exan_subjects`
+-- Table structure for table `exam_grade_defaults`
 --
 
-CREATE TABLE `exan_subjects` (
+CREATE TABLE `exam_grade_defaults` (
+  `id` bigint UNSIGNED NOT NULL,
+  `grade` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `grade_range` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_lists`
+--
+
+CREATE TABLE `exam_lists` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` int UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -208,6 +222,95 @@ CREATE TABLE `exan_subjects` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_lists`
+--
+
+INSERT INTO `exam_lists` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Weekly', 0, 1, '2024-12-04 04:44:43', '2024-12-04 04:44:43'),
+(2, 1, '1st Terminal', 0, 1, '2024-12-04 06:54:36', '2024-12-04 06:54:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_short_codes`
+--
+
+CREATE TABLE `exam_short_codes` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `class_id` bigint UNSIGNED NOT NULL,
+  `default_id` bigint UNSIGNED NOT NULL,
+  `code_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_marks` smallint UNSIGNED NOT NULL,
+  `pass_mark` double(5,2) NOT NULL,
+  `acceptance` double(5,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_short_codes`
+--
+
+INSERT INTO `exam_short_codes` (`id`, `branch_id`, `class_id`, `default_id`, `code_title`, `total_marks`, `pass_mark`, `acceptance`, `created_at`, `updated_at`) VALUES
+(1, 1, 14, 1, 'SC-1', 100, 33.00, 1.00, '2024-12-04 10:26:53', '2024-12-04 10:37:54'),
+(2, 1, 14, 2, 'SC-2', 100, 33.00, 1.00, '2024-12-04 10:26:53', '2024-12-04 10:26:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_short_code_defaults`
+--
+
+CREATE TABLE `exam_short_code_defaults` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_marks` smallint UNSIGNED NOT NULL,
+  `pass_mark` double(5,2) NOT NULL,
+  `acceptance` double(5,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_short_code_defaults`
+--
+
+INSERT INTO `exam_short_code_defaults` (`id`, `name`, `total_marks`, `pass_mark`, `acceptance`, `created_at`, `updated_at`) VALUES
+(1, 'SC-1', 100, 33.00, 1.00, NULL, NULL),
+(2, 'SC-2', 100, 33.00, 1.00, NULL, NULL),
+(3, 'SC-3', 100, 33.00, 1.00, NULL, NULL),
+(4, 'SC-4', 100, 33.00, 1.00, NULL, NULL),
+(5, 'SC-5', 100, 33.00, 1.00, NULL, NULL),
+(6, 'SC-6', 100, 33.00, 1.00, NULL, NULL),
+(7, 'SC-7', 100, 33.00, 1.00, NULL, NULL),
+(8, 'SC-8', 100, 33.00, 1.00, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_subjects`
+--
+
+CREATE TABLE `exam_subjects` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` int UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `serial` tinyint UNSIGNED DEFAULT '0',
+  `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_subjects`
+--
+
+INSERT INTO `exam_subjects` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Bangla', 0, 1, '2024-12-04 06:59:44', '2024-12-04 06:59:44'),
+(2, 1, 'Bangla Part-2', 0, 1, '2024-12-04 07:43:58', '2024-12-04 07:43:58');
 
 -- --------------------------------------------------------
 
@@ -1109,7 +1212,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (119, '2024_11_29_195943_create_class_configs_table', 48),
 (120, '2024_11_29_200008_create_group_configs_table', 48),
 (121, '2024_12_03_185947_create_exan_lists_table', 49),
-(122, '2024_12_03_190019_create_exan_subjects_table', 49);
+(122, '2024_12_03_190019_create_exan_subjects_table', 49),
+(123, '2024_12_04_134940_create_exam_short_code_lists_table', 50),
+(124, '2024_12_04_134958_create_exam_short_code_defaults_table', 50),
+(125, '2024_12_04_164110_create_exam_grades_table', 51),
+(126, '2024_12_04_164132_create_exam_grade_defaults_table', 51);
 
 -- --------------------------------------------------------
 
@@ -1715,15 +1822,39 @@ ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `exan_lists`
+-- Indexes for table `exam_grades`
 --
-ALTER TABLE `exan_lists`
+ALTER TABLE `exam_grades`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `exan_subjects`
+-- Indexes for table `exam_grade_defaults`
 --
-ALTER TABLE `exan_subjects`
+ALTER TABLE `exam_grade_defaults`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `exam_lists`
+--
+ALTER TABLE `exam_lists`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `exam_short_codes`
+--
+ALTER TABLE `exam_short_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `exam_short_code_defaults`
+--
+ALTER TABLE `exam_short_code_defaults`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `exam_subjects`
+--
+ALTER TABLE `exam_subjects`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1996,16 +2127,40 @@ ALTER TABLE `courses`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `exan_lists`
+-- AUTO_INCREMENT for table `exam_grades`
 --
-ALTER TABLE `exan_lists`
+ALTER TABLE `exam_grades`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `exan_subjects`
+-- AUTO_INCREMENT for table `exam_grade_defaults`
 --
-ALTER TABLE `exan_subjects`
+ALTER TABLE `exam_grade_defaults`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `exam_lists`
+--
+ALTER TABLE `exam_lists`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `exam_short_codes`
+--
+ALTER TABLE `exam_short_codes`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `exam_short_code_defaults`
+--
+ALTER TABLE `exam_short_code_defaults`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `exam_subjects`
+--
+ALTER TABLE `exam_subjects`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -2077,7 +2232,7 @@ ALTER TABLE `menu_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `permissions`

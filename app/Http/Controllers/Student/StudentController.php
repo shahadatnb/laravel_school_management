@@ -26,11 +26,6 @@ class StudentController extends Controller
 {
     use CommonTrait,StudentTrait;
 
-    public function __construct()
-    {
-        $this->middleware('branch');
-    }
-
     public function index(Request $request)
     {
         $data = [
