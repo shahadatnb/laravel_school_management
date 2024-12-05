@@ -133,6 +133,23 @@
                   <li class="nav-item"><a href="{{ route("exam.setup.examShortCode.index") }}" class="nav-link {{ (request()->routeIs('exam.setup.examShortCode.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Exam Short Code')}}</a>
                   </li>
+                  <li class="nav-item"><a href="{{ route("exam.setup.examGrade.index") }}" class="nav-link {{ (request()->routeIs('exam.setup.examGrade.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Exam Grade')}}</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview {{ (request()->routeIs('exam.config.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('exam.config.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>
+                    Setting
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("exam.config.subject.index") }}" class="nav-link {{ (request()->routeIs('exam.config.subject.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Subject')}}</a>
+                  </li>
                 </ul>
               </li>
             </ul>

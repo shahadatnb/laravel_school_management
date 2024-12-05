@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2024 at 12:06 PM
+-- Generation Time: Dec 05, 2024 at 08:38 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -188,10 +188,31 @@ CREATE TABLE `exam_grades` (
   `branch_id` bigint UNSIGNED NOT NULL,
   `class_id` bigint UNSIGNED NOT NULL,
   `grade` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `grade_point` float UNSIGNED DEFAULT NULL,
   `grade_range` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_grades`
+--
+
+INSERT INTO `exam_grades` (`id`, `branch_id`, `class_id`, `grade`, `grade_point`, `grade_range`, `created_at`, `updated_at`) VALUES
+(1, 1, 11, 'A+', NULL, '80-100', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
+(2, 1, 11, 'A', NULL, '70-79', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
+(3, 1, 11, 'A-', NULL, '60-69', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
+(4, 1, 11, 'B', NULL, '50-59', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
+(5, 1, 11, 'C', NULL, '40-49', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
+(6, 1, 11, 'D', NULL, '33-39', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
+(7, 1, 11, 'F', NULL, '0-32', '2024-12-05 06:43:30', '2024-12-05 06:55:18'),
+(8, 1, 14, 'A+', 5, '80-100', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
+(9, 1, 14, 'A', 4, '70-79', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
+(10, 1, 14, 'A-', 3.5, '60-69', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
+(11, 1, 14, 'B', 4, '50-59', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
+(12, 1, 14, 'C', 2, '40-49', '2024-12-05 06:56:26', '2024-12-05 06:56:26'),
+(13, 1, 14, 'D', 1, '33-39', '2024-12-05 06:56:26', '2024-12-05 06:56:26'),
+(14, 1, 14, 'F', 0, '0-32', '2024-12-05 06:56:26', '2024-12-05 06:56:26');
 
 -- --------------------------------------------------------
 
@@ -202,10 +223,24 @@ CREATE TABLE `exam_grades` (
 CREATE TABLE `exam_grade_defaults` (
   `id` bigint UNSIGNED NOT NULL,
   `grade` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `grade_point` float UNSIGNED DEFAULT NULL,
   `grade_range` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_grade_defaults`
+--
+
+INSERT INTO `exam_grade_defaults` (`id`, `grade`, `grade_point`, `grade_range`, `created_at`, `updated_at`) VALUES
+(1, 'A+', 5, '80-100', NULL, NULL),
+(2, 'A', 4, '70-79', NULL, NULL),
+(3, 'A-', 3.5, '60-69', NULL, NULL),
+(4, 'B', 4, '50-59', NULL, NULL),
+(5, 'C', 2, '40-49', NULL, NULL),
+(6, 'D', 1, '33-39', NULL, NULL),
+(7, 'F', 0, '0-32', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2130,13 +2165,13 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `exam_grades`
 --
 ALTER TABLE `exam_grades`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `exam_grade_defaults`
 --
 ALTER TABLE `exam_grade_defaults`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `exam_lists`

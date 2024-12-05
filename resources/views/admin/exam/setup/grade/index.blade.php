@@ -25,6 +25,7 @@
               <tr>
                 <th><input class="checkbox" id="selectAll" name="selectAll" type="checkbox"> <label for="selectAll">Attened All</label></th>
                 <th>{{__('Grade')}}</th>
+                <th>{{__('Grade Point')}}</th>
                 <th>{{__('Grade Range')}}</th>
               </tr>
             </thead>
@@ -32,9 +33,10 @@
               @foreach ($grades as $item)
               <tr>
                 <td>
-                  <input type="checkbox" name="grade_id[]" value="{{$item->id}}">
+                  <input type="checkbox" class="grade_list" name="grade_id[]" value="{{$item->id}}">
                 </td>
                 <td>{{$item->grade}}</td>
+                <td>{{$item->grade_point}}</td>
                 <td>{{$item->grade_range}}</td>
               </tr>
               @endforeach
@@ -57,21 +59,22 @@
           <table id="example1" class="table table-bordered table-striped table-sm">
             <thead>
             <tr>
-              <th>{{__('Select')}}</th>
               <th>{{__('Class')}}</th>
-              <th>{{__('Default ID')}}</th>
-              <th>{{__('Short Code Title')}}</th>
-              <th>{{__('Total Mark')}}</th>
-              <th>{{__('Pass Mark')}}</th>
-              <th>{{__('Acceptance')}}</th>
+              <th>{{__('Grade')}}</th>
+              <th>{{__('Grade Point')}}</th>
+              <th>{{__('Grade Range')}}</th>
               <th>{{__('Action')}}</th>
             </tr>
             </thead>
             <tbody>
-              @foreach ($shortCodes as $grade)              
-              {!! Form::open(array('route'=>['exam.setup.examGrade.update',$grade])) !!}
+              @foreach ($examGrades as $grade)              
+              {!! Form::open(array('route'=>['exam.setup.examGrade.update',$grade],'method'=>'PUT')) !!}
               <tr>
                 <td>{{$grade->semester ? $grade->semester->name : ''}}</td>
+                <td>{{$grade->grade}}</td>
+                <td>
+                  <input type="text" name="grade_point" value="{{$grade->grade_point}}" class="form-control form-control-sm">
+                </td>
                 <td>
                   <input type="text" name="grade_range" value="{{$grade->grade_range}}" class="form-control form-control-sm">
                 </td>
@@ -107,5 +110,10 @@
         "responsive": true,
       });
     });
+
+    $(':checkbox[name=selectAll]').click (function () {
+        //$(':checkbox[name=student_list]').prop('checked', this.checked);
+        $('.grade_list').prop('checked', this.checked);
+      });
   </script>
 @endsection

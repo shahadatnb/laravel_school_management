@@ -18,50 +18,39 @@ class ExamGradeController extends Controller
         $examGrades = ExamGrade::where('branch_id',session('branch')['id'])->get();
         return view('admin.exam.setup.grade.index',compact('grades','semesters','examGrades'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'class_id' => 'required',
+            'grade_id' => 'required',
+        ]);
+
+        foreach ($request->grade_id as $key => $value) {
+            $sc = ExamGradeDefault::find($value);
+            $shortCode = new ExamGrade;
+            $shortCode->class_id = $request->class_id;
+            $shortCode->grade = $sc->grade;
+            $shortCode->grade_point = $sc->grade_point;
+            $shortCode->grade_range = $sc->grade_range;
+            $shortCode->branch_id = session('branch')['id'];
+            $shortCode->save();
+        }
+
+        session()->flash('success', "Short Code Created Successfully");
+        return redirect()->route('exam.setup.examGrade.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ExamGrade $examGrade)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ExamGrade $examGrade)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ExamGrade $examGrade)
     {
-        //
+        $examGrade->grade_point = $request->grade_point;
+        $examGrade->grade_range = $request->grade_range;
+        $examGrade->save();
+
+        session()->flash('success', "Short Code Updated Successfully");
+        return redirect()->route('exam.setup.examGrade.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ExamGrade $examGrade)
     {
         //

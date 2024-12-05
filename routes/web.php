@@ -23,6 +23,7 @@ use App\Http\Controllers\Exam\ExamListController;
 use App\Http\Controllers\Exam\ExamSubjectController;
 use App\Http\Controllers\Exam\ExamShortCodeController;
 use App\Http\Controllers\Exam\ExamGradeController;
+use App\Http\Controllers\Exam\ExamSubjectConfigController;
 
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
@@ -117,6 +118,12 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::post('examShortCode/mass_update', [ExamShortCodeController::class,'mass_update'])->name('examShortCode.mass_update');
             Route::resource('examShortCode', ExamShortCodeController::class)->except('show','edit','update','create');
             Route::resource('examGrade', ExamGradeController::class)->except('show','edit','create');
+        });
+        
+        Route::prefix('configation')->as('config.')->group(function() {
+            Route::post('subject/mass_update', [ExamSubjectConfigController::class,'mass_update'])->name('subject.mass_update');
+            Route::resource('subject', ExamSubjectConfigController::class)->except('show','create','edit');
+
         });
     });
 

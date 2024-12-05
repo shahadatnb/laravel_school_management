@@ -45,17 +45,6 @@ class ExamSubjectController extends Controller
         return redirect()->route('exam.setup.examSubject.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ExamSubject $examSubject)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ExamSubject $examSubject)
     {
         return view('admin.exam.setup.exam_subject.createOrEdit',compact('examSubject'));
@@ -80,11 +69,9 @@ class ExamSubjectController extends Controller
         return redirect()->route('exam.setup.examSubject.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ExamSubject $examSubject)
     {
         //
     }
+
 }
