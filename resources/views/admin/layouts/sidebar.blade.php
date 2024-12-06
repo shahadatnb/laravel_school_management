@@ -54,7 +54,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item has-treeview {{ (request()->routeIs('student.setup.*')) ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ (request()->routeIs('student.setup.*')) ? 'active' : '' }}">
-                  <i class="nav-icon fas fa-cogs"></i>
+                  <i class="nav-icon fas fa-tools"></i>
                   <p>
                     Setting
                     <i class="right fas fa-angle-left"></i>
@@ -117,7 +117,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item has-treeview {{ (request()->routeIs('exam.setup.*')) ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ (request()->routeIs('exam.setup.*')) ? 'active' : '' }}">
-                  <i class="nav-icon fas fa-cogs"></i>
+                  <i class="nav-icon fas fa-tools"></i>
                   <p>
                     Setting
                     <i class="right fas fa-angle-left"></i>
@@ -142,7 +142,7 @@
                 <a href="#" class="nav-link {{ (request()->routeIs('exam.config.*')) ? 'active' : '' }}">
                   <i class="nav-icon fas fa-cogs"></i>
                   <p>
-                    Setting
+                    Config
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
@@ -150,6 +150,27 @@
                   <li class="nav-item"><a href="{{ route("exam.config.subject.index") }}" class="nav-link {{ (request()->routeIs('exam.config.subject.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Subject')}}</a>
                   </li>
+                  <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Exam')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Mark')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.config.final_mark_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.final_mark_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Exam Final')}}</a>
+                  </li>
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Fourth Subject')}}</a>
+                  </li> --}}
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Admit Instruction')}}</a>
+                  </li> --}}
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Marksheet Template')}}</a>
+                  </li> --}}
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Final Marksheet Template')}}</a>
+                  </li> --}}
                 </ul>
               </li>
             </ul>

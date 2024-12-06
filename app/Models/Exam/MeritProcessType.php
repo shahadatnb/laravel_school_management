@@ -5,12 +5,9 @@ namespace App\Models\Exam;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ExamSubjectConfig extends Model
+class MeritProcessType extends Model
 {
     use HasFactory;
-
-    public function subject()
-    {
-        return $this->belongsTo(ExamSubject::class, 'subject_id');
-    }
+    public $timestamps = false;
+    protected $table = 'exam_merit_process_types';
 }

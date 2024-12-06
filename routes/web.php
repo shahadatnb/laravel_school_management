@@ -24,6 +24,7 @@ use App\Http\Controllers\Exam\ExamSubjectController;
 use App\Http\Controllers\Exam\ExamShortCodeController;
 use App\Http\Controllers\Exam\ExamGradeController;
 use App\Http\Controllers\Exam\ExamSubjectConfigController;
+use App\Http\Controllers\Exam\ExamConfigurationController;
 
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
@@ -121,8 +122,15 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         });
         
         Route::prefix('configation')->as('config.')->group(function() {
+            Route::get('subject/delete', [ExamSubjectConfigController::class,'destroy'])->name('subject.delete');
+            Route::get('subject/list', [ExamSubjectConfigController::class,'list'])->name('subject.list');
             Route::post('subject/mass_update', [ExamSubjectConfigController::class,'mass_update'])->name('subject.mass_update');
             Route::resource('subject', ExamSubjectConfigController::class)->except('show','create','edit');
+            Route::resource('exam_config', ExamConfigurationController::class)->except('show','create');
+
+            Route::get('final_mark_config', [ExamConfigurationController::class, 'finalMarkConfig'])->name('final_mark_config.index');
+            Route::get('final_mark_config/edit/{id}', [ExamConfigurationController::class, 'finalMarkConfigEdit'])->name('final_mark_config.edit');
+            Route::post('final_mark_config/update', [ExamConfigurationController::class, 'finalMarkConfigUpdate'])->name('final_mark_config.update');
 
         });
     });
