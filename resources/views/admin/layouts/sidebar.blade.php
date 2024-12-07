@@ -82,10 +82,13 @@
                   <li class="nav-item"><a href="{{ route("student.setup.class_config.index") }}" class="nav-link {{ (request()->routeIs('student.setup.class_config.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> <p>{{__('Class Config') }}</p></a>
                   </li>
+                  <li class="nav-item"><a href="{{ route("student.setup.group_config.index") }}" class="nav-link {{ (request()->routeIs('student.setup.group_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>{{__('Group Config') }}</p></a>
+                  </li>
                 </ul>
               </li>
               <li class="nav-item"><a href="{{ route("student.student.index") }}" class="nav-link {{ (request()->routeIs('student.student.*')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> <p>{{__('Student List') }}</p></a>
+                <i class="far fa-user nav-icon"></i> <p>{{__('Student List') }}</p></a>
               </li>
               <li class="nav-item"><a href="{{ route("student_statitics") }}" class="nav-link {{ (request()->routeIs('student_statitics')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> <p>{{__('Student Statistics') }}</p></a>
@@ -153,7 +156,7 @@
                   <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Exam')}}</a>
                   </li>
-                  <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                  <li class="nav-item"><a href="{{ route("exam.config.mark_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.mark_config.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Mark')}}</a>
                   </li>
                   <li class="nav-item"><a href="{{ route("exam.config.final_mark_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.final_mark_config.*')) ? ' active' : '' }}">

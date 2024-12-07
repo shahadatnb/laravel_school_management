@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 06, 2024 at 12:12 PM
+-- Generation Time: Dec 07, 2024 at 12:21 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -299,7 +299,7 @@ INSERT INTO `exam_lists` (`id`, `branch_id`, `name`, `serial`, `status`, `create
 
 CREATE TABLE `exam_merit_process_types` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -416,6 +416,20 @@ CREATE TABLE `exam_subject_configs` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `exam_subject_configs`
+--
+
+INSERT INTO `exam_subject_configs` (`id`, `branch_id`, `class_id`, `group_id`, `subject_id`, `subject_type_id`, `serial`, `merge`, `created_at`, `updated_at`) VALUES
+(19, 1, 11, 1, 1, 1, 0, 0, '2024-12-07 07:24:43', '2024-12-07 07:24:43'),
+(20, 1, 11, 1, 2, 1, 0, 0, '2024-12-07 07:24:43', '2024-12-07 07:24:43'),
+(21, 1, 11, 1, 3, 1, 0, 0, '2024-12-07 07:24:43', '2024-12-07 07:24:43'),
+(22, 1, 11, 1, 4, 1, 0, 0, '2024-12-07 07:24:43', '2024-12-07 07:24:43'),
+(23, 1, 11, 1, 5, 1, 0, 0, '2024-12-07 07:24:43', '2024-12-07 07:24:43'),
+(24, 1, 14, 1, 1, 1, 0, 0, '2024-12-07 07:25:26', '2024-12-07 07:25:26'),
+(25, 1, 14, 1, 3, 1, 0, 0, '2024-12-07 07:25:26', '2024-12-07 07:25:26'),
+(26, 1, 14, 1, 5, 1, 0, 0, '2024-12-07 07:25:26', '2024-12-07 07:25:26');
+
 -- --------------------------------------------------------
 
 --
@@ -424,7 +438,7 @@ CREATE TABLE `exam_subject_configs` (
 
 CREATE TABLE `exam_subject_types` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -475,7 +489,9 @@ CREATE TABLE `groups` (
 
 INSERT INTO `groups` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, 'General', 1, 1, '2024-11-29 13:06:05', '2024-11-29 13:06:05'),
-(2, 2, 'Bangla', 1, 1, '2024-12-02 02:44:13', '2024-12-02 02:44:13');
+(2, 2, 'Bangla', 1, 1, '2024-12-02 02:44:13', '2024-12-02 02:44:13'),
+(3, 1, 'Scince', 2, 1, '2024-12-07 07:53:17', '2024-12-07 07:53:17'),
+(4, 1, 'Arts', 3, 1, '2024-12-07 07:53:33', '2024-12-07 07:53:33');
 
 -- --------------------------------------------------------
 
@@ -493,6 +509,16 @@ CREATE TABLE `group_configs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `group_configs`
+--
+
+INSERT INTO `group_configs` (`id`, `branch_id`, `group_id`, `class_id`, `serial`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 11, 1, 1, '2024-12-07 07:51:32', '2024-12-07 07:51:32'),
+(2, 1, 1, 14, 2, 1, '2024-12-07 07:51:49', '2024-12-07 07:51:49'),
+(3, 1, 3, 17, 1, 1, '2024-12-07 07:54:05', '2024-12-07 07:54:05'),
+(4, 1, 4, 17, 5, 1, '2024-12-07 07:54:40', '2024-12-07 07:54:40');
 
 -- --------------------------------------------------------
 
@@ -1577,7 +1603,10 @@ INSERT INTO `semesters` (`id`, `branch_id`, `code`, `name`, `name_bn`, `serial`,
 (11, 1, NULL, 'Play', NULL, 1, 1, '2024-11-29 12:15:39', '2024-11-29 12:16:16'),
 (12, 2, NULL, 'Play', NULL, 1, 1, '2024-12-02 02:42:58', '2024-12-02 02:42:58'),
 (13, 2, NULL, 'One', NULL, 2, 1, '2024-12-02 02:43:08', '2024-12-02 02:43:08'),
-(14, 1, NULL, 'One', NULL, 2, 1, '2024-12-02 10:12:16', '2024-12-02 10:12:16');
+(14, 1, NULL, 'One', NULL, 2, 1, '2024-12-02 10:12:16', '2024-12-02 10:12:16'),
+(15, 1, NULL, 'Two', NULL, 3, 1, '2024-12-07 07:52:14', '2024-12-07 07:52:14'),
+(16, 1, NULL, 'Three', NULL, 4, 1, '2024-12-07 07:52:30', '2024-12-07 07:52:30'),
+(17, 1, NULL, 'Four', NULL, 5, 1, '2024-12-07 07:52:52', '2024-12-07 07:52:52');
 
 -- --------------------------------------------------------
 
@@ -2331,7 +2360,7 @@ ALTER TABLE `exam_subjects`
 -- AUTO_INCREMENT for table `exam_subject_configs`
 --
 ALTER TABLE `exam_subject_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `exam_subject_types`
@@ -2349,13 +2378,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `group_configs`
 --
 ALTER TABLE `group_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `invoices`
@@ -2457,7 +2486,7 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT for table `semesters`
 --
 ALTER TABLE `semesters`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `settings`

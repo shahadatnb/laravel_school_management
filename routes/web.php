@@ -18,6 +18,7 @@ use App\Http\Controllers\Student\SectionController;
 use App\Http\Controllers\Student\GroupController;
 use App\Http\Controllers\Student\CategoryController;
 use App\Http\Controllers\Student\ClassConfigController;
+use App\Http\Controllers\Student\GroupConfigController;
 
 use App\Http\Controllers\Exam\ExamListController;
 use App\Http\Controllers\Exam\ExamSubjectController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Exam\ExamShortCodeController;
 use App\Http\Controllers\Exam\ExamGradeController;
 use App\Http\Controllers\Exam\ExamSubjectConfigController;
 use App\Http\Controllers\Exam\ExamConfigurationController;
+use App\Http\Controllers\Exam\MarkConfigController;
 
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
@@ -103,6 +105,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::resource('group', GroupController::class);
             Route::resource('category', CategoryController::class);
             Route::resource('class_config', ClassConfigController::class);
+            Route::resource('group_config', GroupConfigController::class);
         });
 
         Route::get('student/admissionForm/{student}', [StudentController::class,'admissionForm'])->name('admissionForm');
@@ -127,6 +130,13 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::post('subject/mass_update', [ExamSubjectConfigController::class,'mass_update'])->name('subject.mass_update');
             Route::resource('subject', ExamSubjectConfigController::class)->except('show','create','edit');
             Route::resource('exam_config', ExamConfigurationController::class)->except('show','create');
+
+            Route::get('mark_config', [MarkConfigController::class, 'index'])->name('mark_config.index');
+            Route::get('get_group', [MarkConfigController::class, 'get_group'])->name('mark_config.get_group');
+            Route::get('get_subject_exam', [MarkConfigController::class, 'get_subject_exam'])->name('mark_config.get_subject_exam');
+            Route::get('get_short_code', [MarkConfigController::class, 'get_short_code'])->name('mark_config.get_short_code');
+            Route::post('save_config', [MarkConfigController::class, 'save_config'])->name('mark_config.save_config');
+            Route::get('get_config', [MarkConfigController::class, 'get_config'])->name('mark_config.get_config');
 
             Route::get('final_mark_config', [ExamConfigurationController::class, 'finalMarkConfig'])->name('final_mark_config.index');
             Route::get('final_mark_config/edit/{id}', [ExamConfigurationController::class, 'finalMarkConfigEdit'])->name('final_mark_config.edit');

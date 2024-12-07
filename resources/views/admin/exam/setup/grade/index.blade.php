@@ -79,7 +79,7 @@
                   <input type="text" name="grade_range" value="{{$grade->grade_range}}" class="form-control form-control-sm">
                 </td>
                 <td>
-                  {{ Form::submit('Update',array('class'=>'btn btn-primary')) }}
+                  {{ Form::submit('Update',array('class'=>'btn btn-primary btn-sm')) }}
                 </td>
               </tr>
               {!! Form::close() !!}
