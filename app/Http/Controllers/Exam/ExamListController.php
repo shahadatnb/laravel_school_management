@@ -37,6 +37,7 @@ class ExamListController extends Controller
 
         $examList = new ExamList();
         $examList->name = $request->name;
+        $examList->serial = $request->serial;
         $examList->status = $request->status;
         $examList->branch_id = session('branch')['id'];
         $examList->save();
@@ -67,6 +68,7 @@ class ExamListController extends Controller
 
         $examList->name = $request->name;
         $examList->status = $request->status;
+        $examList->serial = $request->serial;
         $examList->branch_id = session('branch')['id'];
         $examList->save();
 

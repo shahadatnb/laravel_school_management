@@ -117,7 +117,7 @@
                   <input type="number" name="serial[${value.id}]" value="${value.serial}" class="form-control form-control-sm">
                 </td>
                 <td>
-                  <input type="number" name="merge_id[${value.id}]" value="${value.merge_id}" class="form-control form-control-sm">  
+                  <input type="number" name="merge_id[${value.id}]" value="${value.merge}" class="form-control form-control-sm">  
                 </td>
                 <td>
                   <a href="#" data-id="${value.id}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></a>

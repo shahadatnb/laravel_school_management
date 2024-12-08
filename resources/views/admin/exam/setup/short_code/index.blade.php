@@ -87,7 +87,11 @@
                 <td>{{$short_code->pass_mark}}</td>
                 <td>{{$short_code->acceptance}}</td>
                 <td>
-                  {{-- <a href="{{route('exam.setup.shortCode.edit', $short_code->id)}}"><i class="fa fa-edit"></i></a> --}}
+                  <form class="delete" action="{{ route('exam.setup.examShortCode.destroy',$short_code->id) }}" method="post">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete This Item?')"><i class="fas fa-trash"></i> </button>
+                  </form>
                 </td>
               </tr>
               @endforeach

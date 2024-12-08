@@ -18,11 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('group_id')->references('id')->on('groups');
             $table->unsignedBigInteger('exam_id')->references('id')->on('exam_lists');
             $table->unsignedBigInteger('subject_id')->references('id')->on('exan_subjects');
-            $table->string('shortCode');
-            $table->unsignedSmallInteger('totalMark')->default(0);
-            $table->unsignedSmallInteger('PassMark')->default(0);
-            $table->unsignedTinyInteger('acceptance')->default(1);
-            $table->unsignedTinyInteger('SCMerge')->default(1);
+            $table->string('sc_title');
+            $table->unsignedSmallInteger('total_marks')->default(0);
+            $table->float('pass_mark')->default(0);
+            $table->float('acceptance')->default(1);
+            $table->unsignedTinyInteger('sc_merge')->default(1);
             $table->timestamps();
         });
     }

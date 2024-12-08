@@ -9,6 +9,8 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
+        @include('admin.layouts._message')
+        {!! Form::open(array('route'=>['exam.config.mark_config.save_config'])) !!}
         <div class="row">
           <div class="col-6">
             <div class="form-group">
@@ -50,7 +52,8 @@
             </table>
           </div>
         </div>
-          {{ Form::submit('Save',array('class'=>'btn btn-primary')) }}
+        {{ Form::submit('Save',array('class'=>'btn btn-primary')) }}
+        {!! Form::close() !!}          
       </div>
     </div>
     </div>
@@ -62,8 +65,7 @@
             </div>
         </div>
         <div class="card-body">
-          @include('admin.layouts._message')
-          {!! Form::open(array('route'=>['exam.config.subject.mass_update'])) !!}
+
           <table id="example1" class="table table-bordered table-striped table-sm">
             <thead>
             <tr>
@@ -78,8 +80,7 @@
               
             </tbody>
           </table>
-          {{ Form::submit('Update',array('class'=>'btn btn-primary')) }}
-          {!! Form::close() !!}
+          {{ Form::submit('Save',array('class'=>'btn btn-primary')) }}
         </div>
       </div>
     </div>
@@ -158,6 +159,7 @@
                 <td><input type="number" name="acceptance[${value.id}]" value="${value.acceptance}" class="form-control form-control-sm"></td>
                 <td><input type="number" name="sc_merge[${value.id}]" value="0" class="form-control form-control-sm"></td>
                 <td>
+                  <input type="hidden" name="sc_title[${value.id}]" value="${value.code_title}">
                   <a href="#" data-id="${value.id}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></a>
                 </td>
               </tr>
