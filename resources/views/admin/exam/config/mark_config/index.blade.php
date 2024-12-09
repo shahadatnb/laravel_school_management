@@ -65,22 +65,33 @@
             </div>
         </div>
         <div class="card-body">
-
-          <table id="example1" class="table table-bordered table-striped table-sm">
-            <thead>
-            <tr>
-              <th>{{__('Subject')}}</th>
-              <th>{{__('Subject Type')}}</th>
-              <th>{{__('Subject Serial')}}</th>
-              <th>{{__('Merge ID')}}</th>
-              <th>{{__('Action')}}</th>
-            </tr>
-            </thead>
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                {!! Form::label('class_id2', __('Class Name'),['class'=>'']) !!}
+                {!! Form::select('class_id', $semesters,null,['class'=>'form-control form-control-sm select2','id'=>'class_id2','required'=>true,'placeholder'=> __('Class Name')]) !!}
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                {!! Form::label('group_id2', __('Group Name'),['class'=>'']) !!}
+                {!! Form::select('group_id',[],null,['class'=>'form-control form-control-sm select2','id'=>'group_id2','required'=>true,'placeholder'=> __('Group Name')]) !!}
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                {!! Form::label('exam_id', __('Exam List'),['class'=>'']) !!}
+                {!! Form::select('exam_id', [],null,['class'=>'form-control form-control-sm select2','id'=>'exam_id','required'=>true,'placeholder'=> __('Exam List')]) !!}
+              </div>
+            </div>
+            <button type="button" id="get_config" class="btn btn-primary btn-sm btn-block">Search</button>
+          </div>
+          <table id="subject_config_list_table" class="table table-bordered table-striped table-sm mt-3">
             <tbody id="subject_config_list">
               
             </tbody>
           </table>
-          {{ Form::submit('Save',array('class'=>'btn btn-primary')) }}
+          {{ Form::submit('Download',array('class'=>'btn btn-primary','id'=>'download')) }}
         </div>
       </div>
     </div>
@@ -88,11 +99,10 @@
 
 @endsection
 @section('js')
+<script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js" integrity="sha512-PRJxIx+FR3gPzyBBl9cPt62DD7owFXVcfYv0CRNFAcLZeEYfht/PpPNTKHicPs+hQlULFhH2tTWdoxnd1UGu1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-    $(function () {
-      
-    });
     $("#class_id").change(function(){
       let class_id = $("#class_id").val();
       $.ajax({
@@ -171,67 +181,81 @@
       }
     });
 
-    $("#group_idggggggg").change(function(){
-      let class_id = $("#class_id").val();
-      let group_id = $("#group_id").val();
-      
-      if(class_id != '' && group_id != ''){
-        $("#subject_config_list").html('');
+    $("#class_id2").change(function(){
+      let class_id = $("#class_id2").val();
+      $.ajax({
+        type: "get",
+        url: "{{route('exam.config.mark_config.get_group_exam')}}",
+        data: {class_id:class_id},
+        success: function(data){
+          //console.log(data);
+          let htmlData = '';
+          data.groups.forEach(function(value,index){
+            htmlData += `
+            <option value="${value.id}">${value.name}</option>
+            `;
+          })
+          $("#group_id2").html(htmlData);
+
+          htmlData = '';
+          data.exams.forEach(function(value,index){
+            htmlData += `
+            <option value="${value.id}">${value.name}</option>
+            `;
+          })
+          $("#exam_id").html(htmlData);
+        }
+      });
+    });
+
+    $("#get_config").click(function(){
+      let class_id = $("#class_id2").val();
+      let group_id = $("#group_id2").val();
+      let exam_id = $("#exam_id").val();
+      if(class_id != '' && group_id != '' && exam_id != ''){
         $.ajax({
           type: "get",
-          url: "{{route('exam.config.subject.list')}}",
-          data: {class_id:class_id,group_id:group_id},
+          url: "{{route('exam.config.mark_config.get_config')}}",
+          data: {class_id:class_id,group_id:group_id,exam_id:exam_id},
           success: function(data){
-            console.log(data);
             let htmlData = '';
-            //let subjectTypes = parseJSON(data.subjectTypes);
-            //console.log(subjectTypes);
-            data.list.forEach(function(value,index){
-              htmlData += `
-              <tr>
-                <td>${value.subject}
-                  <input type="hidden" name="subject_config_id[${value.id}]" value="${value.id}">
-                </td>
-                <td>
-                  <select name="subject_type[${value.id}]" class="form-control form-control-sm">
-                    <option value="${value.subject_type_id}">${value.subject_type_name}</option>                    
-                    ${Object.keys(data.subjectTypes).map((key) => {
-                      return `<option value="${key}">${data.subjectTypes[key]}</option>`;
-                    })}
-                </td>
-                <td>
-                  <input type="number" name="serial[${value.id}]" value="${value.serial}" class="form-control form-control-sm">
-                </td>
-                <td>
-                  <input type="number" name="merge_id[${value.id}]" value="${value.merge_id}" class="form-control form-control-sm">  
-                </td>
-                <td>
-                  <a href="#" data-id="${value.id}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></a>
-                </td>
-              </tr>
-              `;
-            })
+            for (var key of Object.keys(data)) {
+              htmlData += `<tr>
+                <th>Subject Name</th>
+                <th>Short Code</th>
+                <th>Total Mark</th>
+                <th>Pass Mark</th>
+                <th>Acceptance</th>
+                <th>SC Merge</th>
+              </tr>`;
+              data[key].forEach(function(value2,index2){
+                htmlData += `<tr>
+                  <td>${value2.subject}</td>
+                  <td>${value2.sc_title}</td>
+                  <td>${value2.total_marks}</td>
+                  <td>${value2.pass_mark}</td>
+                  <td>${value2.acceptance}</td>
+                  <td>${value2.sc_merge}</td>
+                </tr>`;
+              });
+            };
             
-
             $("#subject_config_list").html(htmlData);
           }
-        });        
+        });
       }
     });
 
+    $("#download").click(function(){
+      var doc = new jsPDF()
 
-    $("#subject_config_list").on('click','.delete',function(){      
-      let id = $(this).data('id');
-      let tr = $(this).closest('tr');
-      $.ajax({
-        url: "{{route('exam.config.subject.delete')}}",
-        type: "get",
-        data: {id:id},
-        success: function(data){
-          tr.remove();
-        }
-      })
-      
+      doc.text("Hello world!", 10, 10);
+      doc.save("a4.pdf");
+    });
+
+
+    $("#subject_sc_list").on('click','.delete',function(){
+      $(this).closest('tr').remove();      
     });
   </script>
 @endsection

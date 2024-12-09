@@ -8,26 +8,18 @@ use App\Http\Controllers\Controller;
 
 class ExamSubjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $examSubject = ExamSubject::where('branch_id',session('branch')['id'])->get();
         return view('admin.exam.setup.exam_subject.index',compact('examSubject'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.exam.setup.exam_subject.createOrEdit');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -50,9 +42,6 @@ class ExamSubjectController extends Controller
         return view('admin.exam.setup.exam_subject.createOrEdit',compact('examSubject'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ExamSubject $examSubject)
     {
         $request->validate([

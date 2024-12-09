@@ -133,6 +133,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
 
             Route::get('mark_config', [MarkConfigController::class, 'index'])->name('mark_config.index');
             Route::get('get_group', [MarkConfigController::class, 'get_group'])->name('mark_config.get_group');
+            Route::get('get_group_exam', [MarkConfigController::class, 'get_group_exam'])->name('mark_config.get_group_exam');
             Route::get('get_subject_exam', [MarkConfigController::class, 'get_subject_exam'])->name('mark_config.get_subject_exam');
             Route::post('save_config', [MarkConfigController::class, 'save_config'])->name('mark_config.save_config');
             Route::get('get_config', [MarkConfigController::class, 'get_config'])->name('mark_config.get_config');

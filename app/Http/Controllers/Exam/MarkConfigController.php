@@ -13,9 +13,7 @@ use App\Models\Student\GroupConfig;
 
 class MarkConfigController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $semesters = Semester::where('branch_id',session('branch')['id'])->orderBy('serial','ASC')->pluck('name','id');
@@ -36,6 +34,29 @@ class MarkConfigController extends Controller
         return response()->json($group_arrs);
     }
 
+    public function get_group_exam(Request $request)
+    {
+        $groups = GroupConfig::where('class_id',$request->class_id)->where('branch_id',session('branch')['id'])->orderBy('serial','ASC')->get();
+        $group_arrs = [];
+        foreach ($groups as $key => $value) {
+            $group_arrs[$key] = [
+                'id' => $value->group_id,
+                'name' => $value->group? $value->group->name:'',
+            ];
+        }
+
+        $exams = ExamConfiguration::where('class_id',$request->class_id)->where('branch_id',session('branch')['id'])->orderBy('serial','ASC')->get();
+        $exam_arrs = [];
+        foreach ($exams as $key => $value) {
+            $exam_arrs[$key] = [
+                'id' => $value->exam_id,
+                'name' => $value->exam? $value->exam->name:'',
+            ];
+        }
+
+        return response()->json(['groups'=>$group_arrs,'exams'=>$exam_arrs]);
+    }
+
     public function get_subject_exam(Request $request)
     {
         if(empty($request->class_id) || empty($request->group_id)){
@@ -45,7 +66,7 @@ class MarkConfigController extends Controller
         $subject_arrs = [];
         foreach ($subjects as $key => $value) {
             $subject_arrs[$key] = [
-                'id' => $value->id,
+                'id' => $value->subject_id,
                 'name' => $value->subject? $value->subject->name:'',
             ];
         }
@@ -53,7 +74,7 @@ class MarkConfigController extends Controller
         $exam_arrs = [];
         foreach ($exams as $key => $value) {
             $exam_arrs[$key] = [
-                'id' => $value->id,
+                'id' => $value->exam_id,
                 'name' => $value->exam? $value->exam->name:'',
             ];
         }
@@ -102,8 +123,24 @@ class MarkConfigController extends Controller
 
     public function get_config(Request $request)
     {
-        
+        $markConfigs = MarkConfig::where('branch_id',session('branch')['id'])->where('class_id',$request->class_id)->where('group_id',$request->group_id)->where('exam_id',$request->exam_id)
+        ->with('subject')->get();
+        $datas = [];
+        foreach ($markConfigs->groupBy('subject_id') as $markConfig) {
+            foreach ($markConfig as $key => $value) {
+                $datas[$value->subject_id][$key] = [
+                    'id' => $value->id,
+                    'subject_id' => $value->subject_id,
+                    'subject' => $value->subject? $value->subject->name:'',
+                    'sc_title' => $value->sc_title,
+                    'total_marks' => $value->total_marks,
+                    'pass_mark' => $value->pass_mark,
+                    'acceptance' => $value->acceptance,
+                    'sc_merge' => $value->sc_merge,
+                ];
+            }            
+        }
+        return response()->json($datas);
     }
-
 
 }

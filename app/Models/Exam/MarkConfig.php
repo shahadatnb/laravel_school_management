@@ -19,4 +19,8 @@ class MarkConfig extends Model
     public function exam() {
         return $this->belongsTo(ExamList::class, 'exam_id');
     }
+
+    public function subject() {
+        return $this->belongsTo(ExamSubject::class, 'subject_id');
+    }
 }
