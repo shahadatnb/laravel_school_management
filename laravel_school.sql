@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 09, 2024 at 11:57 AM
+-- Generation Time: Dec 10, 2024 at 12:41 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -43,7 +43,8 @@ CREATE TABLE `academic_years` (
 
 INSERT INTO `academic_years` (`id`, `branch_id`, `year`, `sl`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, '2022', 0, 1, NULL, '2024-11-29 04:23:21'),
-(2, 1, '2023', 1, 1, '2024-11-29 04:22:25', '2024-11-29 04:23:06');
+(2, 1, '2023', 1, 1, '2024-11-29 04:22:25', '2024-11-29 04:23:06'),
+(3, 1, '2024', 0, 1, '2024-12-10 06:59:54', '2024-12-10 06:59:54');
 
 -- --------------------------------------------------------
 
@@ -89,6 +90,7 @@ CREATE TABLE `branches` (
   `head_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `favicon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `academic_year_id` int UNSIGNED DEFAULT NULL,
   `exp_date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -98,10 +100,10 @@ CREATE TABLE `branches` (
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_sign`, `head_email`, `head_contact`, `logo`, `favicon`, `exp_date`, `created_at`, `updated_at`) VALUES
-(1, 'Branch One', 'branch1', 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', '1732516903.png', '1732517045.png', NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:17'),
-(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', NULL, 'ar@gmail.com', '01757839516', NULL, NULL, NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
-(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, '2024-11-25 11:22:00', '2024-11-25 11:22:00');
+INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_sign`, `head_email`, `head_contact`, `logo`, `favicon`, `academic_year_id`, `exp_date`, `created_at`, `updated_at`) VALUES
+(1, 'Branch One', NULL, 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', '1732516903.png', '1732517045.png', 3, NULL, '2024-11-24 09:07:41', '2024-12-10 07:00:36'),
+(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', NULL, 'ar@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
+(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '2024-11-25 11:22:00', '2024-11-25 11:22:00');
 
 -- --------------------------------------------------------
 
@@ -295,6 +297,46 @@ INSERT INTO `exam_lists` (`id`, `branch_id`, `name`, `serial`, `status`, `create
 (2, 1, '1st Terminal', 2, 1, '2024-12-04 06:54:36', '2024-12-08 09:36:27'),
 (3, 1, '2nd Terminal', 3, 1, '2024-12-08 09:34:32', '2024-12-08 09:36:39'),
 (4, 1, 'Final', 4, 1, '2024-12-08 09:35:58', '2024-12-08 09:35:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_marks`
+--
+
+CREATE TABLE `exam_marks` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED NOT NULL,
+  `academic_year_id` bigint UNSIGNED NOT NULL,
+  `student_id` bigint UNSIGNED NOT NULL,
+  `mark_config_id` bigint UNSIGNED NOT NULL,
+  `is_absent` tinyint UNSIGNED DEFAULT NULL,
+  `marks` double(6,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_marks`
+--
+
+INSERT INTO `exam_marks` (`id`, `branch_id`, `academic_year_id`, `student_id`, `mark_config_id`, `is_absent`, `marks`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 1, 3, NULL, 50.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(2, 1, 3, 1, 4, NULL, 62.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(3, 1, 3, 3, 3, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(4, 1, 3, 3, 4, NULL, 56.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(5, 1, 3, 4, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(6, 1, 3, 4, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(7, 1, 3, 7, 3, NULL, 47.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(8, 1, 3, 7, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(9, 1, 3, 10, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(10, 1, 3, 10, 4, NULL, 25.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(11, 1, 3, 12, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(12, 1, 3, 12, 4, NULL, 65.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(13, 1, 3, 13, 3, 1, NULL, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(14, 1, 3, 13, 4, 1, NULL, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(15, 1, 3, 14, 3, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45'),
+(16, 1, 3, 14, 4, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45');
 
 -- --------------------------------------------------------
 
@@ -1439,7 +1481,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (128, '2024_12_05_142938_create_subject_types_table', 52),
 (129, '2024_12_06_144851_create_merit_process_types_table', 53),
 (130, '2024_12_06_145029_create_exam_configurations_table', 53),
-(132, '2024_12_06_161154_create_final_mark_configs_table', 54);
+(132, '2024_12_06_161154_create_final_mark_configs_table', 54),
+(133, '2024_12_10_111006_create_exam_marks_table', 55);
 
 -- --------------------------------------------------------
 
@@ -1843,73 +1886,6 @@ INSERT INTO `students` (`id`, `branch_id`, `reg_no`, `class_roll`, `name`, `date
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student_marks`
---
-
-CREATE TABLE `student_marks` (
-  `id` bigint UNSIGNED NOT NULL,
-  `semester_id` int UNSIGNED NOT NULL,
-  `student_id` bigint UNSIGNED NOT NULL,
-  `paid_confirm` tinyint UNSIGNED NOT NULL DEFAULT '0',
-  `paid_confirm_by` smallint UNSIGNED NOT NULL DEFAULT '0',
-  `attendance` tinyint UNSIGNED NOT NULL DEFAULT '0',
-  `written_marks` decimal(5,2) UNSIGNED NOT NULL DEFAULT '0.00',
-  `oral_marks` decimal(5,2) UNSIGNED NOT NULL DEFAULT '0.00',
-  `total_marks` decimal(6,2) UNSIGNED NOT NULL DEFAULT '0.00',
-  `mark_entry_by` smallint UNSIGNED NOT NULL DEFAULT '0',
-  `mark_locked` tinyint UNSIGNED NOT NULL DEFAULT '0',
-  `mark_locked_by` tinyint UNSIGNED DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `student_marks`
---
-
-INSERT INTO `student_marks` (`id`, `semester_id`, `student_id`, `paid_confirm`, `paid_confirm_by`, `attendance`, `written_marks`, `oral_marks`, `total_marks`, `mark_entry_by`, `mark_locked`, `mark_locked_by`, `created_at`, `updated_at`) VALUES
-(2, 1, 1, 1, 0, 50, '15.00', '15.00', '80.00', 0, 0, NULL, NULL, '2022-11-06 01:12:22'),
-(3, 1, 2, 1, 0, 80, '80.00', '80.00', '240.00', 1, 0, NULL, '2022-11-02 08:09:57', '2023-09-27 05:09:03'),
-(4, 1, 3, 1, 0, 50, '55.00', '60.00', '53.75', 1, 0, NULL, '2022-11-02 08:13:59', '2023-01-14 16:34:30'),
-(5, 1, 4, 1, 0, 40, '20.00', '10.00', '70.00', 1, 0, NULL, '2022-11-02 08:17:39', '2023-01-14 16:43:56'),
-(6, 2, 1, 0, 0, 50, '50.00', '50.00', '50.00', 0, 0, NULL, '2022-11-04 12:11:42', '2022-11-05 08:47:30'),
-(7, 3, 1, 0, 0, 80, '80.00', '90.00', '82.50', 0, 0, NULL, '2022-11-04 12:22:35', '2022-11-05 08:48:23'),
-(8, 4, 1, 0, 0, 60, '70.00', '50.00', '60.00', 0, 0, NULL, '2022-11-04 12:23:54', '2022-11-05 08:48:31'),
-(10, 1, 5, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2022-11-06 01:33:02', '2022-11-06 01:33:02'),
-(11, 1, 6, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2022-11-06 01:35:03', '2022-11-06 01:35:03'),
-(12, 1, 7, 0, 0, 10, '10.00', '11.00', '31.00', 1, 0, NULL, '2022-11-02 08:17:39', '2023-01-15 03:29:38'),
-(13, 2, 4, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2023-01-14 16:37:13', '2023-01-14 16:37:13'),
-(14, 3, 4, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2023-01-14 16:38:41', '2023-01-14 16:38:41'),
-(16, 1, 8, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2023-01-17 10:35:22', '2023-01-17 10:35:22'),
-(17, 1, 9, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2023-09-06 04:27:30', '2023-09-06 04:27:30'),
-(18, 1, 10, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2023-09-12 08:30:25', '2023-09-12 08:30:25'),
-(19, 1, 11, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2023-12-25 05:14:10', '2023-12-25 05:14:10'),
-(20, 1, 12, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-01-01 03:07:57', '2024-01-01 03:07:57'),
-(21, 7, 2, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-01-07 05:13:59', '2024-01-07 05:13:59'),
-(22, 8, 2, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-01-07 05:14:14', '2024-01-07 05:14:14'),
-(23, 1, 13, 0, 0, 0, '0.00', '0.00', '0.00', 0, 0, NULL, '2024-12-02 11:54:48', '2024-12-02 11:54:48');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `student_payments`
---
-
-CREATE TABLE `student_payments` (
-  `id` bigint UNSIGNED NOT NULL,
-  `student_id` bigint UNSIGNED NOT NULL,
-  `voucher_date` date NOT NULL,
-  `invoice_head_id` int UNSIGNED NOT NULL,
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `entry_by` smallint UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `taxonomies`
 --
 
@@ -2069,6 +2045,12 @@ ALTER TABLE `exam_grade_defaults`
 -- Indexes for table `exam_lists`
 --
 ALTER TABLE `exam_lists`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `exam_marks`
+--
+ALTER TABLE `exam_marks`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2290,22 +2272,6 @@ ALTER TABLE `students`
   ADD KEY `students_semester_id_index` (`semester_id`) USING BTREE;
 
 --
--- Indexes for table `student_marks`
---
-ALTER TABLE `student_marks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_marks_student_id_foreign` (`student_id`);
-
---
--- Indexes for table `student_payments`
---
-ALTER TABLE `student_payments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_payments_invoice_head_id_foreign` (`invoice_head_id`),
-  ADD KEY `student_payments_entry_by_foreign` (`entry_by`),
-  ADD KEY `student_payments_student_id_index` (`student_id`);
-
---
 -- Indexes for table `taxonomies`
 --
 ALTER TABLE `taxonomies`
@@ -2350,7 +2316,7 @@ ALTER TABLE `user_branches`
 -- AUTO_INCREMENT for table `academic_years`
 --
 ALTER TABLE `academic_years`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `attendances`
@@ -2405,6 +2371,12 @@ ALTER TABLE `exam_grade_defaults`
 --
 ALTER TABLE `exam_lists`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `exam_marks`
+--
+ALTER TABLE `exam_marks`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `exam_mark_configs`
@@ -2518,7 +2490,7 @@ ALTER TABLE `menu_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -2587,18 +2559,6 @@ ALTER TABLE `students`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `student_marks`
---
-ALTER TABLE `student_marks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
--- AUTO_INCREMENT for table `student_payments`
---
-ALTER TABLE `student_payments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `taxonomies`
 --
 ALTER TABLE `taxonomies`
@@ -2660,14 +2620,6 @@ ALTER TABLE `invoice_payments`
 ALTER TABLE `roles_permissions`
   ADD CONSTRAINT `roles_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `roles_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `student_payments`
---
-ALTER TABLE `student_payments`
-  ADD CONSTRAINT `student_payments_entry_by_foreign` FOREIGN KEY (`entry_by`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `student_payments_invoice_head_id_foreign` FOREIGN KEY (`invoice_head_id`) REFERENCES `invoice_heads` (`id`),
-  ADD CONSTRAINT `student_payments_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users_permissions`

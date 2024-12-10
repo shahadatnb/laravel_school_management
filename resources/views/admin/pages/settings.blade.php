@@ -22,8 +22,8 @@
         </div>
         <div class="col-12 col-md-6">
           <div class="form-group">
-              {!! Form::label('subdomain', __('Subdomain'),['class'=>'']) !!}
-              {!! Form::text('subdomain',null,['class'=>'form-control','requerd'=>'requerd','placeholder'=> __('Subdomain')]) !!}
+              {!! Form::label('academic_year_id', __('Academic Year'),['class'=>'']) !!}
+              {!! Form::select('academic_year_id',$academic_years,null,['class'=>'form-control','requerd'=>'requerd','placeholder'=> __('Academic Year')]) !!}
           </div>  
         </div>
       </div>

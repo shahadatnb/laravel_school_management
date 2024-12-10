@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\Menu;
 use App\Models\MenuItem;
+use App\Models\Student\AcademicYear;
 
 class AdminController extends Controller
 {
@@ -34,14 +35,15 @@ class AdminController extends Controller
     {
         $this->middleware('branch');
         $settings = Branch::where('id', session('branch')['id'])->first();
-        return view('admin.pages.settings',compact('settings'));
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        return view('admin.pages.settings',compact('settings','academic_years'));
     }
 
     public function saveSetting(Request $request)
     {
         $this->validate(request(),[
             'name' => 'required',
-            'subdomain' => 'required|alpha_dash|unique:branches,subdomain,'.$request->id,
+            //'subdomain' => 'required|alpha_dash|unique:branches,subdomain,'.$request->id,
             'address' => 'required',
             'contact' => 'nullable',
             'email' => 'nullable|email',
@@ -64,6 +66,7 @@ class AdminController extends Controller
         $branch->head_email = $request->head_email;
         $branch->head_contact = $request->head_contact;
         $branch->head_designation = $request->head_designation;
+        $branch->academic_year_id = $request->academic_year_id;
         if(isset($request->logo)){
             if ($branch->logo != '' && file_exists( public_path('upload\\site_file\\') . $branch->logo)) {
                 unlink(public_path('upload\\site_file\\') . $branch->logo);

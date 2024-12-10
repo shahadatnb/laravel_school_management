@@ -27,6 +27,7 @@ use App\Http\Controllers\Exam\ExamGradeController;
 use App\Http\Controllers\Exam\ExamSubjectConfigController;
 use App\Http\Controllers\Exam\ExamConfigurationController;
 use App\Http\Controllers\Exam\MarkConfigController;
+use App\Http\Controllers\Exam\ExamMarkController;
 
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
@@ -141,7 +142,20 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::get('final_mark_config', [ExamConfigurationController::class, 'finalMarkConfig'])->name('final_mark_config.index');
             Route::get('final_mark_config/edit/{id}', [ExamConfigurationController::class, 'finalMarkConfigEdit'])->name('final_mark_config.edit');
             Route::post('final_mark_config/update', [ExamConfigurationController::class, 'finalMarkConfigUpdate'])->name('final_mark_config.update');
+            
+        });
 
+        Route::prefix('marks')->as('mark.')->group(function() {
+            Route::get('get_exam_group',[ExamMarkController::class,'get_exam_group'])->name('get_exam_group');
+            Route::get('get_subject',[ExamMarkController::class,'get_subject'])->name('get_subject');
+
+            Route::get('input',[ExamMarkController::class,'input'])->name('input');
+            Route::get('get_input_student',[ExamMarkController::class,'get_input_student'])->name('get_input_student');
+            Route::post('input_save',[ExamMarkController::class,'input_save'])->name('input_save');
+
+            Route::get('update',[ExamMarkController::class,'update'])->name('update');
+            Route::get('get_update_student',[ExamMarkController::class,'get_update_student'])->name('get_update_student');
+            Route::post('update_save',[ExamMarkController::class,'update_save'])->name('update_save');
         });
     });
 
@@ -195,26 +209,28 @@ Route::group(['prefix'=>'student','middleware'=> ['auth']], function(){
 });
 
 
-Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth']], function(){
-    Route::resource('users', UsersController::class);
-    Route::resource('branch', BranchController::class);
-    Route::resource('location', LocationController::class);
-
-    Route::resource('menus',MenuController::class);
+Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth','branch']], function(){
     Route::post('/menuItemStore', [MenuController::class, 'menuItemStore'])->name('menuItem.store');
     Route::post('/menuItemUpdate/{id}', [MenuController::class, 'menuItemUpdate'])->name('menuItem.update');
     Route::get('/menuItemEdit/{id}', [MenuController::class,'menuItemEdit'])->name('menuItem.edit');
     Route::get('/menuItemDelete/{id}', [MenuController::class,'menuItemDelete'])->name('menuItem.delete');
     Route::post('menu_sl', [MenuController::class, 'menuSl'])->name('menu_sl');
+    
+    Route::get('/siteCache', [AdminController::class, 'siteCache'])->name('siteCache');
+    Route::get('/basic-settings', [AdminController::class, 'settings'])->name('settings');
+    Route::put('/saveSetting', [AdminController::class,'saveSetting'])->name('saveSetting');
+});
+
+Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth','role:superadmin,admin']], function(){
+    Route::resource('users', UsersController::class);
+    Route::resource('branch', BranchController::class);
+    Route::resource('location', LocationController::class);
+    Route::resource('menus',MenuController::class);
 
     Route::post('/assignPermission/{user}', [UsersController::class, 'assignPermission'])->name('user.assignPermission');
     Route::post('/assignBranch/{user}', [UsersController::class, 'assignBranch'])->name('user.assignBranch');
     Route::post('/user-ban', [UsersController::class, 'ban'])->name('user-ban');
     Route::get('/user-unban/{id}', [UsersController::class, 'unban'])->name('user-unban');
-
-    Route::get('/siteCache', [AdminController::class, 'siteCache'])->name('siteCache');
-    Route::get('/basic-settings', [AdminController::class, 'settings'])->name('settings');
-    Route::put('/saveSetting', [AdminController::class,'saveSetting'])->name('saveSetting');
 });
 
 Route::group(['prefix'=>'admin','middleware'=> ['auth','role:superadmin']], function(){

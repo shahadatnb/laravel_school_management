@@ -176,6 +176,23 @@
                   </li> --}}
                 </ul>
               </li>
+              <li class="nav-item has-treeview {{ (request()->routeIs('exam.mark.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('exam.mark.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tasks"></i>
+                  <p>
+                    Marks
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("exam.mark.input") }}" class="nav-link {{ (request()->routeIs('exam.mark.input')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Mark Input')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.mark.update") }}" class="nav-link {{ (request()->routeIs('exam.mark.update')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Mark Update')}}</a>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </li>
 
