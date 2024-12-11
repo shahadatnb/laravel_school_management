@@ -1,12 +1,12 @@
 @extends('admin.layouts.layout')
-@section('title', __("Mark Input"))
+@section('title', __("Mark Update"))
 @section('css')
 
 @endsection
 @section('content')
 <div class="card">
   <div class="card-header">
-      <h3 class="card-title">{{__('Mark Input')}}</h3>
+      <h3 class="card-title">{{__('Mark Update')}}</h3>
       <div class="card-tools">
         {{-- <a class="btn btn-primary btn-sm" href="{{ route('exam.setup.examList.create')}}">New Item</a> --}}
       </div>
@@ -57,7 +57,7 @@
   </div>
   <div class="card-body">
     @include('admin.layouts._message')
-    {!! Form::open(array('route'=>['exam.mark.input_save'],'id'=>'mark_input_form')) !!}
+    {!! Form::open(array('route'=>['exam.mark.update_save'],'id'=>'mark_input_form')) !!}
     <table id="example1" class="table table-bordered table-striped table-sm">
       <thead>
       <tr id="student_header">			
@@ -91,6 +91,7 @@
           //console.log(data);
           let htmlData = '';
           data.groups.forEach(function(value,index){
+          //for (var key of Object.keys(data.groups)) {
             htmlData += `
             <option value="${value.id}">${value.name}</option>
             `;
@@ -139,29 +140,35 @@
       $("#student_header .head_td").remove();
       $.ajax({
         type: "get",
-        url: "{{route('exam.mark.get_input_student')}}",
+        url: "{{route('exam.mark.get_update_student')}}",
         data: {academic_year_id:academic_year_id,section_id:section_id,group_id:group_id,exam_id:exam_id,subject_id:subject_id},
         success: function(data){
           if(data.status == true){
             console.log(data);
             let htmlData = '';
             let headData = '';
-            data.mark_configs.forEach(function(mark_config,index){
+            let mark_configs = Object.keys(data.mark_configs).map((key) => data.mark_configs[key]);
+            //console.log(mark_configs);
+            mark_configs.forEach(function(mark_config,index){
+              //console.log(mark_config);
               headData += `
               <th class="head_td">${mark_config.sc_title}</th>
               `;
             });
             $("#student_header").append(headData);
-            data.students.forEach(function(student,index){
+            let students = Object.keys(data.students).map((key) => data.students[key]);
+            students.forEach(function(student,index){
               htmlData += `
               <tr>
                 <td>${student.name}</td>
                 <td>${student.reg_no}</td>
                 <td>${student.class_roll}</td>
-                <td><input name="is_absent[${student.id}]" type="checkbox" value="1" class="form-control form-control-sm"></td>`;
-                data.mark_configs.forEach(function(mark_config,index2){
-                    htmlData += `<td><input name="mark_list[${student.id}][${mark_config.id}]" type="number" step="0.1" max="${mark_config.total_marks}" value="" class="form-control form-control-sm"></td>`;
-                });
+                <td><input name="is_absent[${student.id}]" type="checkbox" ${student.is_absent == 1 ? 'checked' : ''}  value="1" class="form-control form-control-sm"></td>`;
+                let marks = Object.keys(student.marks).map((key) => student.marks[key]);
+                console.log(marks);
+                marks.forEach(function(mark,index2){
+                  htmlData += `<td><input name="mark_list[${student.id}][${mark.id}]" type="number" step="0.1" max="" value="${mark.mark}" class="form-control form-control-sm"></td>`;
+                })
               htmlData += `</tr>`;
             });
             //console.log(data);
@@ -190,7 +197,6 @@
           if(data.status == true){
             //console.log(data);
             alert(data.message);
-            $("#student_list").empty();
           }else{
             console.log(data);
             //alert(data.errors);

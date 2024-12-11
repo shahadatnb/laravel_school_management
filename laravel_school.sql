@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 10, 2024 at 12:41 PM
+-- Generation Time: Dec 11, 2024 at 11:03 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -309,6 +309,7 @@ CREATE TABLE `exam_marks` (
   `branch_id` bigint UNSIGNED NOT NULL,
   `academic_year_id` bigint UNSIGNED NOT NULL,
   `student_id` bigint UNSIGNED NOT NULL,
+  `section_id` int UNSIGNED DEFAULT NULL,
   `mark_config_id` bigint UNSIGNED NOT NULL,
   `is_absent` tinyint UNSIGNED DEFAULT NULL,
   `marks` double(6,2) DEFAULT NULL,
@@ -320,23 +321,53 @@ CREATE TABLE `exam_marks` (
 -- Dumping data for table `exam_marks`
 --
 
-INSERT INTO `exam_marks` (`id`, `branch_id`, `academic_year_id`, `student_id`, `mark_config_id`, `is_absent`, `marks`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 1, 3, NULL, 50.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(2, 1, 3, 1, 4, NULL, 62.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(3, 1, 3, 3, 3, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(4, 1, 3, 3, 4, NULL, 56.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(5, 1, 3, 4, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(6, 1, 3, 4, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(7, 1, 3, 7, 3, NULL, 47.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(8, 1, 3, 7, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(9, 1, 3, 10, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(10, 1, 3, 10, 4, NULL, 25.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(11, 1, 3, 12, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(12, 1, 3, 12, 4, NULL, 65.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(13, 1, 3, 13, 3, 1, NULL, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(14, 1, 3, 13, 4, 1, NULL, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(15, 1, 3, 14, 3, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45'),
-(16, 1, 3, 14, 4, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45');
+INSERT INTO `exam_marks` (`id`, `branch_id`, `academic_year_id`, `student_id`, `section_id`, `mark_config_id`, `is_absent`, `marks`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 1, 1, 3, NULL, 50.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(2, 1, 3, 1, 1, 4, NULL, 62.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(3, 1, 3, 3, 1, 3, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(4, 1, 3, 3, 1, 4, NULL, 56.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(5, 1, 3, 4, 1, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(6, 1, 3, 4, 1, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(7, 1, 3, 7, 1, 3, NULL, 47.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(8, 1, 3, 7, 1, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(9, 1, 3, 10, 1, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(10, 1, 3, 10, 1, 4, NULL, 25.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
+(11, 1, 3, 12, 1, 3, 1, NULL, '2024-12-10 12:40:44', '2024-12-11 10:52:00'),
+(12, 1, 3, 12, 1, 4, 1, NULL, '2024-12-10 12:40:44', '2024-12-11 10:52:01'),
+(13, 1, 3, 13, 1, 3, NULL, 15.00, '2024-12-10 12:40:44', '2024-12-11 10:48:45'),
+(14, 1, 3, 13, 1, 4, NULL, 30.00, '2024-12-10 12:40:44', '2024-12-11 10:48:45'),
+(15, 1, 3, 14, 1, 3, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45'),
+(16, 1, 3, 14, 1, 4, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45'),
+(17, 1, 3, 2, 7, 5, NULL, 54.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
+(18, 1, 3, 2, 7, 6, NULL, 88.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
+(19, 1, 3, 5, 7, 5, NULL, 45.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
+(20, 1, 3, 5, 7, 6, NULL, 65.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
+(21, 1, 3, 6, 7, 5, NULL, 25.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
+(22, 1, 3, 6, 7, 6, NULL, 65.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
+(23, 1, 3, 8, 7, 5, NULL, 32.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
+(24, 1, 3, 8, 7, 6, NULL, 78.00, '2024-12-11 05:06:19', '2024-12-11 05:06:19'),
+(25, 1, 3, 9, 7, 5, NULL, 52.00, '2024-12-11 05:06:19', '2024-12-11 05:06:19'),
+(26, 1, 3, 9, 7, 6, NULL, 32.00, '2024-12-11 05:06:19', '2024-12-11 05:06:19'),
+(27, 1, 3, 2, 7, 1, NULL, 45.00, '2024-12-11 05:10:12', '2024-12-11 05:10:12'),
+(28, 1, 3, 2, 7, 2, NULL, 56.00, '2024-12-11 05:10:12', '2024-12-11 05:10:12'),
+(29, 1, 3, 5, 7, 1, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(30, 1, 3, 5, 7, 2, NULL, 78.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(31, 1, 3, 6, 7, 1, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(32, 1, 3, 6, 7, 2, NULL, 12.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(33, 1, 3, 8, 7, 1, NULL, 45.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(34, 1, 3, 8, 7, 2, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(35, 1, 3, 9, 7, 1, NULL, 45.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(36, 1, 3, 9, 7, 2, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
+(37, 1, 3, 2, NULL, 3, NULL, 45.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(38, 1, 3, 2, NULL, 4, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(39, 1, 3, 5, NULL, 3, NULL, 89.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(40, 1, 3, 5, NULL, 4, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(41, 1, 3, 6, NULL, 3, NULL, 56.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(42, 1, 3, 6, NULL, 4, NULL, 45.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(43, 1, 3, 8, NULL, 3, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(44, 1, 3, 8, NULL, 4, NULL, 89.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(45, 1, 3, 9, NULL, 3, NULL, 56.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
+(46, 1, 3, 9, NULL, 4, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43');
 
 -- --------------------------------------------------------
 
@@ -1869,19 +1900,19 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `branch_id`, `reg_no`, `class_roll`, `name`, `dateOfBirth`, `mobile`, `religion`, `section_id`, `semester_id`, `fathersName`, `mobileFather`, `mothersName`, `mobileMother`, `sex`, `presentVillage`, `presentPost`, `presentUpazila`, `presentZila`, `permanentVillage`, `permanentPost`, `permanentUpazila`, `permanentZila`, `studentBirthRegNo`, `shift_id`, `group_id`, `category_id`, `photo`, `Comment`, `jscBoard`, `jscResistration`, `jscExamYear`, `jscBoardRoll`, `jscCgpa`, `guardianName`, `mobileGuardian`, `guardianNID`, `guardianRelation`, `MISStudentID`, `Bank_Mobile`, `accountName`, `accountNumber`, `academic_year_id`, `others`, `created_at`, `updated_at`) VALUES
-(1, 1, '20221001', 20221001, 'শাহাদৎ হোসেন', NULL, '01757839516', 'Islam', 1, 6, 'মোস্তফা কামাল', '01912624881', 'সাজেদা বেগম', '01912624882', 'Male', NULL, 'kharkhari', 545, 391, 'Kharkhari, Rajshahi', 'kharkhari', 545, 391, NULL, 1, 1, NULL, 'students/1707924977.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 'মোস্তফা কামাল', '01912624883', '5465652623', 'Father', NULL, NULL, NULL, NULL, NULL, NULL, '2022-10-07 03:59:48', '2024-02-14 15:36:17'),
-(2, 1, '20223001', 20223001, 'Saima', '2014-07-10', '01757839516', 'Islam', 5, 1, 'Shahadat Hosain', '01757839516', 'Azmira Khatun', NULL, 'Female', 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, NULL, 1, 1, NULL, 'students/1709823888.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:09:57', '2024-03-07 15:04:48'),
-(3, 1, '20221011', 20221011, 'Mamun', '2022-08-09', '01757839516', 'Islam', 1, 2, 'Sumon', '01757839516', 'Azmira Khatun', '01757839516', 'Male', 'Kechuatoil', 'Kharkhari', 499, 380, 'Kechuatoil', 'Kharkhari', 405, 380, NULL, 1, 1, NULL, 'students/1709823983.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:13:59', '2024-03-07 15:06:23'),
-(4, 1, '20221002', 20221002, 'Masun', '2022-11-15', '01757839516', NULL, 1, 2, 'Shahadat Hosain', 'বাংলাদেশি', 'Azmira Khatun', NULL, 'Male', 'Kechuatoil', 'Kharkhari', 403, 339, 'Kechuatoil', 'Kharkhari', 403, 339, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:17:39', '2024-01-09 03:04:32'),
-(5, 1, '20172001', 20172001, 'Abu Ahmed Rafi', '2006-02-01', '01757839516', NULL, 5, 1, 'Azam Ali', 'বাংলাদেশি', 'Rojeda', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:33:02', '2024-01-09 03:04:32'),
-(6, 1, '20172002', 20172002, 'Selim', '2014-07-10', '01757839516', NULL, 5, 1, 'Sumon', 'বাংলাদেশি', 'Mother', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:35:03', '2024-01-09 03:04:32'),
+(1, 1, '20221001', 20221001, 'শাহাদৎ হোসেন', NULL, '01757839516', 'Islam', 1, 1, 'মোস্তফা কামাল', '01912624881', 'সাজেদা বেগম', '01912624882', 'Male', NULL, 'kharkhari', 545, 391, 'Kharkhari, Rajshahi', 'kharkhari', 545, 391, NULL, 1, 1, NULL, 'students/1707924977.jpg', NULL, NULL, NULL, NULL, NULL, NULL, 'মোস্তফা কামাল', '01912624883', '5465652623', 'Father', NULL, NULL, NULL, NULL, NULL, NULL, '2022-10-07 03:59:48', '2024-02-14 15:36:17'),
+(2, 1, '20223001', 20223001, 'Saima', '2014-07-10', '01757839516', 'Islam', 7, 1, 'Shahadat Hosain', '01757839516', 'Azmira Khatun', NULL, 'Female', 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, 'নারিকেলবাড়িয়া', 'খড়খড়ি', 545, 391, NULL, 1, 1, NULL, 'students/1709823888.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:09:57', '2024-03-07 15:04:48'),
+(3, 1, '20221011', 20221011, 'Mamun', '2022-08-09', '01757839516', 'Islam', 1, 1, 'Sumon', '01757839516', 'Azmira Khatun', '01757839516', 'Male', 'Kechuatoil', 'Kharkhari', 499, 380, 'Kechuatoil', 'Kharkhari', 405, 380, NULL, 1, 1, NULL, 'students/1709823983.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:13:59', '2024-03-07 15:06:23'),
+(4, 1, '20221002', 20221002, 'Masun', '2022-11-15', '01757839516', NULL, 1, 1, 'Shahadat Hosain', 'বাংলাদেশি', 'Azmira Khatun', NULL, 'Male', 'Kechuatoil', 'Kharkhari', 403, 339, 'Kechuatoil', 'Kharkhari', 403, 339, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:17:39', '2024-01-09 03:04:32'),
+(5, 1, '20172001', 20172001, 'Abu Ahmed Rafi', '2006-02-01', '01757839516', NULL, 7, 1, 'Azam Ali', 'বাংলাদেশি', 'Rojeda', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:33:02', '2024-01-09 03:04:32'),
+(6, 1, '20172002', 20172002, 'Selim', '2014-07-10', '01757839516', NULL, 7, 1, 'Sumon', 'বাংলাদেশি', 'Mother', NULL, 'Male', 'Bamon Sikor', 'kharkhari', 545, 391, 'Bamon Sikor', 'Kharkhari', 545, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-06 01:35:03', '2024-01-09 03:04:32'),
 (7, 1, '20221003', 20221003, 'Masun', '2022-11-15', '01757839516', NULL, 1, 1, 'Shahadat Hosain', 'বাংলাদেশি', 'Azmira Khatun', NULL, 'Male', 'Kechuatoil', 'Kharkhari', 403, 339, 'Kechuatoil', 'Kharkhari', 403, 339, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-11-02 08:17:39', '2024-01-09 03:04:32'),
-(8, 1, '20222001', 20222001, 'Nabila', '2023-01-01', '01757839516', NULL, 5, 1, 'Ahmen', NULL, 'Nipa', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-01-17 10:35:22', '2024-01-09 03:04:32'),
-(9, 1, '20203001', 20203001, 'Rikat', '2010-09-06', '01757839516', NULL, 5, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 545, 391, 'Kacutaol', 'kharkhari', 545, 391, NULL, 1, 1, NULL, 'students/1693974450.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-06 04:27:30', '2024-01-09 03:04:32'),
+(8, 1, '20222001', 20222001, 'Nabila', '2023-01-01', '01757839516', NULL, 7, 1, 'Ahmen', NULL, 'Nipa', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-01-17 10:35:22', '2024-01-09 03:04:32'),
+(9, 1, '20203001', 20203001, 'Rikat', '2010-09-06', '01757839516', NULL, 7, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 545, 391, 'Kacutaol', 'kharkhari', 545, 391, NULL, 1, 1, NULL, 'students/1693974450.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-06 04:27:30', '2024-01-09 03:04:32'),
 (10, 1, '20231001', 20231001, 'Md. Nasiruddin', '1990-09-12', '01739201222', NULL, 1, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 544, 391, 'Kacutaol', 'kharkhari', 403, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-12 08:30:25', '2024-01-09 03:04:32'),
 (12, 1, '56565656', 56565656, 'Mahfuz', NULL, '8801757839516', NULL, 1, 1, NULL, '1912624881', NULL, NULL, 'Male', 'soriotpur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 03:07:57', '2024-01-09 03:04:32'),
-(13, 1, '56565657', 5, 'Akbok Ali', '2024-12-01', '01912624881', 'Islam', 1, 11, 'Father', NULL, 'Mother', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '01757839516', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-02 11:54:48', '2024-12-02 11:57:23'),
-(14, 1, '56565658', 25, 'Mahfuz', NULL, '8801757839516', NULL, 1, 11, 'Mahbub Ali', NULL, 'Nresa', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-03 05:20:29', '2024-12-03 05:20:29');
+(13, 1, '56565657', 5, 'Akbok Ali', '2024-12-01', '01912624881', 'Islam', 1, 1, 'Father', NULL, 'Mother', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '01757839516', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-02 11:54:48', '2024-12-02 11:57:23'),
+(14, 1, '56565658', 25, 'Mahfuz', NULL, '8801757839516', NULL, 1, 1, 'Mahbub Ali', NULL, 'Nresa', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-03 05:20:29', '2024-12-03 05:20:29');
 
 -- --------------------------------------------------------
 
@@ -2376,7 +2407,7 @@ ALTER TABLE `exam_lists`
 -- AUTO_INCREMENT for table `exam_marks`
 --
 ALTER TABLE `exam_marks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `exam_mark_configs`
