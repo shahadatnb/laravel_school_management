@@ -29,6 +29,14 @@ use App\Http\Controllers\Exam\ExamConfigurationController;
 use App\Http\Controllers\Exam\MarkConfigController;
 use App\Http\Controllers\Exam\ExamMarkController;
 
+use App\Http\Controllers\sAccounts\StudentAcHeadController;
+use App\Http\Controllers\sAccounts\StudentAcSubHeadController;
+use App\Http\Controllers\sAccounts\StudentAcFeeWaiverController;
+use App\Http\Controllers\sAccounts\StudentAcSubHeadConfigController;
+use App\Http\Controllers\sAccounts\StudentAcFeeConfigController;
+use App\Http\Controllers\sAccounts\StudentAcFreeWaiverConfigController;
+use App\Http\Controllers\sAccounts\StudentAcTimeConfigController;
+
 use App\Http\Controllers\Student\InvoiceHeadController;
 use App\Http\Controllers\Student\InvoiceController;
 use App\Http\Controllers\Student\StudentController;
@@ -156,6 +164,29 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::get('update',[ExamMarkController::class,'update'])->name('update');
             Route::get('get_update_student',[ExamMarkController::class,'get_update_student'])->name('get_update_student');
             Route::post('update_save',[ExamMarkController::class,'update_save'])->name('update_save');
+        });
+    });
+
+    Route::prefix('student_accounts')->as('sac.')->group(function() {
+        
+        Route::prefix('setup')->as('setup.')->group(function() {
+            Route::resource('head', StudentAcHeadController::class)->except('show');
+            Route::resource('subHead', StudentAcSubHeadController::class)->except('show');
+            Route::resource('feeWaiver', StudentAcFeeWaiverController::class)->except('show');
+        });
+        
+        Route::prefix('configation')->as('config.')->group(function() {
+            Route::resource('subHeadConfig', StudentAcSubHeadConfigController::class)->except('show','create');
+            Route::get('feeConfig', [StudentAcFeeConfigController::class,'index'])->name('feeConfig');
+            Route::get('get_fee_config', [StudentAcFeeConfigController::class,'get_fee_config'])->name('get_fee_config');
+            Route::post('save_fee_config', [StudentAcFeeConfigController::class,'save_fee_config'])->name('save_fee_config');
+            Route::resource('feeWaiverConfig', StudentAcFreeWaiverConfigController::class)->except('show','create');
+            Route::resource('timeConfig', StudentAcTimeConfigController::class)->except('show','create');
+            
+        });
+
+        Route::prefix('marks')->as('mark.')->group(function() {
+
         });
     });
 

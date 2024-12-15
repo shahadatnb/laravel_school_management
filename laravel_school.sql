@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 11, 2024 at 11:03 AM
+-- Generation Time: Dec 15, 2024 at 12:13 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -1513,7 +1513,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (129, '2024_12_06_144851_create_merit_process_types_table', 53),
 (130, '2024_12_06_145029_create_exam_configurations_table', 53),
 (132, '2024_12_06_161154_create_final_mark_configs_table', 54),
-(133, '2024_12_10_111006_create_exam_marks_table', 55);
+(133, '2024_12_10_111006_create_exam_marks_table', 55),
+(134, '2024_12_14_160940_create_student_ac_heads_table', 56),
+(135, '2024_12_14_161639_create_student_ac_sub_heads_table', 56),
+(136, '2024_12_14_161845_create_student_ac_fee_waivers_table', 56),
+(137, '2024_12_14_162910_create_student_ac_sub_head_configs_table', 56),
+(138, '2024_12_14_163333_create_student_ac_fee_configs_table', 56),
+(139, '2024_12_14_163728_create_student_ac_time_configs_table', 56),
+(140, '2024_12_14_163813_create_student_ac_free_waiver_configs_table', 56);
 
 -- --------------------------------------------------------
 
@@ -1917,6 +1924,178 @@ INSERT INTO `students` (`id`, `branch_id`, `reg_no`, `class_roll`, `name`, `date
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_ac_fee_configs`
+--
+
+CREATE TABLE `student_ac_fee_configs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `academic_year_id` bigint UNSIGNED DEFAULT NULL,
+  `class_id` bigint UNSIGNED DEFAULT NULL,
+  `group_id` bigint UNSIGNED DEFAULT NULL,
+  `category_id` bigint UNSIGNED DEFAULT NULL,
+  `head_id` bigint UNSIGNED DEFAULT NULL,
+  `sub_head_id` bigint UNSIGNED DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `discount` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_ac_fee_waivers`
+--
+
+CREATE TABLE `student_ac_fee_waivers` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `serial` tinyint UNSIGNED DEFAULT NULL,
+  `status` tinyint UNSIGNED DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `student_ac_fee_waivers`
+--
+
+INSERT INTO `student_ac_fee_waivers` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Poor Waiver', 1, 1, '2024-12-15 07:08:04', '2024-12-15 07:08:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_ac_free_waiver_configs`
+--
+
+CREATE TABLE `student_ac_free_waiver_configs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `academic_year_id` bigint UNSIGNED DEFAULT NULL,
+  `class_id` bigint UNSIGNED DEFAULT NULL,
+  `student_id` bigint UNSIGNED DEFAULT NULL,
+  `head_id` bigint UNSIGNED DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_ac_heads`
+--
+
+CREATE TABLE `student_ac_heads` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `serial` tinyint UNSIGNED DEFAULT NULL,
+  `status` tinyint UNSIGNED DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `student_ac_heads`
+--
+
+INSERT INTO `student_ac_heads` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Admission Fee', 1, 1, '2024-12-15 06:55:26', '2024-12-15 06:55:26'),
+(2, 1, 'Tution Fee', 2, 1, '2024-12-15 06:56:46', '2024-12-15 06:56:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_ac_sub_heads`
+--
+
+CREATE TABLE `student_ac_sub_heads` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `serial` tinyint UNSIGNED DEFAULT NULL,
+  `status` tinyint UNSIGNED DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `student_ac_sub_heads`
+--
+
+INSERT INTO `student_ac_sub_heads` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Admission Fee', 1, 1, '2024-12-15 07:00:56', '2024-12-15 07:00:56'),
+(2, 1, 'January', 2, 1, '2024-12-15 07:01:15', '2024-12-15 07:01:15'),
+(3, 1, 'February', 3, 1, '2024-12-15 07:01:34', '2024-12-15 07:01:34'),
+(4, 1, 'March', 4, 1, '2024-12-15 07:01:49', '2024-12-15 07:01:49'),
+(5, 1, 'April', 5, 1, '2024-12-15 09:13:05', '2024-12-15 09:13:05'),
+(6, 1, 'May', 6, 1, '2024-12-15 09:13:18', '2024-12-15 09:13:18'),
+(7, 1, 'June', 7, 1, '2024-12-15 09:13:43', '2024-12-15 09:13:43'),
+(8, 1, 'July', 8, 1, '2024-12-15 09:14:22', '2024-12-15 09:14:55'),
+(9, 1, 'August', 9, 1, '2024-12-15 09:15:28', '2024-12-15 09:15:28'),
+(10, 1, 'September', 10, 1, '2024-12-15 09:16:10', '2024-12-15 09:16:10'),
+(11, 1, 'October', 11, 1, '2024-12-15 09:16:30', '2024-12-15 09:16:30'),
+(12, 1, 'November', 12, 1, '2024-12-15 09:16:52', '2024-12-15 09:16:52'),
+(13, 1, 'December', 13, 1, '2024-12-15 09:17:12', '2024-12-15 09:17:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_ac_sub_head_configs`
+--
+
+CREATE TABLE `student_ac_sub_head_configs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `sub_head_id` bigint UNSIGNED DEFAULT NULL,
+  `head_id` bigint UNSIGNED DEFAULT NULL,
+  `serial` tinyint UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `student_ac_sub_head_configs`
+--
+
+INSERT INTO `student_ac_sub_head_configs` (`id`, `branch_id`, `sub_head_id`, `head_id`, `serial`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, NULL, '2024-12-15 09:19:26', '2024-12-15 09:19:26'),
+(2, 1, 2, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(3, 1, 3, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(4, 1, 4, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(5, 1, 5, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(6, 1, 6, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(7, 1, 7, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(8, 1, 8, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(9, 1, 9, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(10, 1, 10, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(11, 1, 11, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(12, 1, 12, 2, NULL, '2024-12-15 09:22:02', '2024-12-15 09:22:02'),
+(14, 1, 13, 2, NULL, '2024-12-15 09:23:41', '2024-12-15 09:23:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_ac_time_configs`
+--
+
+CREATE TABLE `student_ac_time_configs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED DEFAULT NULL,
+  `academic_year_id` bigint UNSIGNED DEFAULT NULL,
+  `sub_head_id` bigint UNSIGNED DEFAULT NULL,
+  `month` tinyint UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `taxonomies`
 --
 
@@ -2303,6 +2482,48 @@ ALTER TABLE `students`
   ADD KEY `students_semester_id_index` (`semester_id`) USING BTREE;
 
 --
+-- Indexes for table `student_ac_fee_configs`
+--
+ALTER TABLE `student_ac_fee_configs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_ac_fee_waivers`
+--
+ALTER TABLE `student_ac_fee_waivers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_ac_free_waiver_configs`
+--
+ALTER TABLE `student_ac_free_waiver_configs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_ac_heads`
+--
+ALTER TABLE `student_ac_heads`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_ac_sub_heads`
+--
+ALTER TABLE `student_ac_sub_heads`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_ac_sub_head_configs`
+--
+ALTER TABLE `student_ac_sub_head_configs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_ac_time_configs`
+--
+ALTER TABLE `student_ac_time_configs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `taxonomies`
 --
 ALTER TABLE `taxonomies`
@@ -2521,7 +2742,7 @@ ALTER TABLE `menu_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -2588,6 +2809,48 @@ ALTER TABLE `shifts`
 --
 ALTER TABLE `students`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `student_ac_fee_configs`
+--
+ALTER TABLE `student_ac_fee_configs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `student_ac_fee_waivers`
+--
+ALTER TABLE `student_ac_fee_waivers`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `student_ac_free_waiver_configs`
+--
+ALTER TABLE `student_ac_free_waiver_configs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `student_ac_heads`
+--
+ALTER TABLE `student_ac_heads`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `student_ac_sub_heads`
+--
+ALTER TABLE `student_ac_sub_heads`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `student_ac_sub_head_configs`
+--
+ALTER TABLE `student_ac_sub_head_configs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `student_ac_time_configs`
+--
+ALTER TABLE `student_ac_time_configs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `taxonomies`

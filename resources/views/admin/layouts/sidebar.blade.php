@@ -195,6 +195,86 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item has-treeview {{ (request()->routeIs('sac.*')) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (request()->routeIs('sac.*')) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>Student Accounts <i class="right fas fa-angle-left"></i> </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item has-treeview {{ (request()->routeIs('sac.setup.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('sac.setup.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tools"></i>
+                  <p>
+                    Setting
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("sac.setup.head.index") }}" class="nav-link {{ (request()->routeIs('sac.setup.head.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Head')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sac.setup.subHead.index") }}" class="nav-link {{ (request()->routeIs('sac.setup.subHead.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Sub Head')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sac.setup.feeWaiver.index") }}" class="nav-link {{ (request()->routeIs('sac.setup.feeWaiver.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Fee Waiver')}}</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview {{ (request()->routeIs('sac.config.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('sac.config.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>
+                    Config
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("sac.config.subHeadConfig.index") }}" class="nav-link {{ (request()->routeIs('sac.config.subHeadConfig.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Sub Head')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sac.config.feeConfig") }}" class="nav-link {{ (request()->routeIs('sac.config.feeConfig')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Fee Config')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sac.config.feeWaiverConfig.index") }}" class="nav-link {{ (request()->routeIs('sac.config.feeWaiverConfig.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Fee Waiver')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sac.config.timeConfig.index") }}" class="nav-link {{ (request()->routeIs('sac.config.timeConfig.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Time Config')}}</a>
+                  </li>
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Fourth Subject')}}</a>
+                  </li> --}}
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Admit Instruction')}}</a>
+                  </li> --}}
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Marksheet Template')}}</a>
+                  </li> --}}
+                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Final Marksheet Template')}}</a>
+                  </li> --}}
+                </ul>
+              </li>
+              <li class="nav-item has-treeview {{ (request()->routeIs('exam.mark.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('exam.mark.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tasks"></i>
+                  <p>
+                    Marks
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("exam.mark.input") }}" class="nav-link {{ (request()->routeIs('exam.mark.input')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Mark Input')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.mark.update") }}" class="nav-link {{ (request()->routeIs('exam.mark.update')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Mark Update')}}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
 
           
           <li class="nav-item has-treeview {{ (request()->routeIs('posts*','menu*')) ? 'menu-open' : '' }}">
