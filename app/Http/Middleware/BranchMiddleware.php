@@ -17,6 +17,11 @@ class BranchMiddleware
     public function handle(Request $request, Closure $next)
     {
         if(!session()->has('branch')){
+            if(auth()->user()->branches->count() == 1){
+                $branch = auth()->user()->branches->first();
+                session()->put('branch',$branch->toArray());
+                return $next($request);
+            }
             return redirect()->route('home');
         }
         return $next($request);

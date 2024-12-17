@@ -4,7 +4,7 @@
 
 @endsection
 @section('content')
-{!! Form::open(array('route'=>['sac.config.save_fee_config'])) !!}
+{!! Form::open(array('route'=>['sac.config.save_fee_config'],'id'=>'save_fee_config')) !!}
 <div class="card">
   <div class="card-header">
       <h3 class="card-title">{{__('Fee Amount Configuration Here')}}</h3>
@@ -44,7 +44,8 @@
         </div>
       </div>
       <div class="col-2">
-        <button type="button" id="get_config" class="btn btn-primary btn-sm btn-block">Search</button>
+        <input type="hidden" id="save_type" name="save_type">
+        <button type="button" id="get_fee_config" class="btn btn-primary btn-sm btn-block">Search</button>
       </div>
     </div>
   </div>
@@ -78,6 +79,58 @@
 @section('js')
 
 <script>   
+  $("#get_fee_config").click(function(){
+    var academic_year_id = $("#academic_year_id").val();
+    var class_id = $("#class_id").val();
+    var group_id = $("#group_id").val();
+    var category_id = $("#category_id").val();
+    var head_id = $("#head_id").val();
+    $.ajax({
+      type: "get",
+      url: "{{route('sac.config.get_fee_config')}}",
+      data: {academic_year_id:academic_year_id,class_id:class_id,group_id:group_id,category_id:category_id,head_id:head_id},
+      success: function(data){
+        $("#fee_config_list").empty();
+        let html_data = '';
+        console.log(data);
+        if(data.status == true){
+          data.sub_heads.forEach((data) => {
+          html_data += `
+          <tr>
+            <td><input type="checkbox" checked name="fee_config_id[${data.id}]" value="${data.id}"></td>
+            <td>${data.name}</td>
+            <td><input type="number" name="fee_amount[${data.id}]" value="${data.fee_amount??0}" class="form-control form-control-sm"></td>
+            <td><input type="number" name="fine_amount[${data.id}]" value="${data.fine_amount??0}" class="form-control form-control-sm"></td>
+          </tr>
+          `;
+          });
+          $("#fee_config_list").append(html_data);
+        }
+        
+      }
+    });
+  });
 
+  $("#save_fee_config").submit(function(e){
+    e.preventDefault();
+    let data = new FormData(this);
+    $.ajax({
+      type: "post",
+      url: $(this).attr('action'),
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function(data){
+        console.log(data);
+        if(data.status == true){
+          alert(data.message);
+        }else{
+          console.log(data);
+          //alert(data.errors);
+        }
+      }
+    });
+  });
   </script>
 @endsection

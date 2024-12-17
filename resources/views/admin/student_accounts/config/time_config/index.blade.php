@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title', __("Mark Configuration"))
+@section('title', __("Fee Subhead Time Configuration"))
 @section('css')
 
 @endsection
@@ -8,45 +8,31 @@
 <div class="row">
   <div class="col-md-6">
     <div class="card">
+      <div class="card-header">
+          <h3 class="card-title">{{__('Fee Head')}}</h3>
+          <div class="card-tools">
+          </div>
+      </div>
       <div class="card-body">
         @include('admin.layouts._message')
         {!! Form::open(array('route'=>['exam.config.mark_config.save_config'])) !!}
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              {!! Form::label('class_id', __('Class Name'),['class'=>'']) !!}
-              {!! Form::select('class_id', $semesters,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Class Name')]) !!}
-            </div>
+          <div class="form-group">
+            {!! Form::label('head_id', __('Head Name'),['class'=>'']) !!}
+            {!! Form::select('head_id', $heads,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Class Name')]) !!}
           </div>
-          <div class="col-6">
-            <div class="form-group">
-              {!! Form::label('group_id', __('Group Name'),['class'=>'']) !!}
-              {!! Form::select('group_id',[],null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Group Name')]) !!}
-            </div>
-          </div>
-          <button type="button" id="search" class="btn btn-primary btn-sm btn-block" id="search">Search</button>
-        </div>
-        <div class="row">
-          <div class="col-6" id="subject_div">
-          </div>
-          <div class="col-6" id="exam_div">
-          </div>
-        </div>          
-        <div class="row">
           <div class="col-12">
-            <h3 class="text-center">{{__('Subject List')}}</h3>
+            <h3 class="text-center">{{__('Fee Head List')}}</h3>
             <table class="table table-sm table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>{{__('Short Code Title')}}</th>
-                  <th>{{__('Total Mark')}}</th>
-                  <th>{{__('Pass Mark')}}</th>
-                  <th>{{__('Acceptance')}}</th>
-                  <th>{{__('SC Merge')}}</th>
-                  <th>{{__('Action')}}</th>
+                  {{-- <th>{{__('Fee Head')}}</th> --}}
+                  <th>{{__('Fee Subhead')}}</th>
+                  <th>{{__('Payable Year')}}</th>
+                  <th>{{__('Payable Month')}}</th>
+                  {{-- <th>{{__('Action')}}</th> --}}
                 </tr>
               </thead>
-              <tbody id="subject_sc_list">
+              <tbody id="fee_head_list">
                 
               </tbody>
             </table>
@@ -56,11 +42,11 @@
         {!! Form::close() !!}          
       </div>
     </div>
-    </div>
+
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{__('Mark Configuration')}}</h3>
+            <h3 class="card-title">{{__('Year Wise Fee Head')}}</h3>
             <div class="card-tools">
             </div>
         </div>
@@ -68,30 +54,25 @@
           <div class="row">
             <div class="col-4">
               <div class="form-group">
-                {!! Form::label('class_id2', __('Class Name'),['class'=>'']) !!}
-                {!! Form::select('class_id', $semesters,null,['class'=>'form-control form-control-sm select2','id'=>'class_id2','required'=>true,'placeholder'=> __('Class Name')]) !!}
+                {!! Form::label('academic_year_id', __('Select Year'),['class'=>'']) !!}
+                {!! Form::select('academic_year_id', $academic_years,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Year')]) !!}
               </div>
             </div>
             <div class="col-4">
               <div class="form-group">
-                {!! Form::label('group_id2', __('Group Name'),['class'=>'']) !!}
-                {!! Form::select('group_id',[],null,['class'=>'form-control form-control-sm select2','id'=>'group_id2','required'=>true,'placeholder'=> __('Group Name')]) !!}
+                {!! Form::label('fee_head_id', __('Select Feehead'),['class'=>'']) !!}
+                {!! Form::select('fee_head_id',$heads,null,['class'=>'form-control form-control-sm select2','id'=>'fee_head_id','required'=>true,'placeholder'=> __('Select Feehead')]) !!}
               </div>
             </div>
             <div class="col-4">
-              <div class="form-group">
-                {!! Form::label('exam_id', __('Exam List'),['class'=>'']) !!}
-                {!! Form::select('exam_id', [],null,['class'=>'form-control form-control-sm select2','id'=>'exam_id','required'=>true,'placeholder'=> __('Exam List')]) !!}
-              </div>
+              <button type="button" id="get_time_config" class="btn btn-primary btn-sm btn-block">Search</button>
             </div>
-            <button type="button" id="get_config" class="btn btn-primary btn-sm btn-block">Search</button>
           </div>
           <table id="subject_config_list_table" class="table table-bordered table-striped table-sm mt-3">
-            <tbody id="subject_config_list">
+            <tbody id="time_config_list">
               
             </tbody>
           </table>
-          {{ Form::submit('Download',array('class'=>'btn btn-primary','id'=>'download')) }}
         </div>
       </div>
     </div>
@@ -103,21 +84,42 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js" integrity="sha512-PRJxIx+FR3gPzyBBl9cPt62DD7owFXVcfYv0CRNFAcLZeEYfht/PpPNTKHicPs+hQlULFhH2tTWdoxnd1UGu1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-    $("#class_id").change(function(){
-      let class_id = $("#class_id").val();
+    const academic_years = {!! json_encode($academic_years) !!};
+    const default_year = {{ session('branch')['academic_year_id'] }};
+    const academic_years_options = Object.keys(academic_years).map((key) => `<option ${default_year == key ? 'selected' : ''} value="${key}">${academic_years[key]}</option>`);
+    //console.log(academic_years_options);
+    // academic_years.forEach(function(value,index){
+      //   console.log(value);
+      // });
+      const months = {!! json_encode($months) !!};
+      const month_options = Object.keys(months).map((key) => `<option value="${key}">${months[key]}</option>`);
+
+    $("#head_id").change(function(){
+      let head_id = $("#head_id").val();
+      if(head_id == '') return false;
       $.ajax({
         type: "get",
-        url: "{{route('exam.config.mark_config.get_group')}}",
-        data: {class_id:class_id},
+        url: "{{route('sac.config.get_sub_head')}}",
+        data: {head_id:head_id},
         success: function(data){
           console.log(data);
           let htmlData = '';
-          data.forEach(function(value,index){
-            htmlData += `
-            <option value="${value.id}">${value.name}</option>
-            `;
+          data.sub_heads.forEach(function(value,index){
+            htmlData += `<tr>
+            <td>${value.name}</td>
+            <td><select name="academic_year_ids[${value.id}]" class="form-control form-control-sm select2" required>`;
+              academic_years_options.forEach(function(value1,index1){
+              htmlData += value1;
+            });
+            htmlData += `</select></td>
+            <td><select name="months[${value.id}]" class="form-control form-control-sm select2" required>`;
+              month_options.forEach(function(value1,index1){
+              htmlData += value1;
+            });
+            htmlData += `</select></td>
+            </tr>`;            
           })
-          $("#group_id").html(htmlData);
+          $("#fee_head_list").html(htmlData);
         }
       });
     });

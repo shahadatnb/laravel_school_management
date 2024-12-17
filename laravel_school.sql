@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 15, 2024 at 12:13 PM
+-- Generation Time: Dec 17, 2024 at 12:07 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -1936,11 +1936,30 @@ CREATE TABLE `student_ac_fee_configs` (
   `category_id` bigint UNSIGNED DEFAULT NULL,
   `head_id` bigint UNSIGNED DEFAULT NULL,
   `sub_head_id` bigint UNSIGNED DEFAULT NULL,
-  `amount` decimal(10,2) DEFAULT NULL,
-  `discount` decimal(10,2) DEFAULT NULL,
+  `fee_amount` decimal(10,2) UNSIGNED DEFAULT NULL,
+  `fine_amount` decimal(10,2) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `student_ac_fee_configs`
+--
+
+INSERT INTO `student_ac_fee_configs` (`id`, `branch_id`, `academic_year_id`, `class_id`, `group_id`, `category_id`, `head_id`, `sub_head_id`, `fee_amount`, `fine_amount`, `created_at`, `updated_at`) VALUES
+(2, 1, 3, 11, 1, 1, 1, 1, '20.00', '0.00', '2024-12-17 09:29:09', '2024-12-17 09:29:09'),
+(4, 1, 3, 11, 1, 1, 2, 2, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(5, 1, 3, 11, 1, 1, 2, 3, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(6, 1, 3, 11, 1, 1, 2, 4, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(7, 1, 3, 11, 1, 1, 2, 5, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(8, 1, 3, 11, 1, 1, 2, 6, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(9, 1, 3, 11, 1, 1, 2, 7, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(10, 1, 3, 11, 1, 1, 2, 8, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(11, 1, 3, 11, 1, 1, 2, 9, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(12, 1, 3, 11, 1, 1, 2, 10, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(13, 1, 3, 11, 1, 1, 2, 11, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(14, 1, 3, 11, 1, 1, 2, 12, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
+(15, 1, 3, 11, 1, 1, 2, 13, '50.00', '10.00', '2024-12-17 09:32:21', '2024-12-17 09:32:21');
 
 -- --------------------------------------------------------
 
@@ -2187,7 +2206,6 @@ CREATE TABLE `user_branches` (
 --
 
 INSERT INTO `user_branches` (`id`, `branch_id`, `user_id`) VALUES
-(1, 2, 1),
 (2, 1, 1),
 (3, 3, 6);
 
@@ -2814,7 +2832,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `student_ac_fee_configs`
 --
 ALTER TABLE `student_ac_fee_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `student_ac_fee_waivers`

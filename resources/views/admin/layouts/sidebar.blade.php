@@ -239,7 +239,7 @@
                   <li class="nav-item"><a href="{{ route("sac.config.feeWaiverConfig.index") }}" class="nav-link {{ (request()->routeIs('sac.config.feeWaiverConfig.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Fee Waiver')}}</a>
                   </li>
-                  <li class="nav-item"><a href="{{ route("sac.config.timeConfig.index") }}" class="nav-link {{ (request()->routeIs('sac.config.timeConfig.*')) ? ' active' : '' }}">
+                  <li class="nav-item"><a href="{{ route("sac.config.timeConfig") }}" class="nav-link {{ (request()->routeIs('sac.config.timeConfig')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Time Config')}}</a>
                   </li>
                   {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
