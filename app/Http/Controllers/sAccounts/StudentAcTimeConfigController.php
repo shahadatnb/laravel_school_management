@@ -8,6 +8,7 @@ use App\Models\sAccounts\StudentAcHead;
 use App\Models\sAccounts\StudentAcSubHead;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class StudentAcTimeConfigController extends Controller
 {
@@ -30,7 +31,30 @@ class StudentAcTimeConfigController extends Controller
 
     public function save_fee_time(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'head_id'=>'required',
+            'academic_year_ids.*'=>'required',
+            'sub_head_ids.*'=>'required',
+            'months.*'=>'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+        //$check = StudentAcTimeConfig::where('branch_id', session('branch')['id'])->where('sub_head_id', $request->sub_head_ids[0])->count();
+
+        foreach ($request->sub_head_ids as $key => $sub_head_id) {
+            //branch_id 	academic_year_id 	sub_head_id 	month
+            $time_config = new StudentAcTimeConfig;
+            $time_config->branch_id = session('branch')['id'];
+            $time_config->academic_year_id = $request->academic_year_ids[$key];
+            $time_config->sub_head_id = $sub_head_id;
+            $time_config->month = $request->months[$key];
+            $time_config->save();
+        }
+
+        return response()->json(['status'=>true, 'message'=>'Successfully Saved']);
     }
 
     public function get_fee_time(Request $request)
