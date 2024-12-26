@@ -43,6 +43,11 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\MarksController;
 use App\Http\Controllers\Student\AttendanceController;
 
+use App\Http\Controllers\SMS\SmsContactController;
+use App\Http\Controllers\SMS\SmsLogController;
+use App\Http\Controllers\SMS\SmsTemplateController;
+use App\Http\Controllers\SMS\SMSController;
+
 use App\Http\Controllers\Auth\Admission\AdmissionForgotPasswordController;
 use App\Http\Controllers\Auth\Admission\AdmissionResetPasswordController;
 use App\Http\Controllers\Auth\Admission\AdmissionRegisterController;
@@ -223,6 +228,18 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
 
     Route::resource('taxonomy', TaxonomyController::class);
     Route::get('taxonomy/hide{id}', [TaxonomyController::class, 'hide'])->name('taxonomy.hide');
+});
+
+Route::group(['prefix'=>'sms','middleware'=> ['auth']], function(){
+    Route::post('contact_import', [SmsContactController::class, 'import'])->name('contact.import');
+    Route::resource('contact', SmsContactController::class);
+    Route::post('addCategory', [SmsContactController::class, 'addCategory'])->name('add.contact.category');
+    Route::resource('smsTemplate', SmsTemplateController::class);
+    Route::get('/smsBalance', [SMSController::class, 'smsBalance'])->name('smsBalance');
+    Route::get('send', [SmsController::class, 'index'])->name('sms.send');
+    Route::post('send', [SmsController::class, 'send'])->name('sms.send.post');
+    Route::get('report', [SmsLogController::class, 'report'])->name('sms.report');
+    Route::get('report-summary', [SmsLogController::class, 'reportSummary'])->name('sms.report.summary');
 });
 
 Route::group(['prefix'=>'student','middleware'=> ['auth']], function(){
