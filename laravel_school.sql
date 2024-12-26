@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 17, 2024 at 12:07 PM
+-- Generation Time: Dec 26, 2024 at 06:18 PM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -382,7 +382,7 @@ CREATE TABLE `exam_mark_configs` (
   `group_id` bigint UNSIGNED NOT NULL,
   `exam_id` bigint UNSIGNED NOT NULL,
   `subject_id` bigint UNSIGNED NOT NULL,
-  `sc_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sc_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_marks` smallint UNSIGNED NOT NULL DEFAULT '0',
   `pass_mark` double(8,2) NOT NULL DEFAULT '0.00',
   `acceptance` double(8,2) NOT NULL DEFAULT '1.00',
@@ -1850,6 +1850,112 @@ INSERT INTO `shifts` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sms_contacts`
+--
+
+CREATE TABLE `sms_contacts` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` int UNSIGNED DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_contacts`
+--
+
+INSERT INTO `sms_contacts` (`id`, `branch_id`, `name`, `mobile`, `category_id`, `note`, `status`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Zakir', '01740836439', '2', NULL, 1, '2023-11-08 02:27:35', '2023-11-08 02:27:35'),
+(2, NULL, 'Shahadat Hosain', '01757839516', '2', NULL, 1, '2024-10-28 09:26:23', '2024-10-28 09:26:23'),
+(3, NULL, 'Bulbul', '01912624881', '1', NULL, 1, '2024-10-28 09:26:52', '2024-10-28 09:26:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_contact_categories`
+--
+
+CREATE TABLE `sms_contact_categories` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` int UNSIGNED DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_contact_categories`
+--
+
+INSERT INTO `sms_contact_categories` (`id`, `branch_id`, `name`, `status`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Family', 1, '2023-11-08 02:24:42', '2023-11-08 02:24:42'),
+(2, NULL, 'Friend', 1, '2023-11-08 02:27:17', '2023-11-08 02:27:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_logs`
+--
+
+CREATE TABLE `sms_logs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` int UNSIGNED DEFAULT NULL,
+  `send_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `send_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sms_count` smallint UNSIGNED NOT NULL,
+  `response` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_logs`
+--
+
+INSERT INTO `sms_logs` (`id`, `branch_id`, `send_type`, `send_to`, `name`, `mobile`, `message`, `status`, `created_by`, `sms_count`, `response`, `created_at`, `updated_at`) VALUES
+(14, NULL, NULL, NULL, NULL, '8801757839516', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:25:26', '2024-11-30 03:25:26'),
+(15, NULL, NULL, NULL, NULL, '8801912624881', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:25:26', '2024-11-30 03:25:26'),
+(16, NULL, NULL, NULL, NULL, '8801918136999', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:26:28', '2024-11-30 03:26:28'),
+(17, NULL, NULL, NULL, NULL, '8801757839516,8801740836439', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:27:24', '2024-11-30 03:27:24'),
+(18, NULL, NULL, NULL, NULL, '8801912624881', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:27:24', '2024-11-30 03:27:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_templates`
+--
+
+CREATE TABLE `sms_templates` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` int UNSIGNED DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_templates`
+--
+
+INSERT INTO `sms_templates` (`id`, `branch_id`, `title`, `content`, `status`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Test Template', 'Hello Rajshahai', 1, '2023-11-08 02:54:52', '2023-11-08 02:54:52');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `students`
 --
 
@@ -1970,7 +2076,7 @@ INSERT INTO `student_ac_fee_configs` (`id`, `branch_id`, `academic_year_id`, `cl
 CREATE TABLE `student_ac_fee_waivers` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` bigint UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `serial` tinyint UNSIGNED DEFAULT NULL,
   `status` tinyint UNSIGNED DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -2011,7 +2117,7 @@ CREATE TABLE `student_ac_free_waiver_configs` (
 CREATE TABLE `student_ac_heads` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` bigint UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `serial` tinyint UNSIGNED DEFAULT NULL,
   `status` tinyint UNSIGNED DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -2035,7 +2141,7 @@ INSERT INTO `student_ac_heads` (`id`, `branch_id`, `name`, `serial`, `status`, `
 CREATE TABLE `student_ac_sub_heads` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` bigint UNSIGNED DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `serial` tinyint UNSIGNED DEFAULT NULL,
   `status` tinyint UNSIGNED DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -2493,6 +2599,30 @@ ALTER TABLE `shifts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sms_contacts`
+--
+ALTER TABLE `sms_contacts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_contact_categories`
+--
+ALTER TABLE `sms_contact_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_logs`
+--
+ALTER TABLE `sms_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_templates`
+--
+ALTER TABLE `sms_templates`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
@@ -2820,6 +2950,30 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `shifts`
 --
 ALTER TABLE `shifts`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `sms_contacts`
+--
+ALTER TABLE `sms_contacts`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `sms_contact_categories`
+--
+ALTER TABLE `sms_contact_categories`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `sms_logs`
+--
+ALTER TABLE `sms_logs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `sms_templates`
+--
+ALTER TABLE `sms_templates`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
