@@ -22,7 +22,7 @@ class AcademicYearController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'year' => 'required',
+            'year' => 'required|unique_with:academic_years,year',
             'status' => 'required',
         ]);
 
@@ -49,7 +49,7 @@ class AcademicYearController extends Controller
     public function update(Request $request, AcademicYear $academicYear)
     {
         $request->validate([
-            'year' => 'required',
+            'year' => 'required|unique_with:academic_years,year,'.$academicYear->id,
             'status' => 'required',
         ]); 
 

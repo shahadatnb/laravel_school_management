@@ -22,7 +22,7 @@ class SemesterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique_with:semesters,name',
             'status' => 'required',
         ]);
 
@@ -52,7 +52,7 @@ class SemesterController extends Controller
     public function update(Request $request, Semester $semester)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique_with:semesters,name,'.$semester->id,
             'status' => 'required',
         ]); 
 
