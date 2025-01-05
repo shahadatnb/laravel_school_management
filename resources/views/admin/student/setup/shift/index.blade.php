@@ -9,7 +9,7 @@
     <div class="card-header">
         <h3 class="card-title">{{__('Shift')}}</h3>
         <div class="card-tools">
-          <a class="btn btn-primary btn-sm" href="{{ route('student.setup.shift.create')}}">New Item</a>
+          <a class="btn btn-primary btn-sm" href="{{ route('student.setup.shift.create')}}"><i class="fas fa-plus"></i> New</a>
         </div>
     </div>
     <div class="card-body">

@@ -1,24 +1,16 @@
 @extends('admin.layouts.layout')
-
+@section('title',__("User List"))
 @section('content')
-
-<div class="row py-lg-2">
-    <div class="col-md-6">
-        <h2>This is user List</h2>
-    </div>
-    @cannot('isManager')
-    <div class="col-md-6">
-        <a href="{{route('users.create')}}" class="btn btn-primary btn-lg float-md-right" role="button" aria-pressed="true">Create New User</a>
-    </div>
-    @endcannot
-</div>
-
-
 <!-- DataTables Example -->
 <div class="card mb-3">
     <div class="card-header">
-        <i class="fas fa-table"></i>
-        Data Table Example</div>
+        <div class="card-header">
+            <h3 class="card-title">{{__('Shift')}}</h3>
+            <div class="card-tools">
+              <a class="btn btn-primary btn-sm" href="{{ route('users.create')}}"><i class="fas fa-plus"></i> New</a>
+            </div>
+        </div>
+    </div>
     <div class="card-body">
         <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
