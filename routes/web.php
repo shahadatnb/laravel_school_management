@@ -230,13 +230,16 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
     Route::get('taxonomy/hide{id}', [TaxonomyController::class, 'hide'])->name('taxonomy.hide');
 });
 
-Route::group(['prefix'=>'sms','middleware'=> ['auth']], function(){
+Route::group(['prefix'=>'sms','middleware'=> ['auth','branch']], function(){
     Route::post('contact_import', [SmsContactController::class, 'import'])->name('contact.import');
     Route::resource('contact', SmsContactController::class);
     Route::post('addCategory', [SmsContactController::class, 'addCategory'])->name('add.contact.category');
     Route::resource('smsTemplate', SmsTemplateController::class);
     Route::get('/smsBalance', [SMSController::class, 'smsBalance'])->name('smsBalance');
+    Route::get('get_students', [SmsController::class, 'get_students'])->name('sms.get_students');
     Route::get('send', [SmsController::class, 'index'])->name('sms.send');
+    Route::get('send_class_wise', [SmsController::class, 'send_class_wise'])->name('sms.send_class_wise');
+    Route::get('send_section_wise', [SmsController::class, 'send_section_wise'])->name('sms.send_section_wise');
     Route::post('send', [SmsController::class, 'send'])->name('sms.send.post');
     Route::get('report', [SmsLogController::class, 'report'])->name('sms.report');
     Route::get('report-summary', [SmsLogController::class, 'reportSummary'])->name('sms.report.summary');

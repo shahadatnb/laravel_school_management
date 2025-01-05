@@ -25,7 +25,7 @@ class BranchController extends Controller
     {
         $this->validate(request(),[
             'name' => 'required',
-            'subdomain' => 'required|alpha_dash|unique:branches,subdomain',
+            'subdomain' => 'nullable|alpha_dash|unique:branches,subdomain',
             'address' => 'required',
             'contact' => 'nullable',
             'login_email' => 'required|email',
@@ -35,6 +35,10 @@ class BranchController extends Controller
             'head_email' => 'nullable|email',
             'head_contact' => 'nullable',
             'head_designation' => 'nullable|string|max:150',
+            'sms_domain_url' => 'nullable|string|max:150',
+            'sms_api_key' => 'nullable|string|max:150',
+            'sms_secretkey' => 'nullable|string|max:150',
+            'sms_client' => 'nullable|string|max:150',
             'logo' => 'nullable|mimes:jpg,jpeg,png|max:512',
             'favicon' => 'nullable|mimes:jpg,jpeg,png|max:512',
             'exp_date' => 'nullable|date',
@@ -50,6 +54,10 @@ class BranchController extends Controller
         $branch->head_email = $request->head_email;
         $branch->head_contact = $request->head_contact;
         $branch->head_designation = $request->head_designation;
+        $branch->sms_domain_url = $request->sms_domain_url;
+        $branch->sms_api_key = $request->sms_api_key;
+        $branch->sms_secretkey = $request->sms_secretkey;
+        $branch->sms_client = $request->sms_client;
         //$branch->logo = $request->logo;
         //$branch->favicon = $request->favicon;
         $branch->exp_date = $request->exp_date;
@@ -170,7 +178,7 @@ class BranchController extends Controller
     {
         $this->validate(request(),[
             'name' => 'required',
-            'subdomain' => 'required|alpha_dash|unique:branches,subdomain,'.$branch->id,
+            'subdomain' => 'nullable|alpha_dash|unique:branches,subdomain,'.$branch->id,
             'address' => 'required',
             'contact' => 'nullable',
             'email' => 'nullable|email',
@@ -178,6 +186,10 @@ class BranchController extends Controller
             'head_email' => 'nullable|email',
             'head_contact' => 'nullable',
             'head_designation' => 'nullable|string|max:150',
+            'sms_domain_url' => 'nullable|string|max:150',
+            'sms_api_key' => 'nullable|string|max:150',
+            'sms_secretkey' => 'nullable|string|max:150',
+            'sms_client' => 'nullable|string|max:150',
             'logo' => 'nullable|mimes:jpg,jpeg,png|max:512',
             'favicon' => 'nullable|mimes:jpg,jpeg,png|max:100',
             'head_sign' => 'nullable|mimes:jpg,jpeg,png|max:100',
@@ -193,6 +205,10 @@ class BranchController extends Controller
         $branch->head_email = $request->head_email;
         $branch->head_contact = $request->head_contact;
         $branch->head_designation = $request->head_designation;
+        $branch->sms_domain_url = $request->sms_domain_url;
+        $branch->sms_api_key = $request->sms_api_key;
+        $branch->sms_secretkey = $request->sms_secretkey;
+        $branch->sms_client = $request->sms_client;
         if(isset($request->logo)){
             if ($branch->logo != '' && file_exists( public_path('upload\\site_file\\') . $branch->logo)) {
                 unlink(public_path('upload\\site_file\\') . $branch->logo);

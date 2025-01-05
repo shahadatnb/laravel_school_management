@@ -36,7 +36,7 @@ class SmsContactController extends Controller
     public function store(Request $request){
         $this->validate($request, array(
             'name'=>'required|max:255',
-            'mobile'=>'nullable|max:25|unique:sms_contacts,mobile',
+            'mobile'=>'nullable|max:25|unique_with:sms_contacts,mobile',
             'note'=>'nullable|max:255'
         ));
 
@@ -53,7 +53,7 @@ class SmsContactController extends Controller
 
     public function addCategory(Request $request){
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:100',
+            'name' => 'required|max:100|unique_with:sms_contact_categories,name',
         ]);
 
         if ($validator->fails()) {
@@ -74,7 +74,7 @@ class SmsContactController extends Controller
     public function update(Request $request, SmsContact $contact){
         $this->validate($request, array(
             'name'=>'required|max:255',
-            'mobile'=>'nullable|max:25|unique:sms_contacts,mobile,'.$contact->id,
+            'mobile'=>'nullable|max:25|unique_with:sms_contacts,mobile,'.$contact->id,
             'note'=>'nullable|max:255'
         ));
 

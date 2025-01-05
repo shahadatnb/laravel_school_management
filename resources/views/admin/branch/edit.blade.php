@@ -8,7 +8,7 @@
     <div class="card-header">
         <h3 class="card-title">Branch Edit</h3>
         <div class="card-tools">
-          <a href="{{ route('branch.index')}}"><i class="fas fa-arrow-alt-circle-left"></i> Back</a>
+          <a class="btn btn-sm btn-info" href="{{ route('branch.index')}}"><i class="fas fa-arrow-alt-circle-left"></i> Back</a>
         </div>
     </div>
     <div class="card-body">
@@ -93,6 +93,34 @@
             <div class="form-group">
                 {!! Form::label('head_designation', __('Head Designation'),['class'=>'']) !!}
                 {!! Form::text('head_designation',null,['class'=>'form-control','requerd'=>false,'placeholder'=> __('Head Designation')]) !!}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+                {!! Form::label('sms_domain_url', __('SMS Domain'),['class'=>'']) !!}
+                {!! Form::text('sms_domain_url',null,['class'=>'form-control','requerd'=>false,'placeholder'=> __('SMS Domain')]) !!}
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+                {!! Form::label('sms_api_key', __('SMS API Key'),['class'=>'']) !!}
+                {!! Form::text('sms_api_key',null,['class'=>'form-control','requerd'=>false,'placeholder'=> __('SMS API Key')]) !!}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+                {!! Form::label('sms_secretkey', __('SMS Secret Key'),['class'=>'']) !!}
+                {!! Form::text('sms_secretkey',null,['class'=>'form-control','requerd'=>false,'placeholder'=> __('SMS Secret Key')]) !!}
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+                {!! Form::label('sms_client', __('SMS Client'),['class'=>'']) !!}
+                {!! Form::text('sms_client',null,['class'=>'form-control','requerd'=>false,'placeholder'=> __('SMS Client')]) !!}
             </div>
           </div>
         </div>

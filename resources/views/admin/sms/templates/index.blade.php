@@ -9,7 +9,7 @@
     <div class="card-header">
       <h3 class="card-title">Template List</h3>
         <div class="card-tools">
-          <a href="{{ route('smsTemplate.create') }}"><i class="fas fa-plus"></i> Add</a>
+          <a class="btn btn-sm btn-primary" href="{{ route('smsTemplate.create') }}"><i class="fas fa-plus"></i> Add</a>
         </div>
     </div>
     <div class="card-body">

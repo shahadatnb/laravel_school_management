@@ -290,10 +290,25 @@
               <li class="nav-item"><a href="{{ route("contact.index") }}" class="nav-link {{ (request()->routeIs('contact.*')) ? ' active' : '' }}">
                 <i class="far fa-circle nav-icon"></i> <p>Phone Book</p></a>
               </li>
-              {{-- @endcan
-              @can('hr-leave') --}}
-              <li class="nav-item"><a href="{{ route("sms.send") }}" class="nav-link {{ (request()->routeIs('sms.send')) ? ' active' : '' }}">
-                <i class="far fa-circle nav-icon"></i> <p>SMS Send</p></a>
+              <li class="nav-item has-treeview {{ (request()->routeIs('sms.send*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('sms.send*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tasks"></i>
+                  <p>
+                    SMS Send
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  {{-- <li class="nav-item"><a href="{{ route("sms.send") }}" class="nav-link {{ (request()->routeIs('sms.send')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>SMS Send</p></a>
+                  </li> --}}
+                  <li class="nav-item"><a href="{{ route("sms.send_class_wise") }}" class="nav-link {{ (request()->routeIs('sms.send_class_wise')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>SMS Class Wise</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sms.send_section_wise") }}" class="nav-link {{ (request()->routeIs('sms.send_section_wise')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>SMS Section Wise</p></a>
+                  </li>
+                </ul>
               </li>
               {{-- @endcan
               @can('hr-department') --}}

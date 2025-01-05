@@ -5,7 +5,7 @@
 <div class="card mb-3">
     <div class="card-header">
         <div class="card-header">
-            <h3 class="card-title">{{__('Shift')}}</h3>
+            <h3 class="card-title">{{__('User List')}}</h3>
             <div class="card-tools">
               <a class="btn btn-primary btn-sm" href="{{ route('users.create')}}"><i class="fas fa-plus"></i> New</a>
             </div>

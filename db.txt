@@ -1,0 +1,2 @@
+ALTER TABLE `branches` ADD `sms_domain_url` INT NOT NULL AFTER `exp_date`, ADD `sms_api_key` INT NOT NULL AFTER `sms_domain_url`, ADD `sms_secretkey` INT NOT NULL AFTER `sms_api_key`, ADD `sms_sell` INT NOT NULL AFTER `sms_secretkey`; 
+ALTER TABLE `branches` CHANGE `sms_domain_url` `sms_domain_url` VARCHAR(200) NULL DEFAULT NULL, CHANGE `sms_api_key` `sms_api_key` VARCHAR(100) NULL DEFAULT NULL, CHANGE `sms_secretkey` `sms_secretkey` VARCHAR(100) NULL DEFAULT NULL, CHANGE `sms_sell` `sms_client` VARCHAR(100) NULL DEFAULT NULL; 

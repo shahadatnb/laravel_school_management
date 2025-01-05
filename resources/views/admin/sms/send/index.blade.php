@@ -44,40 +44,34 @@
         <div class="card">
             <div class="card-header p-2">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a class="nav-link active dselectAll" href="#customer" data-toggle="tab">Customer</a></li>
-                <li class="nav-item"><a class="nav-link dselectAll" href="#supplier" data-toggle="tab">Supplier</a></li>
+                <li class="nav-item"><a class="nav-link active dselectAll" href="#students" data-toggle="tab">Student</a></li>
+                {{-- <li class="nav-item"><a class="nav-link dselectAll" href="#supplier" data-toggle="tab">Supplier</a></li> --}}
                 <li class="nav-item"><a class="nav-link dselectAll" href="#contact" data-toggle="tab">Phone Book</a></li>
                 <li class="nav-item"><a class="nav-link dselectAll" href="#other" data-toggle="tab">Others</a></li>
             </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
             <div class="tab-content">
-                <div class="tab-pane active" id="customer">
-                    <table class="table table-bordered table-sm" id="customer_table">
+                <div class="tab-pane active" id="students">
+                    <div class="row">
+
+                    </div>
+                    <table class="table table-bordered table-sm" id="student_table">
                         <thead>
                             <tr>
-                                <th><input class="checkbox" id="selectAllCustomer" type="checkbox"> <label for="selectAllCustomer">All</label></th>
+                                <th><input class="checkbox" id="selectAllStudent" type="checkbox"> <label for="selectAllStudent">All</label></th>
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Address</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($customers as $key=>$item)
-                                <tr>
-                                    <td class="">
-                                        <input class="form-check-input ml-2 customerNumber" name="contacts[]" value="{{ $item->phone }}" type="checkbox">
-                                    </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->phone }}</td>
-                                    <td>{{ $item->address }}</td>
-                                </tr>
-                            @endforeach
+                        <tbody id="student_content">
+                            
                         </tbody>
                     </table>
                 </div>
                 <!-- /.tab-pane -->
-                <div class="tab-pane" id="supplier">
+                {{-- <div class="tab-pane" id="supplier">
                     <table class="table table-bordered table-sm" id="supplier_table">
                         <thead>
                             <tr>
@@ -88,20 +82,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($suppliers as $key=>$item)
-                                <tr>
-                                    <td class="">
-                                        <input class="form-check-input ml-2 supplierNumber" name="contacts[]" value="{{ $item->phone }}" type="checkbox">
-                                    </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->phone }}</td>
-                                    <td>{{ $item->address }}</td>
-                                </tr>
-                            @endforeach
                         </tbody>
-                    </table>
-                
-                </div>
+                    </table>                
+                </div> --}}
                 <!-- /.tab-pane -->
 
                 <div class="tab-pane" id="contact">
@@ -115,18 +98,9 @@
                                 <th>Note</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($contacts as $key=>$item)
-                                <tr>
-                                    <td class="">
-                                        <input class="form-check-input ml-2 contactNumber" name="contacts[]" value="{{ $item->mobile }}" type="checkbox">
-                                    </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->mobile }}</td>
-                                    <td>{{ $item->category? $item->category->name : '' }}</td>
-                                    <td>{{ $item->note }}</td>
-                                </tr>
-                            @endforeach
+                        <tbody id="contact_content">
+                        {{-- <input class="form-check-input ml-2 contactNumber" name="contacts[]" value="{{ $item->mobile }}" type="checkbox"> --}}
+
                         </tbody>
                     </table>
                 </div>
@@ -142,6 +116,7 @@
 @endsection
 @section('js')
 <script src="{{asset('/assets/admin')}}/plugins/datatables/datatables.min.js"></script>
+<script src="{{asset('/assets/admin/js/sms.counter.js')}}"></script>
 <script>
 $(document).ready(function() {
     var arr = [];
@@ -177,14 +152,14 @@ $(document).ready(function() {
         smsType('excel');
     });
 
-    $('#selectAllCustomer').click(function(){
+    $('#selectAllStudent').click(function(){
         if($(this).is(':checked')){
-            $('input.customerNumber').prop('checked', true);
+            $('input.studentNumber').prop('checked', true);
             smsType('contact');
         }else{
-            $('input.customerNumber').prop('checked', false);
+            $('input.studentNumber').prop('checked', false);
         }
-    })
+    });
 
     $('#selectAllSupplier').click(function(){
         if($(this).is(':checked')){
@@ -193,7 +168,7 @@ $(document).ready(function() {
         }else{
             $('input.supplierNumber').prop('checked', false);
         }
-    })
+    });
 
     $('#selectAllContact').click(function(){
         if($(this).is(':checked')){
@@ -202,14 +177,14 @@ $(document).ready(function() {
         }else{
             $('input.contactNumber').prop('checked', false);
         }
-    })
+    });
 
     $('.dselectAll').click(function(){
         $('input[name="contacts[]"]').prop('checked', false);
-    })
+    });
 
     $(function () {
-      $("#customer_table").DataTable({
+      $("#student_table").DataTable({
         "responsive": true,
         "autoWidth": false,
         "paging": false,
@@ -229,6 +204,44 @@ $(document).ready(function() {
         "paging": false,
       });      
     });
+
+    $("#messagecontent").on("change keyup paste", function () {
+        countSmsBody();
+    });
+
+    countSmsBody = function () {
+        var msg = $("#messagecontent").val();
+        var data = SMSCounter.count(msg, true);
+        var length = data["length"];
+        var remaining = data["remaining"];
+        var part_count = data["part_count"];
+        var text = data["text"];
+        var per_message = data["per_message"];
+        var encoding = data["encoding"];
+        var sms_type = "";
+        if (encoding == "GSM_7BIT") {
+        sms_type = "Normal";
+        } else if (encoding == "GSM_7BIT_EX") {
+        sms_type = "Extended"; // for 7 bit GSM: ^ { } \ [ ] ~ | €
+        } else if (encoding == "GSM_7BIT_EX_TR") {
+        sms_type = "Turkish"; // Only for Turkish Characters "Ş ş Ğ ğ ç ı İ" encoding see https://en.wikipedia.org/wiki/GSM_03.38#Turkish_language_.28Latin_script.29
+        } else if (encoding == "UTF16") {
+        sms_type = "Unicode"; // for other languages "Arabic, Chinese, Russian" see http://en.wikipedia.org/wiki/GSM_03.38#UCS-2_Encoding
+        }
+
+        if (length < 1) {
+        $("#smsbodycountdiv").text(" 1/0 : (160 Characters Per SMS)");
+        } else {
+        $("#smsbodycountdiv").text(
+            part_count +
+            "/" +
+            length +
+            "  : (" +
+            per_message +
+            " Characters Per SMS)"
+        );
+        }
+    };
 
 })
 </script>

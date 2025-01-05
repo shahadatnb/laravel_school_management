@@ -8,12 +8,12 @@
     <div class="card-header">
       <h3 class="card-title">Branch List</h3>
         <div class="card-tools">
-          <a href="{{ route('branch.create') }}"><i class="fas fa-plus"></i> Add</a>
+          <a class="btn btn-sm btn-primary" href="{{ route('branch.create') }}"><i class="fas fa-plus"></i> Add</a>
         </div>
     </div>
     <div class="card-body">
       @include('admin.layouts._message')
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="example1" class="table table-sm table-bordered table-striped">
             <thead>
             <tr>
               <th>ID</th>
