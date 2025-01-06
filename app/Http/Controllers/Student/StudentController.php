@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Student\Student;
 use App\Models\Student\Section;
 use App\Models\Student\Shift;
+use App\Models\Student\AcademicYear;
 use App\Models\Student\Group;
 use App\Models\Student\StudentMark;
 use App\Models\Student\InvoicePayment;
@@ -17,6 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\StudentsImport;
 use App\Imports\ImportCgpa;
 use App\Models\Student\ClassConfig;
+use Illuminate\Support\Facades\Validator;
 use Image;
 //use PDF;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -76,6 +78,130 @@ class StudentController extends Controller
         $students = $students->paginate(100);
 
         return view('admin.student.student.index', compact('students','semesters','catetories','sections','groups','data'));
+    }
+
+    public function mass_create(){
+        $semesters = $this->semesterArray();
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $sections = $this->sectionArray();
+        $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        return view('admin.student.registration.mass_create', compact('semesters','catetories','sections','groups','academic_years'));
+    }
+
+    public function mass_save(Request $request){
+        $validator = Validator::make($request->all(), [
+            'academic_year_id' => 'required',
+            //'semester_id' => 'required',
+            'section_id' => 'required',
+            'group_id' => 'required',
+            'category_id' => 'required',
+            'class_roll.*' => 'required',
+            'name.*' => 'required',
+            'sex.*' => 'required',
+            'religion.*' => 'required',
+            'fathersName.*' => 'required',
+            'mothersName.*' => 'required',
+            'mobile.*' => 'required|digits:11',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+        $section = ClassConfig::find($request->section_id);
+
+        $reg_no = $this->newReg($request->academic_year_id);
+        foreach($request->student_id as $key=>$student_id){
+            $student['branch_id'] = session('branch')['id'];
+            $student['academic_year_id'] = $request->academic_year_id;
+            $student['semester_id'] = $section->class_id;
+            $student['shift_id'] = $section->shift_id;
+            $student['section_id'] = $request->section_id;
+            $student['group_id'] = $request->group_id;
+            $student['category_id'] = $request->category_id;
+            $student['reg_no'] = $reg_no++;
+            $student['class_roll'] = $request->class_roll[$key];
+            $student['name'] = $request->name[$key];
+            $student['sex'] = $request->sex[$key];
+            $student['religion'] = $request->religion[$key];
+            $student['fathersName'] = $request->fathersName[$key];
+            $student['mothersName'] = $request->mothersName[$key];
+            $student['mobile'] = $request->mobile[$key];
+            //dd($student);
+            Student::create($student);
+        }
+
+        return response()->json(['status'=>true, 'message'=>'Successfully Saved']);
+    }
+
+    public function get_student_by_section(Request $request){
+
+        $students = Student::where('branch_id', session('branch')['id'])->where('section_id', $request->section_id);
+        if(!empty($request->academic_year_id)){
+            $students = $students->where('academic_year_id', $request->academic_year_id);
+        }
+        if(!empty($request->group_id)){
+            $students = $students->where('group_id', $request->group_id);
+        }
+
+        if(!empty($request->category_id)){
+            $students = $students->where('category_id', $request->category_id);
+        }
+        $students = $students->with('category','section','semester','group')->get();
+
+        return response()->json(['status'=>true, 'students'=>$students]);
+    }
+
+    public function mass_edit(){
+        $semesters = $this->semesterArray();
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $sections = $this->sectionArray();
+        $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        return view('admin.student.registration.mass_update', compact('semesters','catetories','sections','groups','academic_years'));
+    }
+
+    public function mass_update(Request $request){
+        $validator = Validator::make($request->all(), [
+            'academic_year_id' => 'required',
+            //'semester_id' => 'required',
+            'section_id' => 'required',
+            'group_id' => 'required',
+            'category_id' => 'required',
+            'class_roll.*' => 'required',
+            'name.*' => 'required',
+            'sex.*' => 'required',
+            'religion.*' => 'required',
+            'fathersName.*' => 'required',
+            'mothersName.*' => 'required',
+            'mobile.*' => 'required|digits:11',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+        $section = ClassConfig::find($request->section_id);
+        foreach($request->student_id as $key=>$student_id){
+            $student = Student::find($student_id);
+            $student->branch_id = session('branch')['id'];
+            $student->academic_year_id = $request->academic_year_id;
+            $student->semester_id = $section->class_id;
+            $student->shift_id = $section->shift_id;
+            $student->section_id = $request->section_id;
+            $student->group_id = $request->group_id;
+            $student->category_id = $request->category_id;
+            $student->class_roll = $request->class_roll[$key];
+            $student->name = $request->name[$key];
+            $student->sex = $request->sex[$key];
+            $student->religion = $request->religion[$key];
+            $student->fathersName = $request->fathersName[$key];
+            $student->mothersName = $request->mothersName[$key];
+            $student->mobile = $request->mobile[$key];
+            $student->save();
+        }
+        return response()->json(['status'=>true, 'message'=>'Successfully Saved']);
     }
 
     public function create()
@@ -215,32 +341,6 @@ class StudentController extends Controller
         return redirect()->route('student.student.index');
     }
 
-
-    public function studentPayment(Request $request)
-    {
-        $this->validate($request, array(
-            'student_id'=>'required',
-            'amount'=>'required',
-            'remarks'=>'nullable',
-        ));
-        InvoicePayment::create(['student_id'=>$request->student_id, 'amount'=>$request->amount, 'remarks'=>$request->remarks,'received_by'=>auth()->user()->id]);
-        return redirect()->back();
-    }
-    
-    public function studentPayments(Student $student)
-    {
-        $payments = InvoicePayment::where('student_id',$student->id)->get();
-        return view('admin.student.student.studentPayment', compact('student','payments'));
-    }
-
-    public function studentPaymentComplite(Student $student,$id)
-    {
-        $mark = StudentMark::find($id);
-        $mark->paid_confirm = 1;
-        $mark->save();
-        session()->flash('success', "Payment Confirmed.");
-        return redirect()->back();
-    }
 
     public function show(Student $student)
     {
@@ -391,20 +491,7 @@ class StudentController extends Controller
         session()->flash('success', 'Imported Successfully!');
         return redirect()->back();
     }
-
-    public function importCgpa(Request $request){
-        $request->validate([
-            'cgpa' => 'required|mimes:xlsx,xls',
-        ]);
-
-        //dd($request->file('file')); exit;
-        
-        Excel::import(new ImportCgpa, $request->file('cgpa'));
-
-        session()->flash('success', 'Imported Successfully!');
-        return redirect()->back();
-    }
-
+    
     public function IDCard(Request $request){
         $data = [
             'department_id'=>'',

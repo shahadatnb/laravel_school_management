@@ -26,8 +26,11 @@ trait StudentTrait {
         return $datas;
     }
 
-    public function newReg(){
-        $student = Student::where('branch_id', session('branch')['id'])->orderBy('reg_no','desc')->first();
+    public function newReg($academic_year_id=null) {
+        if(!$academic_year_id){
+            $academic_year_id = session('academic_year')['id'];
+        }
+        $student = Student::where('branch_id', session('branch')['id'])->where('academic_year_id',$academic_year_id)->orderBy('reg_no','desc')->first();
         if($student){
             /*
             $year = substr($student->reg_no,0,4);

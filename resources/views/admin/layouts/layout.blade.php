@@ -31,7 +31,7 @@
     <!-- Scripts -->
     <script src="{{ asset('assets/admin/plugins/jquery/jquery.min.js') }}"></script>
     <script src="//code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
-    @livewireStyles
+    {{-- @livewireStyles --}}
     <!-- Styles -->
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -133,7 +133,7 @@
     {{-- <script src="{{ asset('assets/admin/js/pages/dashboard.js') }}"></script> --}}
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('assets/admin/js/demo.js') }}"></script>
-    @livewireScripts
+    {{-- @livewireScripts --}}
     @yield('js')
     @yield('js2')
     @stack('scripts')

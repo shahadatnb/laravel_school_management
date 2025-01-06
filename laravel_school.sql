@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 26, 2024 at 06:18 PM
+-- Generation Time: Jan 06, 2025 at 01:24 PM
 -- Server version: 8.0.30
--- PHP Version: 7.4.9
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -92,6 +92,10 @@ CREATE TABLE `branches` (
   `favicon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `academic_year_id` int UNSIGNED DEFAULT NULL,
   `exp_date` date DEFAULT NULL,
+  `sms_domain_url` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_api_key` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_secretkey` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_client` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -100,10 +104,10 @@ CREATE TABLE `branches` (
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_sign`, `head_email`, `head_contact`, `logo`, `favicon`, `academic_year_id`, `exp_date`, `created_at`, `updated_at`) VALUES
-(1, 'Branch One', NULL, 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', '1732516903.png', '1732517045.png', 3, NULL, '2024-11-24 09:07:41', '2024-12-10 07:00:36'),
-(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', NULL, 'ar@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
-(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '2024-11-25 11:22:00', '2024-11-25 11:22:00');
+INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_sign`, `head_email`, `head_contact`, `logo`, `favicon`, `academic_year_id`, `exp_date`, `sms_domain_url`, `sms_api_key`, `sms_secretkey`, `sms_client`, `created_at`, `updated_at`) VALUES
+(1, 'Branch One', NULL, 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', '1732516903.png', '1732517045.png', 3, NULL, 'sms3.pondit.com', 'ed57ddde38dd4fc7', 'a95186ae', 'asiancoder', '2024-11-24 09:07:41', '2025-01-05 07:46:28'),
+(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', NULL, 'ar@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
+(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '2024-11-25 11:22:00', '2024-11-25 11:22:00');
 
 -- --------------------------------------------------------
 
@@ -159,25 +163,6 @@ INSERT INTO `class_configs` (`id`, `name`, `branch_id`, `class_id`, `shift_id`, 
 (4, NULL, 2, 13, 2, 3, 3, 1, '2024-12-02 02:45:13', '2024-12-02 02:45:13'),
 (5, 'One-Boyes-Day', 1, 14, 1, 1, 2, 1, '2024-12-02 10:17:50', '2024-12-02 10:51:08'),
 (7, 'Play-Girls-Day', 1, 11, 1, 2, 3, 1, '2024-12-02 10:53:55', '2024-12-02 10:53:55');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `courses`
---
-
-CREATE TABLE `courses` (
-  `id` int UNSIGNED NOT NULL,
-  `branch_id` bigint UNSIGNED DEFAULT NULL,
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fullMarks` decimal(6,2) DEFAULT '0.00',
-  `writenMarks` decimal(6,2) DEFAULT '0.00',
-  `practicalMarks` decimal(6,2) DEFAULT '0.00',
-  `status` tinyint UNSIGNED NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1872,7 +1857,9 @@ CREATE TABLE `sms_contacts` (
 INSERT INTO `sms_contacts` (`id`, `branch_id`, `name`, `mobile`, `category_id`, `note`, `status`, `created_at`, `updated_at`) VALUES
 (1, NULL, 'Zakir', '01740836439', '2', NULL, 1, '2023-11-08 02:27:35', '2023-11-08 02:27:35'),
 (2, NULL, 'Shahadat Hosain', '01757839516', '2', NULL, 1, '2024-10-28 09:26:23', '2024-10-28 09:26:23'),
-(3, NULL, 'Bulbul', '01912624881', '1', NULL, 1, '2024-10-28 09:26:52', '2024-10-28 09:26:52');
+(3, NULL, 'Bulbul', '01912624881', '1', NULL, 1, '2024-10-28 09:26:52', '2024-10-28 09:26:52'),
+(4, 1, 'Shahadat', '01757839516', '3', NULL, 1, '2025-01-05 07:59:27', '2025-01-05 07:59:27'),
+(5, 1, 'Bulbul', '01912624881', '3', NULL, 1, '2025-01-05 08:00:30', '2025-01-05 08:00:30');
 
 -- --------------------------------------------------------
 
@@ -1895,7 +1882,8 @@ CREATE TABLE `sms_contact_categories` (
 
 INSERT INTO `sms_contact_categories` (`id`, `branch_id`, `name`, `status`, `created_at`, `updated_at`) VALUES
 (1, NULL, 'Family', 1, '2023-11-08 02:24:42', '2023-11-08 02:24:42'),
-(2, NULL, 'Friend', 1, '2023-11-08 02:27:17', '2023-11-08 02:27:17');
+(2, NULL, 'Friend', 1, '2023-11-08 02:27:17', '2023-11-08 02:27:17'),
+(3, 1, 'Friends', 1, '2025-01-05 07:59:20', '2025-01-05 07:59:20');
 
 -- --------------------------------------------------------
 
@@ -1951,7 +1939,8 @@ CREATE TABLE `sms_templates` (
 --
 
 INSERT INTO `sms_templates` (`id`, `branch_id`, `title`, `content`, `status`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Test Template', 'Hello Rajshahai', 1, '2023-11-08 02:54:52', '2023-11-08 02:54:52');
+(1, 1, 'Test Template', 'Hello Rajshahai', 1, '2023-11-08 02:54:52', '2023-11-08 02:54:52'),
+(3, 1, 'New Year', 'Happy new year', 1, '2025-01-05 07:49:50', '2025-01-05 07:49:50');
 
 -- --------------------------------------------------------
 
@@ -2025,7 +2014,12 @@ INSERT INTO `students` (`id`, `branch_id`, `reg_no`, `class_roll`, `name`, `date
 (10, 1, '20231001', 20231001, 'Md. Nasiruddin', '1990-09-12', '01739201222', NULL, 1, 1, 'Rahat', 'Bangladeshi', 'nipa', NULL, 'Male', 'Kacutaol', 'kharkhari', 544, 391, 'Kacutaol', 'kharkhari', 403, 391, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2023-09-12 08:30:25', '2024-01-09 03:04:32'),
 (12, 1, '56565656', 56565656, 'Mahfuz', NULL, '8801757839516', NULL, 1, 1, NULL, '1912624881', NULL, NULL, 'Male', 'soriotpur', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 03:07:57', '2024-01-09 03:04:32'),
 (13, 1, '56565657', 5, 'Akbok Ali', '2024-12-01', '01912624881', 'Islam', 1, 1, 'Father', NULL, 'Mother', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '01757839516', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-02 11:54:48', '2024-12-02 11:57:23'),
-(14, 1, '56565658', 25, 'Mahfuz', NULL, '8801757839516', NULL, 1, 1, 'Mahbub Ali', NULL, 'Nresa', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-03 05:20:29', '2024-12-03 05:20:29');
+(14, 1, '56565658', 25, 'Mahfuz', NULL, '8801757839516', NULL, 1, 1, 'Mahbub Ali', NULL, 'Nresa', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-03 05:20:29', '2024-12-03 05:20:29'),
+(15, 1, '25001', 1, 'Mizan', NULL, '01740839548', 'Muslim', 1, 11, 'jobbar', NULL, 'abeda', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:07:15', '2025-01-06 11:51:36'),
+(16, 1, '25002', 2, 'mazder', NULL, '01757839516', 'Hindu', 1, 11, 'jamil', NULL, 'mina', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:07:15', '2025-01-06 11:51:36'),
+(17, 1, '25003', 3, 'aslam', NULL, '01912624881', 'Muslim', 1, 11, 'akber', NULL, 'farah', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:07:15', '2025-01-06 11:39:59'),
+(18, 1, '25004', 1, 'Azmira', NULL, '01701063565', 'Muslim', 5, 14, 'Azam', NULL, 'Rozi', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:11:58', '2025-01-06 10:11:58'),
+(19, 1, '25005', 2, 'saima', NULL, '01701063566', 'Muslim', 5, 14, 'Shahadat', NULL, 'Azmira', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:11:58', '2025-01-06 10:11:58');
 
 -- --------------------------------------------------------
 
@@ -2349,12 +2343,6 @@ ALTER TABLE `categories`
 -- Indexes for table `class_configs`
 --
 ALTER TABLE `class_configs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `courses`
---
-ALTER TABLE `courses`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2743,12 +2731,6 @@ ALTER TABLE `class_configs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `courses`
---
-ALTER TABLE `courses`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `exam_configurations`
 --
 ALTER TABLE `exam_configurations`
@@ -2956,13 +2938,13 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT for table `sms_contacts`
 --
 ALTER TABLE `sms_contacts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sms_contact_categories`
 --
 ALTER TABLE `sms_contact_categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sms_logs`
@@ -2974,13 +2956,13 @@ ALTER TABLE `sms_logs`
 -- AUTO_INCREMENT for table `sms_templates`
 --
 ALTER TABLE `sms_templates`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `student_ac_fee_configs`

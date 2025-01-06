@@ -87,6 +87,26 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item has-treeview {{ (request()->routeIs('student.reg.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('student.reg.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tasks"></i>
+                  <p>
+                    Registration
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("student.reg.mass_create") }}" class="nav-link {{ (request()->routeIs('student.reg.mass_create')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>New Registration</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.reg.mass_edit") }}" class="nav-link {{ (request()->routeIs('student.reg.mass_edit')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>Edit Registration</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("student.reg.mass_create_excel") }}" class="nav-link {{ (request()->routeIs('student.reg.mass_create_excel')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>Excel Upload</p></a>
+                  </li>
+                </ul>
+              </li>
               <li class="nav-item"><a href="{{ route("student.student.index") }}" class="nav-link {{ (request()->routeIs('student.student.*')) ? ' active' : '' }}">
                 <i class="far fa-user nav-icon"></i> <p>{{__('Student List') }}</p></a>
               </li>

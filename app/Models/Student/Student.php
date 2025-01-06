@@ -12,7 +12,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'branch_id','reg_no','class_roll','name','section_id','semester_id','shift_id','group_id','category_id','Comment','religion','academic_year_id','fathersName','mothersName','sex','address','presentPost','presentUpazila','presentZila','permanentVillage','permanentPost','permanentUpazila','permanentZila','dateOfBirth','mobile','photo','mobileFather','mobileMother'
+        'branch_id','academic_year_id','reg_no','class_roll','name','section_id','semester_id','shift_id','group_id','category_id','Comment','religion','fathersName','mothersName','sex','address','presentPost','presentUpazila','presentZila','permanentVillage','permanentPost','permanentUpazila','permanentZila','dateOfBirth','mobile','photo','mobileFather','mobileMother'
     ];
 /*
     public function invoice(){

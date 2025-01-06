@@ -19,7 +19,7 @@
     </div>
     <!-- /.card-body -->
 </div>
-@section('js')
+@section('js2')
 <script src="{{asset('/assets/admin/js/sms.counter.js')}}"></script>
 <script>
     $("#content").on("change keyup paste", function () {
@@ -59,5 +59,22 @@
         );
         }
     };
+
+    $('#template').on('change', function() {
+        let template_id = $(this).val();
+        if(template_id == ''){
+            return false;
+        }
+        let url = "{{ url('sms/smsTemplate') }}/"+template_id;
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function(data){
+                $('#content').val(data.content);
+            }
+        })
+    });
+
 </script>
 @endsection

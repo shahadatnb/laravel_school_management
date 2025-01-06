@@ -122,6 +122,18 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::resource('group_config', GroupConfigController::class);
         });
 
+        Route::prefix('registration')->as('reg.')->group(function() {            
+            Route::get('mass_create', [StudentController::class,'mass_create'])->name('mass_create');
+            Route::get('mass_create_excel', [StudentController::class,'mass_create_excel'])->name('mass_create_excel');
+            Route::post('mass_save', [StudentController::class,'mass_save'])->name('mass_save');
+            Route::get('mass_edit', [StudentController::class,'mass_edit'])->name('mass_edit');
+            Route::post('mass_update', [StudentController::class,'mass_update'])->name('mass_update');
+            Route::post('mass_delete', [StudentController::class,'mass_delete'])->name('mass_delete');
+        });
+
+        Route::get('get_student_by_section', [StudentController::class,'get_student_by_section'])->name('get_student_by_section');
+        Route::get('get_student_by_class', [StudentController::class,'get_student_by_class'])->name('get_student_by_class');
+
         Route::get('student/admissionForm/{student}', [StudentController::class,'admissionForm'])->name('admissionForm');
         Route::post('student/import', [StudentController::class,'import'])->name('student.import');
         Route::resource('student', StudentController::class);
@@ -237,6 +249,7 @@ Route::group(['prefix'=>'sms','middleware'=> ['auth','branch']], function(){
     Route::resource('smsTemplate', SmsTemplateController::class);
     Route::get('/smsBalance', [SMSController::class, 'smsBalance'])->name('smsBalance');
     Route::get('get_students', [SmsController::class, 'get_students'])->name('sms.get_students');
+    // Route::get('get_template', [SmsTemplateController::class, 'get_template'])->name('sms.get_template');
     Route::get('send', [SmsController::class, 'index'])->name('sms.send');
     Route::get('send_class_wise', [SmsController::class, 'send_class_wise'])->name('sms.send_class_wise');
     Route::get('send_section_wise', [SmsController::class, 'send_section_wise'])->name('sms.send_section_wise');

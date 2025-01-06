@@ -10,6 +10,7 @@ use App\Models\SMS\SmsLog;
 use App\Models\Student\AcademicYear;
 use App\Models\Student\Semester;
 use App\Models\Student\ClassConfig;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportNumber;
 use App\Facades\CustomHelperFacade as CustomHelper;
@@ -25,38 +26,29 @@ class SMSController extends Controller
     public function send_class_wise(){
         $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
         $semesters = Semester::where('branch_id', session('branch')['id'])->orderBy('serial','ASC')->where('status',1)->pluck('name', 'id');
-        $templates = SmsTemplate::pluck('title', 'id')->where('branch_id', session('branch')['id'])->toArray();
+        $templates = SmsTemplate::where('branch_id', session('branch')['id'])->pluck('title', 'id')->toArray();
         return view('admin.sms.send.class_wise', compact('templates', 'academic_years', 'semesters'));
     }
 
     public function send_section_wise(){
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
         $sections = ClassConfig::where('branch_id', session('branch')['id'])->pluck('name', 'id')->toArray();
-        $templates = SmsTemplate::pluck('title', 'id')->where('branch_id', session('branch')['id'])->toArray();
-        return view('admin.sms.send.section_wise', compact('templates', 'sections'));
+        $templates = SmsTemplate::where('branch_id', session('branch')['id'])->pluck('title', 'id')->toArray();
+        //dd($templates);
+        return view('admin.sms.send.section_wise', compact('templates','academic_years','sections'));
     }
 
     public function get_students(Request $request){
-        $studentDatas = Student::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id);
-        if($request->has('section_id')){
-            $studentDatas = $studentDatas->where('section_id', $request->section_id);
+        $students = Student::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id);
+        if($request->type == 'section_wise'){
+            $students = $students->where('section_id', $request->section_id);
         }
 
-        if($request->has('class_id')){
-            $studentDatas = $studentDatas->where('semester_id', $request->class_id);
+        if($request->type == 'class_wise'){
+            $students = $students->where('semester_id', $request->class_id);
         }
 
-        $studentDatas = $studentDatas->with('section', 'semester')->get();
-
-        $students = [];
-        foreach($studentDatas as $student){
-            $students[$student->id] = [
-                'id' => $student->id,
-                'name' => $student->name,
-                'mobile' => $student->mobile,
-                'section' => $student->section->name,
-                'class' => $student->semester->name,
-            ];
-        }
+        $students = $students->with('section', 'semester')->get();
 
         return response()->json([
             'status' => true,
@@ -74,6 +66,39 @@ class SMSController extends Controller
     }
 
     public function send(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'academic_year_id' => 'required',
+            'content' => 'required',
+            'mobile.*' => 'required|digits:11',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+
+        $contacts = [];
+        foreach($request->student_id as $key=>$student_id){
+            $number = $request->mobile[$key];
+            $contacts[$key] = substr($number, 0, 2) == '88' ? $number : '88'.$number;
+        }
+
+        if(count($contacts) > 50){
+            foreach(array_chunk($contacts, 50) as $chunk){
+                $numbers = implode(',', $chunk);
+                $response = CustomHelper::send_sms($numbers, $request->content);
+                $this->save_log($response, $numbers, $request);
+            }
+        }else{
+            $numbers = implode(', ', $contacts);
+            $response = CustomHelper::send_sms($numbers, $request->content);
+            $this->save_log($response, $numbers, $request);
+        }
+
+        return response()->json(['status'=>true, 'message'=>'Successfully Send']);
+
+        /*
         $this->validate($request, [
             'numberType' => 'required',
             'contacts' => 'required_if:numberType,contact',
@@ -81,7 +106,6 @@ class SMSController extends Controller
             'content' => 'required',
         ]);
 
-        //dd($request->all()); exit;
 
         if($request->numberType == 'contact'){            
             $contacts = [];
@@ -121,24 +145,10 @@ class SMSController extends Controller
                 $this->save_log($response, $numbers, $request);
             }
         }
+        return redirect()->back();   
 
-        /*
-        return Http::post(config('settings.sms_domain_url').':7788/send',[
-            'apikey'=> config('settings.sms_api_key'),
-            'secretkey'=> config('settings.sms_secretkey'),
-            'content'=> [
-                "callerID"=>"12345",
-                "toUser"=>$numbers,
-                "messageContent"=>$request->content
-            ]
-        ]);
         */
-        //$response = Http::get(config('settings.sms_domain_url').':7788/send?apikey='.config('settings.sms_api_key').'&secretkey='.config('settings.sms_secretkey').'&content=[{"callerID":"12345","toUser":"'.$numbers.'","messageContent":"'.$request->content.'"}]');
-        //$response = Http::get(config('settings.sms_domain_url',null).'/miscapi/'.config('settings.sms_api_key').'/getDLR/getAll');
-        //dd($response);exit;
-        //if($response->successful()){
-        
-        return redirect()->back();        
+             
     }
 
     private function save_log($response, $contacts, $request){
