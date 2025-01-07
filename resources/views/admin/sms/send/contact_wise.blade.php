@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title',"Send SMS")
+@section('title',"Send SMS Contact Wise")
 @section('css')
 @endsection
 @section('content')
@@ -15,17 +15,11 @@
             
             </div><!-- /.card-header -->
             <div class="card-body">
-                <div class="row">                    
+                <div class="row">
                     <div class="col-3">
                         <div class="form-group">
-                            {!! Form::label('academic_year_id', __('Year'),['class'=>'']) !!}
-                            {!! Form::select('academic_year_id', $academic_years,session('branch')['academic_year_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Year')]) !!}
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="form-group">
-                            {!! Form::label('section_id', __('Select Section'),['class'=>'']) !!}
-                            {!! Form::select('section_id', $sections,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Section')]) !!}
+                            {!! Form::label('category_id', __('Select Category'),['class'=>'']) !!}
+                            {!! Form::select('category_id', $categories,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Class')]) !!}
                         </div>
                     </div>
                     <div class="col-3">
@@ -41,10 +35,7 @@
                         <thead>
                             <tr>
                                 <th><input type="checkbox" id="selectAll"></th>
-                                <th>{{__('Roll')}}</th>
                                 <th>{{__('Name')}}</th>
-                                <th>{{__('Father Name')}}</th>
-                                <th>{{__('Mother Name')}}</th>
                                 <th>{{__('Mobile')}}</th>
                             </tr>
                         </thead>
@@ -67,34 +58,26 @@
 $(document).ready(function() {
 
     $("#search_student").click(function(){
-        let section_id = $('#section_id').val();
-        let academic_year_id = $('#academic_year_id').val();
-        if(section_id == ''){
-            alert('Please select section');
-            return false;
-        }
-        if(academic_year_id == ''){
-            alert('Please select year');
+        let category_id = $('#category_id').val();
+        if(category_id == ''){
+            alert('Please select Category');
             return false;
         }
         $.LoadingOverlay("show");
         $("#errorMsg").html('');
         $('#student_list').html('');
         $.ajax({
-            url: "{{ route('sms.get_students') }}",
+            url: "{{ route('sms.get_contacts') }}",
             type: "GET",
-            data: {section_id:section_id,academic_year_id:academic_year_id,type:'section_wise'},
+            data: {category_id:category_id},
             success: function(json){
                 if(json.status == true){
-                    json.students.forEach(function(value,index){
+                    json.contacts.forEach(function(value,index){
                         var html = `<tr>
                         <td>
                         <input type="checkbox" checked class="student_id" name="student_id[]" value="${value.id}">
                         </td>
-                        <td>${value.class_roll}</td>
                         <td>${value.name}</td>
-                        <td>${value.fathersName}</td>
-                        <td>${value.mothersName}</td>
                         <td>${value.mobile}<input type="hidden" name="mobile[${value.id}]" value="${value.mobile}"></td>
                         </tr>`;
                         $('#student_list').append(html);

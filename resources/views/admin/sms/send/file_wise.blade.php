@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title',"Send SMS")
+@section('title',"Send SMS Class Wise")
 @section('css')
 @endsection
 @section('content')
@@ -15,21 +15,16 @@
             
             </div><!-- /.card-header -->
             <div class="card-body">
-                <div class="row">                    
+                <div class="row"> 
                     <div class="col-3">
-                        <div class="form-group">
-                            {!! Form::label('academic_year_id', __('Year'),['class'=>'']) !!}
-                            {!! Form::select('academic_year_id', $academic_years,session('branch')['academic_year_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Year')]) !!}
+                        <div class="input-group">
+                            <div class="custom-file">
+                              {!! Form::file('file',['class'=>'form-control','id'=>'file','required'=>false]) !!}
+                            </div>
                         </div>
                     </div>
                     <div class="col-3">
-                        <div class="form-group">
-                            {!! Form::label('section_id', __('Select Section'),['class'=>'']) !!}
-                            {!! Form::select('section_id', $sections,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Section')]) !!}
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <button type="button" id="search_student" class="btn btn-info btn-block">Search</button>
+                        
                     </div>
                     <div class="col-3">
                         <button type="submit" class="btn btn-success btn-block">Send SMS</button>
@@ -41,11 +36,8 @@
                         <thead>
                             <tr>
                                 <th><input type="checkbox" id="selectAll"></th>
-                                <th>{{__('Roll')}}</th>
-                                <th>{{__('Name')}}</th>
-                                <th>{{__('Father Name')}}</th>
-                                <th>{{__('Mother Name')}}</th>
                                 <th>{{__('Mobile')}}</th>
+                                <th>{{__('Name')}}</th>
                             </tr>
                         </thead>
                         <tbody id="student_list">
@@ -66,36 +58,31 @@
 <script>
 $(document).ready(function() {
 
-    $("#search_student").click(function(){
-        let section_id = $('#section_id').val();
-        let academic_year_id = $('#academic_year_id').val();
-        if(section_id == ''){
-            alert('Please select section');
-            return false;
-        }
-        if(academic_year_id == ''){
-            alert('Please select year');
-            return false;
-        }
+    $("#file").change(function(){        
         $.LoadingOverlay("show");
         $("#errorMsg").html('');
         $('#student_list').html('');
+        //$(this)[0]
+        let formData = new FormData();
+        formData.append('file', $(this)[0].files[0]);
+        formData.append('_token', '{{ csrf_token() }}');
+        console.log(formData);
         $.ajax({
-            url: "{{ route('sms.get_students') }}",
-            type: "GET",
-            data: {section_id:section_id,academic_year_id:academic_year_id,type:'section_wise'},
+            url: "{{ route('sms.get_file_data') }}",
+            type: "POST",
+            data: formData,
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
             success: function(json){
                 if(json.status == true){
                     json.students.forEach(function(value,index){
                         var html = `<tr>
                         <td>
-                        <input type="checkbox" checked class="student_id" name="student_id[]" value="${value.id}">
+                        <input type="checkbox" checked class="student_id" name="student_id[${index}]" value="1">
                         </td>
-                        <td>${value.class_roll}</td>
-                        <td>${value.name}</td>
-                        <td>${value.fathersName}</td>
-                        <td>${value.mothersName}</td>
-                        <td>${value.mobile}<input type="hidden" name="mobile[${value.id}]" value="${value.mobile}"></td>
+                        <td>${value.mobile}<input type="hidden" name="mobile[${index}]" value="${value.mobile}"></td>
+                        <td>${value.name ?? ''}</td>
                         </tr>`;
                         $('#student_list').append(html);
                     });

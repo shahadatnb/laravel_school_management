@@ -249,11 +249,15 @@ Route::group(['prefix'=>'sms','middleware'=> ['auth','branch']], function(){
     Route::resource('smsTemplate', SmsTemplateController::class);
     Route::get('/smsBalance', [SMSController::class, 'smsBalance'])->name('smsBalance');
     Route::get('get_students', [SmsController::class, 'get_students'])->name('sms.get_students');
+    Route::get('get_contacts', [SmsController::class, 'get_contacts'])->name('sms.get_contacts');
+    Route::post('get_file_data', [SmsController::class, 'get_file_data'])->name('sms.get_file_data');
     // Route::get('get_template', [SmsTemplateController::class, 'get_template'])->name('sms.get_template');
     Route::get('send', [SmsController::class, 'index'])->name('sms.send');
+    Route::post('send', [SmsController::class, 'send'])->name('sms.send.post');
     Route::get('send_class_wise', [SmsController::class, 'send_class_wise'])->name('sms.send_class_wise');
     Route::get('send_section_wise', [SmsController::class, 'send_section_wise'])->name('sms.send_section_wise');
-    Route::post('send', [SmsController::class, 'send'])->name('sms.send.post');
+    Route::get('send_file_wise', [SmsController::class, 'send_file_wise'])->name('sms.send_file_wise');
+    Route::get('send_contact_wise', [SmsController::class, 'send_contact_wise'])->name('sms.send_contact_wise');
     Route::get('report', [SmsLogController::class, 'report'])->name('sms.report');
     Route::get('report-summary', [SmsLogController::class, 'reportSummary'])->name('sms.report.summary');
 });

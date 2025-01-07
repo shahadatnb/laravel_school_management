@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\SMS\SmsTemplate;
+use App\Models\SMS\SmsContactCategory;
 use App\Models\SMS\SmsContact;
 use App\Models\SMS\SmsLog;
 use App\Models\Student\AcademicYear;
@@ -38,6 +39,18 @@ class SMSController extends Controller
         return view('admin.sms.send.section_wise', compact('templates','academic_years','sections'));
     }
 
+    public function send_file_wise(){
+        $templates = SmsTemplate::where('branch_id', session('branch')['id'])->pluck('title', 'id')->toArray();
+        //dd($templates);
+        return view('admin.sms.send.file_wise', compact('templates'));
+    }
+
+    public function send_contact_wise(){
+        $templates = SmsTemplate::where('branch_id', session('branch')['id'])->pluck('title', 'id')->toArray();
+        $categories = SmsContactCategory::where('branch_id', session('branch')['id'])->pluck('name', 'id')->toArray();
+        return view('admin.sms.send.contact_wise', compact('templates', 'categories'));
+    }
+
     public function get_students(Request $request){
         $students = Student::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id);
         if($request->type == 'section_wise'){
@@ -56,6 +69,36 @@ class SMSController extends Controller
         ]);
     }
 
+    public function get_contacts(Request $request){
+        $contacts = SmsContact::where('branch_id', session('branch')['id']);
+        if($request->has('category_id')){
+            $contacts = $contacts->where('category_id', $request->category_id);
+        }
+        $contacts = $contacts->get();
+        return response()->json([
+            'status' => true,
+            'contacts' => $contacts
+        ]);
+    }
+
+    public function get_file_data(Request $request){
+        $validator = Validator::make($request->all(), [
+            'file' => 'mimes:xlsx,xls|required',
+        ]);
+        //dd($request->all());
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+        $array = Excel::toArray(new ImportNumber, $request->file('file'));
+        //dd($array);
+        return response()->json([
+            'status' => true,
+            'students' => $array[0]
+        ]);
+    }
+
     public function getContacts(Request $request){
         $contacts = SmsContact::where('branch_id', session('branch')['id']);
         if($request->has('category_id')){
@@ -68,7 +111,6 @@ class SMSController extends Controller
     public function send(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'academic_year_id' => 'required',
             'content' => 'required',
             'mobile.*' => 'required|digits:11',
         ]);
@@ -80,9 +122,11 @@ class SMSController extends Controller
 
         $contacts = [];
         foreach($request->student_id as $key=>$student_id){
-            $number = $request->mobile[$key];
+            $number = $request->mobile[$student_id];
             $contacts[$key] = substr($number, 0, 2) == '88' ? $number : '88'.$number;
         }
+
+        //dd($contacts);
 
         if(count($contacts) > 50){
             foreach(array_chunk($contacts, 50) as $chunk){
@@ -91,7 +135,7 @@ class SMSController extends Controller
                 $this->save_log($response, $numbers, $request);
             }
         }else{
-            $numbers = implode(', ', $contacts);
+            $numbers = implode(',', $contacts);
             $response = CustomHelper::send_sms($numbers, $request->content);
             $this->save_log($response, $numbers, $request);
         }

@@ -100,21 +100,21 @@
                       <td>
                         <input type="checkbox" checked class="student_id" name="student_id[]" value="${value.id}">
                       </td>
-                      <td><input type="text" name="class_roll[]" value="${value.class_roll}" class="form-control form-control-sm" required></td>
-                      <td><input type="text" name="name[]" value="${value.name}" class="form-control form-control-sm" required></td>
-                      <td><select name="sex[]"" class="form-control form-control-sm" required>`;
+                      <td><input type="text" name="class_roll[${value.id}]" value="${value.class_roll}" class="form-control form-control-sm" required></td>
+                      <td><input type="text" name="name[${value.id}]" value="${value.name}" class="form-control form-control-sm" required></td>
+                      <td><select name="sex[${value.id}]"" class="form-control form-control-sm" required>`;
                         sexs.forEach(function(value1,index1){
                           html += `<option value="${value1}" ${value.sex == value1 ? 'selected' : ''}>${value1}</option>`;
                         });
                       html += `</select></td>`;
-                      html += `<td><select name="religion[]" class="form-control form-control-sm" required>`;
+                      html += `<td><select name="religion[${value.id}]" class="form-control form-control-sm" required>`;
                         religions.forEach(function(value1,index1){
                           html += `<option value="${value1}" ${value.religion == value1 ? 'selected' : ''}>${value1}</option>`;
                           });
                         html += `</select></td>`;
-                        html += `<td><input type="text" name="fathersName[]" value="${value.fathersName}" class="form-control form-control-sm" required></td>
-                        <td><input type="text" name="mothersName[]" value="${value.mothersName}" class="form-control form-control-sm" required></td>
-                        <td><input type="text" name="mobile[]" value="${value.mobile}" class="form-control form-control-sm" required></td>
+                        html += `<td><input type="text" name="fathersName[${value.id}]" value="${value.fathersName}" class="form-control form-control-sm" required></td>
+                        <td><input type="text" name="mothersName[${value.id}]" value="${value.mothersName}" class="form-control form-control-sm" required></td>
+                        <td><input type="text" name="mobile[${value.id}]" value="${value.mobile}" class="form-control form-control-sm" required></td>
                       </tr>`;
                       $('#student_list').append(html);
                     });

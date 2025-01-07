@@ -1,10 +1,9 @@
 @extends('admin.layouts.layout')
-@section('title',"Send SMS")
+@section('title',"Send SMS Class Wise")
 @section('css')
-<link rel="stylesheet" href="{{asset('/assets/admin')}}/plugins/datatables/datatables.min.css">
 @endsection
 @section('content')
-{!! Form::open(array('route'=>['sms.send.post'],'method'=>'POST','files' => true)) !!}
+{!! Form::open(array('route'=>['sms.send.post'],'method'=>'POST','id'=>'sms_send','files' => true)) !!}
 <div class="row">
     <div class="col-sm-12 col-md-3">
         @include('admin.sms.send.send_box')
@@ -12,11 +11,48 @@
     <div class="col-sm-12 col-md-9">
         <!-- Default box -->
         <div class="card">
-            <div class="card-header">
+            <div class="card-header p-2">
             
             </div><!-- /.card-header -->
             <div class="card-body">
-            
+                <div class="row">                    
+                    <div class="col-3">
+                        <div class="form-group">
+                            {!! Form::label('academic_year_id', __('Year'),['class'=>'']) !!}
+                            {!! Form::select('academic_year_id', $academic_years,session('branch')['academic_year_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Year')]) !!}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            {!! Form::label('class_id', __('Select Class'),['class'=>'']) !!}
+                            {!! Form::select('class_id', $semesters,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Class')]) !!}
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" id="search_student" class="btn btn-info btn-block">Search</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-success btn-block">Send SMS</button>
+                    </div>
+                </div>
+                <div id="errorMsg"></div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="student_table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll"></th>
+                                <th>{{__('Roll')}}</th>
+                                <th>{{__('Name')}}</th>
+                                <th>{{__('Father Name')}}</th>
+                                <th>{{__('Mother Name')}}</th>
+                                <th>{{__('Mobile')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody id="student_list">
+                        </tbody>
+                    </table>
+                </div>              
+
             </div><!-- /.card-body -->
         </div>
         <!-- /.card -->
@@ -25,134 +61,59 @@
 {!! Form::close() !!}
 @endsection
 @section('js')
-<script src="{{asset('/assets/admin')}}/plugins/datatables/datatables.min.js"></script>
-<script src="{{asset('/assets/admin/js/sms.counter.js')}}"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
 <script>
 $(document).ready(function() {
-    var arr = [];
-    
-    $('#template').on('change', function() {
-        let template_id = $(this).val();
-        if(template_id == ''){
+
+    $("#search_student").click(function(){
+        let class_id = $('#class_id').val();
+        let academic_year_id = $('#academic_year_id').val();
+        if(class_id == ''){
+            alert('Please select section');
             return false;
         }
-        let url = "{{ url('sms/smsTemplate') }}/"+template_id;
+        if(academic_year_id == ''){
+            alert('Please select year');
+            return false;
+        }
+        $.LoadingOverlay("show");
+        $("#errorMsg").html('');
+        $('#student_list').html('');
         $.ajax({
-            url: url,
+            url: "{{ route('sms.get_students') }}",
             type: "GET",
-            dataType: "json",
-            success: function(data){
-                $('#content').val(data.content);
+            data: {class_id:class_id,academic_year_id:academic_year_id,type:'class_wise'},
+            success: function(json){
+                if(json.status == true){
+                    json.students.forEach(function(value,index){
+                        var html = `<tr>
+                        <td>
+                        <input type="checkbox" checked class="student_id" name="student_id[]" value="${value.id}">
+                        </td>
+                        <td>${value.class_roll}</td>
+                        <td>${value.name}</td>
+                        <td>${value.fathersName}</td>
+                        <td>${value.mothersName}</td>
+                        <td>${value.mobile}<input type="hidden" name="mobile[${value.id}]" value="${value.mobile}"></td>
+                        </tr>`;
+                        $('#student_list').append(html);
+                    });
+                }else{
+                    //console.log(json);
+                    if(json.message){
+                        $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${json.message}</div>`);
+                    }
+                    json.errors.forEach(function(element){
+                        $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${element}</div>`);
+                    });
+                    //alert(data.errors);
+                }
             }
-        })
+        });
+        $.LoadingOverlay("hide");
     });
 
-    function smsType(type){
-        var $radios = $('input:radio[name=numberType]');
-        //if($radios.is(':checked') === false) {
-            $radios.filter('[value='+type+']').prop('checked', true);
-        //}
-    }
-
-    $("input[name='contacts[]']").change(function() {
-        smsType('contact');
-    });
-
-    $("#file").change(function() {
-        smsType('excel');
-    });
-
-    $('#selectAllStudent').click(function(){
-        if($(this).is(':checked')){
-            $('input.studentNumber').prop('checked', true);
-            smsType('contact');
-        }else{
-            $('input.studentNumber').prop('checked', false);
-        }
-    });
-
-    $('#selectAllSupplier').click(function(){
-        if($(this).is(':checked')){
-            $('input.supplierNumber').prop('checked', true);
-            smsType('contact');
-        }else{
-            $('input.supplierNumber').prop('checked', false);
-        }
-    });
-
-    $('#selectAllContact').click(function(){
-        if($(this).is(':checked')){
-            $('input.contactNumber').prop('checked', true);
-            smsType('contact');
-        }else{
-            $('input.contactNumber').prop('checked', false);
-        }
-    });
-
-    $('.dselectAll').click(function(){
-        $('input[name="contacts[]"]').prop('checked', false);
-    });
-
-    $(function () {
-      $("#student_table").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-        "paging": false,
-      });      
-    });
-    $(function () {
-      $("#supplier_table").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-        "paging": false,
-      });      
-    });
-    $(function () {
-      $("#contact_table").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-        "paging": false,
-      });      
-    });
-
-    $("#messagecontent").on("change keyup paste", function () {
-        countSmsBody();
-    });
-
-    countSmsBody = function () {
-        var msg = $("#messagecontent").val();
-        var data = SMSCounter.count(msg, true);
-        var length = data["length"];
-        var remaining = data["remaining"];
-        var part_count = data["part_count"];
-        var text = data["text"];
-        var per_message = data["per_message"];
-        var encoding = data["encoding"];
-        var sms_type = "";
-        if (encoding == "GSM_7BIT") {
-        sms_type = "Normal";
-        } else if (encoding == "GSM_7BIT_EX") {
-        sms_type = "Extended"; // for 7 bit GSM: ^ { } \ [ ] ~ | €
-        } else if (encoding == "GSM_7BIT_EX_TR") {
-        sms_type = "Turkish"; // Only for Turkish Characters "Ş ş Ğ ğ ç ı İ" encoding see https://en.wikipedia.org/wiki/GSM_03.38#Turkish_language_.28Latin_script.29
-        } else if (encoding == "UTF16") {
-        sms_type = "Unicode"; // for other languages "Arabic, Chinese, Russian" see http://en.wikipedia.org/wiki/GSM_03.38#UCS-2_Encoding
-        }
-
-        if (length < 1) {
-        $("#smsbodycountdiv").text(" 1/0 : (160 Characters Per SMS)");
-        } else {
-        $("#smsbodycountdiv").text(
-            part_count +
-            "/" +
-            length +
-            "  : (" +
-            per_message +
-            " Characters Per SMS)"
-        );
-        }
-    };
-
-})
+});
 </script>
 @endsection

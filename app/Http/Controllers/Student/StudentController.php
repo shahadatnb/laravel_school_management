@@ -121,13 +121,13 @@ class StudentController extends Controller
             $student['group_id'] = $request->group_id;
             $student['category_id'] = $request->category_id;
             $student['reg_no'] = $reg_no++;
-            $student['class_roll'] = $request->class_roll[$key];
-            $student['name'] = $request->name[$key];
-            $student['sex'] = $request->sex[$key];
-            $student['religion'] = $request->religion[$key];
-            $student['fathersName'] = $request->fathersName[$key];
-            $student['mothersName'] = $request->mothersName[$key];
-            $student['mobile'] = $request->mobile[$key];
+            $student['class_roll'] = $request->class_roll[$student_id];
+            $student['name'] = $request->name[$student_id];
+            $student['sex'] = $request->sex[$student_id];
+            $student['religion'] = $request->religion[$student_id];
+            $student['fathersName'] = $request->fathersName[$student_id];
+            $student['mothersName'] = $request->mothersName[$student_id];
+            $student['mobile'] = $request->mobile[$student_id];
             //dd($student);
             Student::create($student);
         }

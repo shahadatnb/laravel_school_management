@@ -76,5 +76,48 @@
         })
     });
 
+    $("#sms_send").submit(function(e){
+        e.preventDefault();
+        var student_id = $(".student_id:checked").length;
+        if(student_id == 0){
+          alert('Please select at least one student');
+          return false;
+        }
+        $.LoadingOverlay("show");
+        $("#errorMsg").html('');
+        $.ajax({
+          url: $(this).attr('action'),
+          type: $(this).attr('method'),
+          data: $(this).serialize(),
+          success: function(json){
+            //console.log(json);
+            if(json.status == true){
+              if(json.message){
+                $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${json.message}</div>`);
+              }
+            }else{
+              //console.log(json);
+              if(json.message){
+                $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${json.message}</div>`);
+              }
+              json.errors.forEach(function(element){
+                  $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${element}</div>`);
+              });
+              //alert(data.errors);
+            }
+            $.LoadingOverlay("hide");
+          }
+        });
+
+      });
+
+    $('#selectAll').click(function(){
+        if($(this).is(':checked')){
+            $('.student_id').prop('checked', true);
+        }else{
+            $('.student_id').prop('checked', false);
+        }
+    });
+
 </script>
 @endsection

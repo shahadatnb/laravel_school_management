@@ -319,14 +319,17 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  {{-- <li class="nav-item"><a href="{{ route("sms.send") }}" class="nav-link {{ (request()->routeIs('sms.send')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> <p>SMS Send</p></a>
-                  </li> --}}
                   <li class="nav-item"><a href="{{ route("sms.send_class_wise") }}" class="nav-link {{ (request()->routeIs('sms.send_class_wise')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> <p>SMS Class Wise</p></a>
                   </li>
                   <li class="nav-item"><a href="{{ route("sms.send_section_wise") }}" class="nav-link {{ (request()->routeIs('sms.send_section_wise')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> <p>SMS Section Wise</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sms.send_contact_wise") }}" class="nav-link {{ (request()->routeIs('sms.send_contact_wise')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>SMS Contact Wise</p></a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("sms.send_file_wise") }}" class="nav-link {{ (request()->routeIs('sms.send_file_wise')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> <p>SMS File Wise</p></a>
                   </li>
                 </ul>
               </li>

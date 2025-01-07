@@ -30,24 +30,34 @@ class CustomHelper
         return Language::pluck($lan,'code')->toArray();
     }
 
-    public function send_sms($to,$message) {
-    $url = config('settings.sms_domain_url',null)."/smsapi";
-    $data = [
-        "api_key" => config('settings.sms_api_key'),
-        "type" => "text",
-        "contacts" => $to,
-        "senderid" => config('settings.sms_senderid',null),
-        "msg" => $message,//urlencode(),
-    ];
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    return $response;
+
+    public function send_sms($to,$message,$type='text'){
+        $url = session('branch')['sms_domain_url'].":7788/sendtext?apikey=".session('branch')['sms_api_key']."&secretkey=".session('branch')['sms_secretkey']."&callerID=12345&toUser=".$to."&messageContent=".urlencode($message);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        return curl_exec($ch);
+    }
+
+    public function send_sms1($to,$message) {
+        $url = config('settings.sms_domain_url',null)."/smsapi";
+        $data = [
+            "api_key" => config('settings.sms_api_key'),
+            "type" => "text",
+            "contacts" => $to,
+            "senderid" => config('settings.sms_senderid',null),
+            "msg" => $message,//urlencode(),
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
     }
 
     function send_sms_many() {
