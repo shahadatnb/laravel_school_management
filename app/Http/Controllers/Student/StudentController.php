@@ -80,16 +80,16 @@ class StudentController extends Controller
         return view('admin.student.student.index', compact('students','semesters','catetories','sections','groups','data'));
     }
 
-    public function mass_create(){
+    public function multiple_create(){
         $semesters = $this->semesterArray();
         $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
         $sections = $this->sectionArray();
         $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
         $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');
-        return view('admin.student.registration.mass_create', compact('semesters','catetories','sections','groups','academic_years'));
+        return view('admin.student.registration.multiple_create', compact('semesters','catetories','sections','groups','academic_years'));
     }
 
-    public function mass_save(Request $request){
+    public function multiple_save(Request $request){
         $validator = Validator::make($request->all(), [
             'academic_year_id' => 'required',
             //'semester_id' => 'required',
@@ -174,16 +174,16 @@ class StudentController extends Controller
         return response()->json(['status'=>true, 'students'=>$students]);
     }
 
-    public function mass_edit(){
+    public function multiple_edit(){
         $semesters = $this->semesterArray();
         $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
         $sections = $this->sectionArray();
         $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
         $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');
-        return view('admin.student.registration.mass_update', compact('semesters','catetories','sections','groups','academic_years'));
+        return view('admin.student.registration.multiple_update', compact('semesters','catetories','sections','groups','academic_years'));
     }
 
-    public function mass_update(Request $request){
+    public function multiple_update(Request $request){
         $validator = Validator::make($request->all(), [
             'academic_year_id' => 'required',
             //'semester_id' => 'required',

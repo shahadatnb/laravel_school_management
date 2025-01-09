@@ -46,7 +46,7 @@ class ExamShortCodeController extends Controller
 
     }
 
-    public function mass_update(Request $request)
+    public function multiple_update(Request $request)
     {
         $request->validate([
             'short_code_id' => 'required',

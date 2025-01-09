@@ -53,7 +53,7 @@
         </div>
         <div class="card-body">
           @include('admin.layouts._message')
-          {!! Form::open(array('route'=>['exam.config.subject.mass_update'])) !!}
+          {!! Form::open(array('route'=>['exam.config.subject.multiple_update'])) !!}
           <table id="example1" class="table table-bordered table-striped table-sm">
             <thead>
             <tr>

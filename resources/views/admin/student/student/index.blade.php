@@ -34,7 +34,7 @@
               <div class="btn btn-group">
                 <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-search"></i> Filter</button>
                 {{-- Total: {{ $students->total() }} --}}
-                <a class="btn btn-primary btn-sm" href="{{ route('student.reg.mass_create')}}"><i class="fas fa-plus"></i> New mass</a>
+                <a class="btn btn-primary btn-sm" href="{{ route('student.reg.multiple_create')}}"><i class="fas fa-plus"></i> New mass</a>
                 <a class="btn btn-primary btn-sm" href="{{ route('student.student.create')}}"><i class="fas fa-plus"></i> New</a>
               </div>              
             </div>

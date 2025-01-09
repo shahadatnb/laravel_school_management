@@ -70,7 +70,7 @@ class ExamSubjectConfigController extends Controller
     }
 
 
-    public function mass_update(Request $request)
+    public function multiple_update(Request $request)
     {
         //dd($request->all());
         foreach ($request->subject_config_id as $key => $value) {

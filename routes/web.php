@@ -123,12 +123,12 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         });
 
         Route::prefix('registration')->as('reg.')->group(function() {            
-            Route::get('mass_create', [StudentController::class,'mass_create'])->name('mass_create');
+            Route::get('multiple_create', [StudentController::class,'multiple_create'])->name('multiple_create');
             Route::post('file_process', [StudentController::class,'file_process'])->name('file_process');
-            Route::post('mass_save', [StudentController::class,'mass_save'])->name('mass_save');
-            Route::get('mass_edit', [StudentController::class,'mass_edit'])->name('mass_edit');
-            Route::post('mass_update', [StudentController::class,'mass_update'])->name('mass_update');
-            Route::post('mass_delete', [StudentController::class,'mass_delete'])->name('mass_delete');
+            Route::post('multiple_save', [StudentController::class,'multiple_save'])->name('multiple_save');
+            Route::get('multiple_edit', [StudentController::class,'multiple_edit'])->name('multiple_edit');
+            Route::post('multiple_update', [StudentController::class,'multiple_update'])->name('multiple_update');
+            Route::post('multiple_delete', [StudentController::class,'multiple_delete'])->name('multiple_delete');
         });
 
         Route::get('get_student_by_section', [StudentController::class,'get_student_by_section'])->name('get_student_by_section');
@@ -144,7 +144,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         Route::prefix('setup')->as('setup.')->group(function() {
             Route::resource('examList', ExamListController::class)->except('show');
             Route::resource('examSubject', ExamSubjectController::class)->except('show');
-            Route::post('examShortCode/mass_update', [ExamShortCodeController::class,'mass_update'])->name('examShortCode.mass_update');
+            Route::post('examShortCode/multiple_update', [ExamShortCodeController::class,'multiple_update'])->name('examShortCode.multiple_update');
             Route::resource('examShortCode', ExamShortCodeController::class)->except('show','edit','update','create');
             Route::resource('examGrade', ExamGradeController::class)->except('show','edit','create');
         });
@@ -152,7 +152,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         Route::prefix('configation')->as('config.')->group(function() {
             Route::get('subject/delete', [ExamSubjectConfigController::class,'destroy'])->name('subject.delete');
             Route::get('subject/list', [ExamSubjectConfigController::class,'list'])->name('subject.list');
-            Route::post('subject/mass_update', [ExamSubjectConfigController::class,'mass_update'])->name('subject.mass_update');
+            Route::post('subject/multiple_update', [ExamSubjectConfigController::class,'multiple_update'])->name('subject.multiple_update');
             Route::resource('subject', ExamSubjectConfigController::class)->except('show','create','edit');
             Route::resource('exam_config', ExamConfigurationController::class)->except('show','create');
 

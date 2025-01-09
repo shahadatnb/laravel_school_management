@@ -96,10 +96,10 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item"><a href="{{ route("student.reg.mass_create") }}" class="nav-link {{ (request()->routeIs('student.reg.mass_create')) ? ' active' : '' }}">
+                  <li class="nav-item"><a href="{{ route("student.reg.multiple_create") }}" class="nav-link {{ (request()->routeIs('student.reg.multiple_create')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> <p>New Registration</p></a>
                   </li>
-                  <li class="nav-item"><a href="{{ route("student.reg.mass_edit") }}" class="nav-link {{ (request()->routeIs('student.reg.mass_edit')) ? ' active' : '' }}">
+                  <li class="nav-item"><a href="{{ route("student.reg.multiple_edit") }}" class="nav-link {{ (request()->routeIs('student.reg.multiple_edit')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> <p>Edit Registration</p></a>
                   </li>
                 </ul>

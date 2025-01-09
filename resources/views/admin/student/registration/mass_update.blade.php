@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <!-- Default box -->
-{{ Form::open(array('route'=>'student.reg.mass_update','method'=>'POST','id'=>'mass_update','files' => true)) }}
+{{ Form::open(array('route'=>'student.reg.multiple_update','method'=>'POST','id'=>'multiple_update','files' => true)) }}
 <div class="card">
     <div class="card-header d-print-none">
           
@@ -133,7 +133,7 @@
             $.LoadingOverlay("hide");
         });
 
-        $("#mass_update").submit(function(e){
+        $("#multiple_update").submit(function(e){
         e.preventDefault();
         var student_id = $(".student_id']:checked").length;
         if(student_id == 0){

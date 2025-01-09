@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <!-- Default box -->
-{{ Form::open(array('route'=>'student.reg.mass_save','method'=>'POST','id'=>'mass_save','files' => true)) }}
+{{ Form::open(array('route'=>'student.reg.multiple_save','method'=>'POST','id'=>'multiple_save','files' => true)) }}
 <div class="card">
     <div class="card-header">
       <h3 class="card-title">Create</h3>
@@ -127,7 +127,7 @@
           }
       });
 
-      $("#mass_save").submit(function(e){
+      $("#multiple_save").submit(function(e){
         e.preventDefault();
         // var student_id = $(".student_id:checked").length;
         // if(student_id == 0){
