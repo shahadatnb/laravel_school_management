@@ -102,7 +102,7 @@ class StudentController extends Controller
             'religion.*' => 'required',
             'fathersName.*' => 'required',
             'mothersName.*' => 'required',
-            'mobile.*' => 'required|digits:11',
+            'mobile.*' => ['required','mobile_valid'],
         ]);
 
         if ($validator->fails()) {
@@ -121,18 +121,39 @@ class StudentController extends Controller
             $student['group_id'] = $request->group_id;
             $student['category_id'] = $request->category_id;
             $student['reg_no'] = $reg_no++;
-            $student['class_roll'] = $request->class_roll[$student_id];
-            $student['name'] = $request->name[$student_id];
-            $student['sex'] = $request->sex[$student_id];
-            $student['religion'] = $request->religion[$student_id];
-            $student['fathersName'] = $request->fathersName[$student_id];
-            $student['mothersName'] = $request->mothersName[$student_id];
-            $student['mobile'] = $request->mobile[$student_id];
+            $student['class_roll'] = $request->class_roll[$key];
+            $student['name'] = $request->name[$key];
+            $student['sex'] = $request->sex[$key];
+            $student['religion'] = $request->religion[$key];
+            $student['fathersName'] = $request->fathersName[$key];
+            $student['mothersName'] = $request->mothersName[$key];
+            $student['mobile'] = $request->mobile[$key];
             //dd($student);
             Student::create($student);
         }
 
         return response()->json(['status'=>true, 'message'=>'Successfully Saved']);
+    }
+
+    public function file_process(Request $request){
+        $validator = Validator::make($request->all(), [
+            'section_id' => 'required',
+            'group_id' => 'required',
+            'category_id' => 'required',
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+        //dd($request->all());
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+        $array = Excel::toArray(new StudentsImport, $request->file('file'));
+        //dd($array);
+        return response()->json([
+            'status' => true,
+            'students' => $array[0]
+        ]);
     }
 
     public function get_student_by_section(Request $request){
@@ -192,13 +213,13 @@ class StudentController extends Controller
             $student->section_id = $request->section_id;
             $student->group_id = $request->group_id;
             $student->category_id = $request->category_id;
-            $student->class_roll = $request->class_roll[$key];
-            $student->name = $request->name[$key];
-            $student->sex = $request->sex[$key];
-            $student->religion = $request->religion[$key];
-            $student->fathersName = $request->fathersName[$key];
-            $student->mothersName = $request->mothersName[$key];
-            $student->mobile = $request->mobile[$key];
+            $student->class_roll = $request->class_roll[$student_id];
+            $student->name = $request->name[$student_id];
+            $student->sex = $request->sex[$student_id];
+            $student->religion = $request->religion[$student_id];
+            $student->fathersName = $request->fathersName[$student_id];
+            $student->mothersName = $request->mothersName[$student_id];
+            $student->mobile = $request->mobile[$student_id];
             $student->save();
         }
         return response()->json(['status'=>true, 'message'=>'Successfully Saved']);
@@ -465,30 +486,6 @@ class StudentController extends Controller
         $student->save();
 
         session()->flash('success', "Student Updated");
-        return redirect()->back();
-    }
-
-    public function import(Request $request){
-        $request->validate([
-            'section_id' => 'required',
-            'group_id' => 'required',
-            'category_id' => 'required',
-            'file' => 'required|mimes:xlsx,xls',
-        ]);
-
-        $class_config = ClassConfig::find($request->section_id);
-        
-        session()->put('import_student',[
-            'section_id'=>$request->section_id,
-            'semester_id'=>$class_config->class_id,
-            'shift_id'=>$class_config->shift_id,
-            'group_id'=>$request->group_id,
-            'category_id'=>$request->category_id
-        ]);
-
-        Excel::import(new StudentsImport, $request->file('file'));
-        session()->forget('import_student');
-        session()->flash('success', 'Imported Successfully!');
         return redirect()->back();
     }
     

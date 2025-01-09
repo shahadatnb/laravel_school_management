@@ -52,7 +52,7 @@ class StudentsImport implements ToCollection, WithHeadingRow, WithValidation, Wi
             'fathersname' => ['required', 'string'],
             'mothersname' => ['required', 'string'],
             //'semester_id' => ['required', 'numeric'],
-            'mobile' => ['required'],
+            'mobile' => ['required','mobile_valid'],
         ];
     }
 }

@@ -34,6 +34,7 @@
               <div class="btn btn-group">
                 <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-search"></i> Filter</button>
                 {{-- Total: {{ $students->total() }} --}}
+                <a class="btn btn-primary btn-sm" href="{{ route('student.reg.mass_create')}}"><i class="fas fa-plus"></i> New mass</a>
                 <a class="btn btn-primary btn-sm" href="{{ route('student.student.create')}}"><i class="fas fa-plus"></i> New</a>
               </div>              
             </div>
@@ -43,36 +44,7 @@
       </div>
     </div>
     <div class="card-body">
-      @include('admin.layouts._message')
-      {{ Form::open(array('route'=>'student.student.import','method'=>'POST','class'=>'row mb-3','files' => true)) }}
-        <div class="col-6">
-          <div class="row">
-            <div class="col-4">
-              {!! Form::select('section_id',$sections,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Section')]) !!}
-            </div>
-            <div class="col-4">
-              {!! Form::select('group_id',$groups,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Group')]) !!}
-            </div>
-            <div class="col-4">
-              {!! Form::select('category_id',$catetories,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Category')]) !!}
-            </div>
-          </div>
-        </div>
-        <div class="col-6">
-        <div class="row">
-          <div class="input-group">
-            <div class="col-6">
-              {!! Form::file('file',['class'=>'form-control form-control-sm','required'=>true]) !!}
-            </div>
-            <div class="btn-group">
-              <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Import</button>
-              <a href="{{ asset('assets/students.xlsx'); }}" class="btn btn-info btn-sm"><i class="fas fa-file-excel"></i> Template</a>
-            </div>
-          </div>
-        </div>
-        </div>
-      {{ Form::close() }}
-        
+      @include('admin.layouts._message')        
       <div class="table-responsive">
         <table id="student" class="table table-sm table-bordered table-striped">
             <thead>

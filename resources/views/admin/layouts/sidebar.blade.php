@@ -102,9 +102,6 @@
                   <li class="nav-item"><a href="{{ route("student.reg.mass_edit") }}" class="nav-link {{ (request()->routeIs('student.reg.mass_edit')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> <p>Edit Registration</p></a>
                   </li>
-                  <li class="nav-item"><a href="{{ route("student.reg.mass_create_excel") }}" class="nav-link {{ (request()->routeIs('student.reg.mass_create_excel')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> <p>Excel Upload</p></a>
-                  </li>
                 </ul>
               </li>
               <li class="nav-item"><a href="{{ route("student.student.index") }}" class="nav-link {{ (request()->routeIs('student.student.*')) ? ' active' : '' }}">

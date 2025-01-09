@@ -81,6 +81,10 @@ class AppServiceProvider extends ServiceProvider
           return true;
         });
 
+        Validator::extend('mobile_valid',function($attribute, $value, $parameters){
+          return  strlen($value) == 13 || strlen($value) == 11;
+        });
+
         \View::share('postType', $this->postType);
 
         

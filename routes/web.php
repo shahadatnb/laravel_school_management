@@ -124,7 +124,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
 
         Route::prefix('registration')->as('reg.')->group(function() {            
             Route::get('mass_create', [StudentController::class,'mass_create'])->name('mass_create');
-            Route::get('mass_create_excel', [StudentController::class,'mass_create_excel'])->name('mass_create_excel');
+            Route::post('file_process', [StudentController::class,'file_process'])->name('file_process');
             Route::post('mass_save', [StudentController::class,'mass_save'])->name('mass_save');
             Route::get('mass_edit', [StudentController::class,'mass_edit'])->name('mass_edit');
             Route::post('mass_update', [StudentController::class,'mass_update'])->name('mass_update');
@@ -135,7 +135,6 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         Route::get('get_student_by_class', [StudentController::class,'get_student_by_class'])->name('get_student_by_class');
 
         Route::get('student/admissionForm/{student}', [StudentController::class,'admissionForm'])->name('admissionForm');
-        Route::post('student/import', [StudentController::class,'import'])->name('student.import');
         Route::resource('student', StudentController::class);
 
     });
