@@ -1,7 +1,7 @@
 @extends('admin.layouts.layout')
 @section('title', __("Short Code"))
 @section('css')
-<link rel="stylesheet" href="{{asset('/assets/admin')}}/plugins/datatables/datatables.min.css">
+
 @endsection
 @section('content')
 <!-- Default box -->
@@ -81,17 +81,13 @@
                 <td>{{$short_code->semester ? $short_code->semester->name : ''}}</td>
                 <td>{{$short_code->default_id}}</td>
                 <td>
-                  <input type="text" name="code_title[{{$short_code->default_id}}]" value="{{$short_code->code_title}}" class="form-control form-control-sm">
+                  <input type="text" name="code_title[{{$short_code->id}}]" value="{{$short_code->code_title}}" class="form-control form-control-sm">
                 </td>
                 <td>{{$short_code->total_marks}}</td>
                 <td>{{$short_code->pass_mark}}</td>
                 <td>{{$short_code->acceptance}}</td>
                 <td>
-                  <form class="delete" action="{{ route('exam.setup.examShortCode.destroy',$short_code->id) }}" method="post">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
-                    <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete This Item?')"><i class="fas fa-trash"></i> </button>
-                  </form>
+                  <button type="button" class="btn btn-danger btn-xs delete" data-url="{{ route('exam.setup.examShortCode.destroy',$short_code->id) }}"><i class="fas fa-trash"></i> </button>
                 </td>
               </tr>
               @endforeach
@@ -106,21 +102,26 @@
 
 @endsection
 @section('js')
-<script src="{{asset('/assets/admin')}}/plugins/datatables/datatables.min.js"></script>
+
 <script>
     $(function () {
-      $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-      });
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
+      $("#example1").on('click','.delete',function(){
+        if(confirm('Are You Sure To Delete This Item?')){
+          let raw = $(this).closest('tr');
+          $.ajax({
+            url: $(this).data('url'),
+            type: 'DELETE',
+            data: {
+              _token: '{{ csrf_token() }}'
+            },
+            success: function(data){
+              //console.log(data.status == true)
+              if(data.status == true){
+                raw.remove();
+              }
+            }
+          });
+        }
       });
     });
   </script>

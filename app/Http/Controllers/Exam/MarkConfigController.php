@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Student\Semester;
 use App\Models\Student\GroupConfig;
+use Illuminate\Support\Facades\Validator;
 
 class MarkConfigController extends Controller
 {
@@ -86,27 +87,30 @@ class MarkConfigController extends Controller
 
     public function save_config(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'class_id' => 'required',
             'group_id' => 'required',
             'exam_ids' => 'required',
             'subject_ids' => 'required',
-            'total_marks' => 'required',
-            'pass_mark' => 'required',
-            'acceptance' => 'required',
-            'sc_merge' => 'required',
+            'total_marks.*' => 'required',
+            'pass_mark.*' => 'required',
+            'acceptance.*' => 'required',
+            'sc_merge.*' => 'required',
         ]);
-        //dd($request->all());
 
-        foreach ($request->exam_ids as $key => $value) {
-            foreach ($request->subject_ids as $key2 => $value2) {
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+        foreach ($request->exam_ids as $key => $exam_id) {
+            foreach ($request->subject_ids as $key2 => $subject_id) {
                 foreach ($request->total_marks as $key3 => $value3) {
                     $markConfig = new MarkConfig;
                     $markConfig->branch_id = session('branch')['id'];
                     $markConfig->class_id = $request->class_id;
                     $markConfig->group_id = $request->group_id;
-                    $markConfig->exam_id = $value;
-                    $markConfig->subject_id = $value2;
+                    $markConfig->exam_id = $exam_id;
+                    $markConfig->subject_id = $subject_id;
                     $markConfig->sc_title = $request->sc_title[$key3];
                     $markConfig->total_marks = $request->total_marks[$key3];
                     $markConfig->pass_mark = $request->pass_mark[$key3];
@@ -117,8 +121,7 @@ class MarkConfigController extends Controller
             }
         }
 
-        session()->flash('success', "Mark Config Saved Successfully");
-        return redirect()->back();
+        return response()->json(['status'=>true, 'message'=>'Successfully Saved']);
     }
 
     public function get_config(Request $request)

@@ -23,11 +23,13 @@ class ExamSubjectController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'serial' => 'required|numeric',
             'name' => 'required|unique_with:exam_subjects,name',
             'status' => 'required',
         ]);
 
         $examSubject = new ExamSubject();
+        $examSubject->serial = $request->serial;
         $examSubject->name = $request->name;
         $examSubject->status = $request->status;
         $examSubject->branch_id = session('branch')['id'];
@@ -45,10 +47,12 @@ class ExamSubjectController extends Controller
     public function update(Request $request, ExamSubject $examSubject)
     {
         $request->validate([
+            'serial' => 'required|numeric',
             'name' => 'required|unique_with:exam_subjects,name,'.$examSubject->id,
             'status' => 'required',
         ]);
 
+        $examSubject->serial = $request->serial;
         $examSubject->name = $request->name;
         $examSubject->status = $request->status;
         $examSubject->branch_id = session('branch')['id'];

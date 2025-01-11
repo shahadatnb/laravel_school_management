@@ -53,7 +53,7 @@ class ExamShortCodeController extends Controller
             'code_title' => 'required',
         ]);
 
-        // dd($request->all());
+        //dd($request->all());
 
         foreach ($request->short_code_id as $key => $value) {
             ExamShortCode::where('id',$value)->update([
@@ -78,6 +78,7 @@ class ExamShortCodeController extends Controller
 
     public function destroy(ExamShortCode $examShortCode)
     {
-        //
+        $examShortCode->delete();
+        return response()->json(['status'=>true,'message'=>'Short Code Deleted Successfully']);
     }
 }

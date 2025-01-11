@@ -29,7 +29,7 @@
             {!! Form::select('category_id',$catetories,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Category')]) !!}
           </div>
           <div class="col">
-            {!! Form::file('file',['class'=>'form-control form-control-sm', 'id'=>'file','required'=>true]) !!}
+            {!! Form::file('file',['class'=>'form-control form-control-sm', 'id'=>'file','required'=>false]) !!}
           </div>
         </div>
       

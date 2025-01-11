@@ -1,5 +1,5 @@
 @extends('admin.layouts.layout')
-@section('title',__("Students Create"))
+@section('title',__("Students update"))
 @section('css')
 @endsection
 @section('content')

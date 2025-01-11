@@ -10,7 +10,8 @@
     <div class="card">
       <div class="card-body">
         @include('admin.layouts._message')
-        {!! Form::open(array('route'=>['exam.config.mark_config.save_config'])) !!}
+        <div id="errorMsg"></div>
+        {!! Form::open(array('route'=>['exam.config.mark_config.save_config'], 'id'=>'save_mark_config')) !!}
         <div class="row">
           <div class="col-6">
             <div class="form-group">
@@ -101,7 +102,7 @@
 @section('js')
 <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js" integrity="sha512-PRJxIx+FR3gPzyBBl9cPt62DD7owFXVcfYv0CRNFAcLZeEYfht/PpPNTKHicPs+hQlULFhH2tTWdoxnd1UGu1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
     $("#class_id").change(function(){
       let class_id = $("#class_id").val();
@@ -166,8 +167,8 @@
                 <td>${value.code_title}</td>
                 <td><input type="number" name="total_marks[${value.id}]" value="${value.total_marks}" class="form-control form-control-sm"></td>
                 <td><input type="number" name="pass_mark[${value.id}]" value="${value.pass_mark}" class="form-control form-control-sm"></td>
-                <td><input type="number" name="acceptance[${value.id}]" value="${value.acceptance}" class="form-control form-control-sm"></td>
-                <td><input type="number" name="sc_merge[${value.id}]" value="0" class="form-control form-control-sm"></td>
+                <td><input type="number" name="acceptance[${value.id}]" step="any" value="${value.acceptance}" class="form-control form-control-sm"></td>
+                <td><input type="number" name="sc_merge[${value.id}]" step="any" class="form-control form-control-sm"></td>
                 <td>
                   <input type="hidden" name="sc_title[${value.id}]" value="${value.code_title}">
                   <a href="#" data-id="${value.id}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></a>
@@ -257,5 +258,36 @@
     $("#subject_sc_list").on('click','.delete',function(){
       $(this).closest('tr').remove();      
     });
+
+    $("#save_mark_config").submit(function(e){
+        e.preventDefault();
+        $.LoadingOverlay("show");
+        $("#errorMsg").html('');
+        $.ajax({
+          url: $(this).attr('action'),
+          type: $(this).attr('method'),
+          data: $(this).serialize(),
+          success: function(json){
+            //console.log(json);
+            if(json.status == true){
+              if(json.message){
+                $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${json.message}</div>`);
+              }
+              $(this).reset();
+            }else{
+              //console.log(json);
+              if(json.message){
+                $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${json.message}</div>`);
+              }
+              json.errors.forEach(function(element){
+                  $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${element}</div>`);
+              });
+              //alert(data.errors);
+            }
+            $.LoadingOverlay("hide");
+          }
+        });
+
+      });
   </script>
 @endsection

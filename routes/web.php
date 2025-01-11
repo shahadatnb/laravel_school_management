@@ -144,7 +144,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         Route::prefix('setup')->as('setup.')->group(function() {
             Route::resource('examList', ExamListController::class)->except('show');
             Route::resource('examSubject', ExamSubjectController::class)->except('show');
-            Route::post('examShortCode/multiple_update', [ExamShortCodeController::class,'multiple_update'])->name('examShortCode.multiple_update');
+            Route::post('examShortCodes/multiple_update', [ExamShortCodeController::class,'multiple_update'])->name('examShortCode.multiple_update');
             Route::resource('examShortCode', ExamShortCodeController::class)->except('show','edit','update','create');
             Route::resource('examGrade', ExamGradeController::class)->except('show','edit','create');
         });

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\sAccounts;
 
 use App\Models\sAccounts\StudentAcFreeWaiverConfig;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class StudentAcFreeWaiverConfigController extends Controller
