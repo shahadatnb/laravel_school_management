@@ -131,7 +131,7 @@
           </li>
           <li class="nav-item has-treeview {{ (request()->routeIs('exam.*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ (request()->routeIs('exam.*')) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-book"></i>
+              <i class="nav-icon fas fa-trophy"></i>
               <p>Exam <i class="right fas fa-angle-left"></i> </p>
             </a>
             <ul class="nav nav-treeview">
@@ -214,7 +214,7 @@
           </li>
           <li class="nav-item has-treeview {{ (request()->routeIs('sac.*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ (request()->routeIs('sac.*')) ? 'active' : '' }}">
-              <i class="nav-icon fas fa-book"></i>
+              <i class="nav-icon fas fa-file-invoice"></i>
               <p>Student Accounts <i class="right fas fa-angle-left"></i> </p>
             </a>
             <ul class="nav nav-treeview">
@@ -341,7 +341,7 @@
           
           <li class="nav-item has-treeview {{ (request()->routeIs('posts*','menu*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link">
-              <i class="nav-icon far fa-list-alt"></i>
+              <i class="nav-icon fas fa-globe"></i>
               <p>
                 Web Site
                 <i class="right fas fa-angle-left"></i>
