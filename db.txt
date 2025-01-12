@@ -2,3 +2,4 @@ ALTER TABLE `branches` ADD `sms_domain_url` INT NOT NULL AFTER `exp_date`, ADD `
 ALTER TABLE `branches` CHANGE `sms_domain_url` `sms_domain_url` VARCHAR(200) NULL DEFAULT NULL, CHANGE `sms_api_key` `sms_api_key` VARCHAR(100) NULL DEFAULT NULL, CHANGE `sms_secretkey` `sms_secretkey` VARCHAR(100) NULL DEFAULT NULL, CHANGE `sms_sell` `sms_client` VARCHAR(100) NULL DEFAULT NULL; 
 
 ALTER TABLE `exam_mark_configs` CHANGE `sc_merge` `sc_merge` DECIMAL(8,2) UNSIGNED NOT NULL DEFAULT '1'; 
+ALTER TABLE `branches` ADD `website` VARCHAR(100) NULL DEFAULT NULL AFTER `favicon`; 

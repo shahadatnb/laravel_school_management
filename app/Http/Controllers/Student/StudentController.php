@@ -11,6 +11,7 @@ use App\Models\Student\Group;
 use App\Models\Student\StudentMark;
 use App\Models\Student\InvoicePayment;
 use App\Models\Student\Category;
+use App\Models\Student\IdcardTemplate;
 use Illuminate\Http\Request;
 use App\Traits\StudentTrait;
 use App\Traits\CommonTrait;
@@ -491,56 +492,60 @@ class StudentController extends Controller
     
     public function IDCard(Request $request){
         $data = [
-            'department_id'=>'',
+            'section_id'=>'',
             'semester_id'=>'',
-            'session'=>'',
+            'valid_date'=>'',
             'reg_no'=>'',
-            'shift'=>'',
-            'student_group'=>'',
-            'probidhan'=>'',
+            'template_id'=>'',
+            'class_roll_start'=>'',
+            'class_roll_end'=>'',
             'class_roll'=>'',
             'reg_no'=>'',
             'print_style'=>'both'
         ];
-        $departments = $this->departmentArray();
+        $sections = $this->sectionArray();
         $semesters = $this->semesterArray();
-        $students = Student::where('branch_id', session('branch')['id'])->latest();
-        if(!empty($request->department_id)){
-            $data['department_id'] = $request->department_id;
-            $students = $students->where('department_id', $request->department_id);
+        $templates = IdcardTemplate::where('branch_id', session('branch')['id'])->orWhereNull('branch_id')->pluck('title', 'id');
+        $students = [];
+        $template = [];
+        if(!empty($request->print_style)){
+            $template = IdcardTemplate::find($request->template_id);
+            $students = Student::where('branch_id', session('branch')['id'])->latest();
+            if(!empty($request->section_id)){
+                $data['section_id'] = $request->section_id;
+                $students = $students->where('section_id', $request->section_id);
+            }
+            if(!empty($request->semester_id)){
+                $data['semester_id'] = $request->semester_id;
+                $students = $students->where('semester_id', $request->semester_id);
+            }
+            if(!empty($request->session)){
+                $data['session'] = $request->session;
+                $students = $students->where('session', $request->session);
+            }
+            if(!empty($request->reg_no)){
+                $data['reg_no'] = $request->reg_no;
+                $students = $students->where('reg_no', $request->reg_no);
+            }        
+            if(!empty($request->student_group)){
+                $data['student_group'] = $request->student_group;
+                $students = $students->where('student_group', $request->student_group);
+            }
+            if(!empty($request->class_roll_start && $request->class_roll_end)){
+                $data['class_roll_start'] = $request->class_roll_start;
+                $data['class_roll_end'] = $request->class_roll_end;
+                $rolles = range($request->class_roll_start, $request->class_roll_end);
+                $students = $students->whereIn('class_roll', $rolles);
+            }
+            if(!empty($request->class_roll)){
+                $data['class_roll'] = $request->class_roll;
+                $students = $students->where('class_roll', $request->class_roll);
+            }
+            $data['valid_date'] = $request->valid_date;
+            $data['print_style'] = $request->print_style;
+            $students = $students->paginate(100);
         }
-        if(!empty($request->semester_id)){
-            $data['semester_id'] = $request->semester_id;
-            $students = $students->where('semester_id', $request->semester_id);
-        }
-        if(!empty($request->session)){
-            $data['session'] = $request->session;
-            $students = $students->where('session', $request->session);
-        }
-        if(!empty($request->reg_no)){
-            $data['reg_no'] = $request->reg_no;
-            $students = $students->where('reg_no', $request->reg_no);
-        }
-        if(!empty($request->shift)){
-            $data['shift'] = $request->shift;
-            $students = $students->where('shift','like', '%'.$request->shift.'%');
-        }
-        if(!empty($request->student_group)){
-            $data['student_group'] = $request->student_group;
-            $students = $students->where('student_group', $request->student_group);
-        }
-        if(!empty($request->probidhan)){
-            $data['probidhan'] = $request->probidhan;
-            $students = $students->where('probidhan', $request->probidhan);
-        }
-        if(!empty($request->class_roll)){
-            $data['class_roll'] = $request->class_roll;
-            $students = $students->where('class_roll', $request->class_roll);
-        }
-        $data['print_style'] = $request->print_style;
-        $students = $students->paginate(100);
-
-        return view('admin.student.student.IDCard', compact('students','departments','semesters','data'));
+        return view('admin.student.student.IDCard', compact('students','sections','data','templates','template'));
     }
 
     public function student_statitics(Request $request){

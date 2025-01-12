@@ -68,34 +68,34 @@ class AdminController extends Controller
         $branch->head_designation = $request->head_designation;
         $branch->academic_year_id = $request->academic_year_id;
         if(isset($request->logo)){
-            if ($branch->logo != '' && file_exists( public_path('upload\\site_file\\') . $branch->logo)) {
-                unlink(public_path('upload\\site_file\\') . $branch->logo);
+            if ($branch->logo != '' && file_exists( public_path('upload\\logo\\') . $branch->logo)) {
+                unlink(public_path('upload\\logo\\') . $branch->logo);
             }
       
             $fileName = time().'.'.$request->logo->extension();  
-            $upload_path = public_path('upload/site_file');
+            $upload_path = public_path('upload/logo');
             $request->logo->move($upload_path, $fileName);
             $branch->logo = $fileName;
         }
         
         if(isset($request->favicon)){
-            if ($branch->favicon != '' && file_exists( public_path('upload\\site_file\\') . $branch->favicon)) {
-                unlink(public_path('upload\\site_file\\') . $branch->favicon);
+            if ($branch->favicon != '' && file_exists( public_path('upload\\logo\\') . $branch->favicon)) {
+                unlink(public_path('upload\\logo\\') . $branch->favicon);
             }
       
             $fileName = time().'.'.$request->favicon->extension();  
-            $upload_path = public_path('upload/site_file');
+            $upload_path = public_path('upload/logo');
             $request->favicon->move($upload_path, $fileName);
             $branch->favicon = $fileName;
         }
 
         if(isset($request->head_sign)){
-            if ($branch->head_sign != '' && file_exists( public_path('upload\\site_file\\') . $branch->head_sign)) {
-                unlink(public_path('upload\\site_file\\') . $branch->head_sign);
+            if ($branch->head_sign != '' && file_exists( public_path('upload\\head_sign\\') . $branch->head_sign)) {
+                unlink(public_path('upload\\head_sign\\') . $branch->head_sign);
             }
       
             $fileName = time().'.'.$request->head_sign->extension();  
-            $upload_path = public_path('upload/site_file');
+            $upload_path = public_path('upload/head_sign');
             $request->head_sign->move($upload_path, $fileName);
             $branch->head_sign = $fileName;
         }
