@@ -84,6 +84,22 @@
     });
     $("#class_id").change(function(){
       $("#group_id").prop('selectedIndex',0);
+      let class_id = $("#class_id").val();
+      $.ajax({
+        type: "get",
+        url: "{{route('exam.config.mark_config.get_group')}}",
+        data: {class_id:class_id},
+        success: function(data){
+          console.log(data);
+          let htmlData = '<option value="">----------</option>';
+          data.forEach(function(value,index){
+            htmlData += `
+            <option value="${value.id}">${value.name}</option>
+            `;
+          })
+          $("#group_id").html(htmlData);
+        }
+      });
     });
     $("#group_id").change(function(){
       let class_id = $("#class_id").val();

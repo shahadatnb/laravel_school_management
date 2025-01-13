@@ -27,7 +27,7 @@ class MarkConfigController extends Controller
         $group_arrs = [];
         foreach ($groups as $key => $value) {
             $group_arrs[$key] = [
-                'id' => $value->id,
+                'id' => $value->group_id,
                 'name' => $value->group? $value->group->name:'',
             ];
         }
@@ -144,6 +144,13 @@ class MarkConfigController extends Controller
             }            
         }
         return response()->json($datas);
+    }
+
+    public function delete_config(Request $request)
+    {
+        $markConfig = MarkConfig::find($request->id);
+        $markConfig->delete();
+        return response()->json(['status'=>true, 'message'=>'Successfully Deleted']);
     }
 
 }

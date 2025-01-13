@@ -15,7 +15,6 @@
       </div>
       <div class="card-body">
         @include('admin.layouts._message')
-        <div id="errorMsg"></div>
         {!! Form::open(array('route'=>['sac.config.save_fee_time'],'id'=>'save_fee_time')) !!}
           <div class="form-group">
             {!! Form::label('head_id', __('Head Name'),['class'=>'']) !!}

@@ -9,8 +9,7 @@
   <div class="col-md-6">
     <div class="card">
       <div class="card-body">
-        @include('admin.layouts._message')
-        <div id="errorMsg"></div>
+        @include('admin.layouts._message')        
         {!! Form::open(array('route'=>['exam.config.mark_config.save_config'], 'id'=>'save_mark_config')) !!}
         <div class="row">
           <div class="col-6">
@@ -228,6 +227,7 @@
                 <th>Pass Mark</th>
                 <th>Acceptance</th>
                 <th>SC Merge</th>
+                <th>#</th>
               </tr>`;
               data[key].forEach(function(value2,index2){
                 htmlData += `<tr>
@@ -237,6 +237,7 @@
                   <td>${value2.pass_mark}</td>
                   <td>${value2.acceptance}</td>
                   <td>${value2.sc_merge}</td>
+                  <td><a href="#" data-id="${value2.id}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></a> </td>
                 </tr>`;
               });
             };
@@ -259,6 +260,21 @@
       $(this).closest('tr').remove();      
     });
 
+    $("#subject_config_list").on('click','.delete',function(){
+      let id = $(this).data('id');
+      let tr = $(this).closest('tr');      
+      if(confirm('Are You Sure To Delete This Item?')){
+        $.ajax({
+          url: "{{route('exam.config.mark_config.delete_config')}}",
+          type: "post",
+          data: {id:id,_token:"{{csrf_token()}}"},
+          success: function(data){          
+            tr.remove();
+          }
+        })        
+      }     
+    });
+
     $("#save_mark_config").submit(function(e){
         e.preventDefault();
         $.LoadingOverlay("show");
@@ -273,7 +289,6 @@
               if(json.message){
                 $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${json.message}</div>`);
               }
-              $(this).reset();
             }else{
               //console.log(json);
               if(json.message){

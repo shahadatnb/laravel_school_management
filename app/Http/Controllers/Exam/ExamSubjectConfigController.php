@@ -18,7 +18,7 @@ class ExamSubjectConfigController extends Controller
     public function index()
     {
         $semesters = Semester::where('branch_id', session('branch')['id'])->pluck('name', 'id');
-        $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
+        $groups = [];
         $examSubject = ExamSubject::where('branch_id',session('branch')['id'])->get();
         $subjectType = ExamSubjectType::pluck('name', 'id');
         $subjectTypes = response()->json($subjectType);

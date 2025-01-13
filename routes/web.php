@@ -28,6 +28,7 @@ use App\Http\Controllers\Exam\ExamSubjectConfigController;
 use App\Http\Controllers\Exam\ExamConfigurationController;
 use App\Http\Controllers\Exam\MarkConfigController;
 use App\Http\Controllers\Exam\ExamMarkController;
+use App\Http\Controllers\Exam\ExamResultController;
 
 use App\Http\Controllers\sAccounts\StudentAcHeadController;
 use App\Http\Controllers\sAccounts\StudentAcSubHeadController;
@@ -162,6 +163,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::get('get_subject_exam', [MarkConfigController::class, 'get_subject_exam'])->name('mark_config.get_subject_exam');
             Route::post('save_config', [MarkConfigController::class, 'save_config'])->name('mark_config.save_config');
             Route::get('get_config', [MarkConfigController::class, 'get_config'])->name('mark_config.get_config');
+            Route::post('delete_config', [MarkConfigController::class, 'delete_config'])->name('mark_config.delete_config');
 
             Route::get('final_mark_config', [ExamConfigurationController::class, 'finalMarkConfig'])->name('final_mark_config.index');
             Route::get('final_mark_config/edit/{id}', [ExamConfigurationController::class, 'finalMarkConfigEdit'])->name('final_mark_config.edit');
@@ -181,6 +183,21 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::get('get_update_student',[ExamMarkController::class,'get_update_student'])->name('get_update_student');
             Route::post('update_save',[ExamMarkController::class,'update_save'])->name('update_save');
         });
+
+        Route::prefix('result')->as('result_process.')->group(function() {
+            Route::get('general_process',[ExamResultController::class,'general_process'])->name('general');
+            Route::post('general_process_save',[ExamResultController::class,'general_process_save'])->name('general_save');
+
+            Route::get('merit_process',[ExamResultController::class,'merit_process'])->name('merit');
+            Route::post('merit_process_save',[ExamResultController::class,'merit_process_save'])->name('merit_save');
+        });
+
+        Route::prefix('result')->as('result.')->group(function() {
+            Route::get('merit_class_wise',[ExamResultController::class,'merit_class_wise'])->name('merit_class_wise');
+            Route::get('merit_section_wise',[ExamResultController::class,'merit_section_wise'])->name('merit_section_wise');
+            Route::get('marksheet',[ExamResultController::class,'marksheet'])->name('marksheet');
+        });
+
     });
 
     Route::prefix('student_accounts')->as('sac.')->group(function() {

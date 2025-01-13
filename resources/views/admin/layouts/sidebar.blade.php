@@ -210,6 +210,43 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item has-treeview {{ (request()->routeIs('exam.result_process.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('exam.result_process.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tasks"></i>
+                  <p>
+                    Result Process
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("exam.result_process.general") }}" class="nav-link {{ (request()->routeIs('exam.result_process.general')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('General Process')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.result_process.merit") }}" class="nav-link {{ (request()->routeIs('exam.result_process.merit')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Mark Update')}}</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item has-treeview {{ (request()->routeIs('exam.result.*')) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (request()->routeIs('exam.result.*')) ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-tasks"></i>
+                  <p>
+                    Result
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item"><a href="{{ route("exam.result.merit_class_wise") }}" class="nav-link {{ (request()->routeIs('exam.result.merit_class_wise')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Merit Class Wise')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.result.merit_section_wise") }}" class="nav-link {{ (request()->routeIs('exam.result.merit_section_wise')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Merit Section Wise')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.result.marksheet") }}" class="nav-link {{ (request()->routeIs('exam.result.marksheet')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Marksheet')}}</a>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </li>
           <li class="nav-item has-treeview {{ (request()->routeIs('sac.*')) ? 'menu-open' : '' }}">
@@ -289,7 +326,7 @@
                     <i class="far fa-circle nav-icon"></i> {{__('Mark Update')}}</a>
                   </li>
                 </ul>
-              </li>
+              </li>              
             </ul>
           </li>
           <li class="nav-item has-treeview {{ (request()->routeIs('contact.*','smsTemplate.*','sms.*')) ? 'menu-open' : '' }}">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 06, 2025 at 01:24 PM
+-- Generation Time: Jan 13, 2025 at 12:22 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -90,6 +90,7 @@ CREATE TABLE `branches` (
   `head_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `favicon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `website` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `academic_year_id` int UNSIGNED DEFAULT NULL,
   `exp_date` date DEFAULT NULL,
   `sms_domain_url` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -104,10 +105,10 @@ CREATE TABLE `branches` (
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_sign`, `head_email`, `head_contact`, `logo`, `favicon`, `academic_year_id`, `exp_date`, `sms_domain_url`, `sms_api_key`, `sms_secretkey`, `sms_client`, `created_at`, `updated_at`) VALUES
-(1, 'Branch One', NULL, 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', '1732516903.png', '1732517045.png', 3, NULL, 'sms3.pondit.com', 'ed57ddde38dd4fc7', 'a95186ae', 'asiancoder', '2024-11-24 09:07:41', '2025-01-05 07:46:28'),
-(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', NULL, 'ar@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
-(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '2024-11-25 11:22:00', '2024-11-25 11:22:00');
+INSERT INTO `branches` (`id`, `name`, `subdomain`, `address`, `contact`, `email`, `status`, `refer_by`, `head`, `head_designation`, `head_sign`, `head_email`, `head_contact`, `logo`, `favicon`, `website`, `academic_year_id`, `exp_date`, `sms_domain_url`, `sms_api_key`, `sms_secretkey`, `sms_client`, `created_at`, `updated_at`) VALUES
+(1, 'Branch One', NULL, 'Nawdapara', '01757839516', 'branch1@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', '1736673949.jpg', 'ashik@gmail.com', '01757839516', '1736673949.png', '1732517045.png', NULL, 3, NULL, 'sms3.pondit.com', 'ed57ddde38dd4fc7', 'a95186ae', 'asiancoder', '2024-11-24 09:07:41', '2025-01-12 09:25:49'),
+(2, 'Branch Two', 'branch2', 'Rajshahi', '01757839516', 'branch1@gmail.com', 1, NULL, 'Abdur Rahman', 'Principal', NULL, 'ar@gmail.com', '01757839516', NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '2024-11-24 09:07:41', '2024-11-25 11:23:24'),
+(3, 'Nawdapara School', 'nschool', 'Nawdapara', '01757839516', 'ns@gmail.com', 1, NULL, 'Asikur Rahman', 'Principal', NULL, 'ashik@gmail.com', '01757839516', NULL, NULL, NULL, NULL, NULL, '0', '0', '0', '0', '2024-11-25 11:22:00', '2024-11-25 11:22:00');
 
 -- --------------------------------------------------------
 
@@ -190,7 +191,8 @@ INSERT INTO `exam_configurations` (`id`, `branch_id`, `class_id`, `exam_id`, `me
 (1, 1, 11, 1, 1, 100, 1, '2024-12-06 09:21:25', '2024-12-08 11:04:07'),
 (3, 1, 11, 2, 1, 0, 1, '2024-12-08 11:03:48', '2024-12-08 11:03:48'),
 (4, 1, 11, 3, 1, 0, 1, '2024-12-08 11:03:48', '2024-12-08 11:03:48'),
-(5, 1, 11, 4, 1, 0, 1, '2024-12-08 11:03:48', '2024-12-08 11:03:48');
+(5, 1, 11, 4, 1, 0, 1, '2024-12-08 11:03:48', '2024-12-08 11:03:48'),
+(6, 1, 14, 4, 1, 0, 1, '2025-01-13 11:25:11', '2025-01-13 11:25:11');
 
 -- --------------------------------------------------------
 
@@ -214,17 +216,17 @@ CREATE TABLE `exam_grades` (
 --
 
 INSERT INTO `exam_grades` (`id`, `branch_id`, `class_id`, `grade`, `grade_point`, `grade_range`, `created_at`, `updated_at`) VALUES
-(1, 1, 11, 'A+', NULL, '80-100', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
-(2, 1, 11, 'A', NULL, '70-79', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
-(3, 1, 11, 'A-', NULL, '60-69', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
-(4, 1, 11, 'B', NULL, '50-59', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
-(5, 1, 11, 'C', NULL, '40-49', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
-(6, 1, 11, 'D', NULL, '33-39', '2024-12-05 06:43:30', '2024-12-05 06:43:30'),
-(7, 1, 11, 'F', NULL, '0-32', '2024-12-05 06:43:30', '2024-12-05 06:55:18'),
+(1, 1, 11, 'A+', 5, '80-100', '2024-12-05 06:43:30', '2025-01-13 11:23:11'),
+(2, 1, 11, 'A', 4, '70-79', '2024-12-05 06:43:30', '2025-01-13 11:23:18'),
+(3, 1, 11, 'A-', 3.5, '60-69', '2024-12-05 06:43:30', '2025-01-13 11:23:29'),
+(4, 1, 11, 'B', 3, '50-59', '2024-12-05 06:43:30', '2025-01-13 11:23:41'),
+(5, 1, 11, 'C', 2, '40-49', '2024-12-05 06:43:30', '2025-01-13 11:23:54'),
+(6, 1, 11, 'D', 1, '33-39', '2024-12-05 06:43:30', '2025-01-13 11:24:01'),
+(7, 1, 11, 'F', 0, '0-32', '2024-12-05 06:43:30', '2025-01-13 11:24:09'),
 (8, 1, 14, 'A+', 5, '80-100', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
 (9, 1, 14, 'A', 4, '70-79', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
 (10, 1, 14, 'A-', 3.5, '60-69', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
-(11, 1, 14, 'B', 4, '50-59', '2024-12-05 06:56:25', '2024-12-05 06:56:25'),
+(11, 1, 14, 'B', 3, '50-59', '2024-12-05 06:56:25', '2025-01-13 11:24:17'),
 (12, 1, 14, 'C', 2, '40-49', '2024-12-05 06:56:26', '2024-12-05 06:56:26'),
 (13, 1, 14, 'D', 1, '33-39', '2024-12-05 06:56:26', '2024-12-05 06:56:26'),
 (14, 1, 14, 'F', 0, '0-32', '2024-12-05 06:56:26', '2024-12-05 06:56:26');
@@ -371,7 +373,7 @@ CREATE TABLE `exam_mark_configs` (
   `total_marks` smallint UNSIGNED NOT NULL DEFAULT '0',
   `pass_mark` double(8,2) NOT NULL DEFAULT '0.00',
   `acceptance` double(8,2) NOT NULL DEFAULT '1.00',
-  `sc_merge` tinyint UNSIGNED NOT NULL DEFAULT '1',
+  `sc_merge` decimal(8,2) UNSIGNED NOT NULL DEFAULT '1.00',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -381,36 +383,12 @@ CREATE TABLE `exam_mark_configs` (
 --
 
 INSERT INTO `exam_mark_configs` (`id`, `branch_id`, `class_id`, `group_id`, `exam_id`, `subject_id`, `sc_title`, `total_marks`, `pass_mark`, `acceptance`, `sc_merge`, `created_at`, `updated_at`) VALUES
-(1, 1, 11, 1, 2, 1, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(2, 1, 11, 1, 2, 1, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(3, 1, 11, 1, 2, 2, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(4, 1, 11, 1, 2, 2, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(5, 1, 11, 1, 2, 3, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(6, 1, 11, 1, 2, 3, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(7, 1, 11, 1, 2, 4, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(8, 1, 11, 1, 2, 4, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(9, 1, 11, 1, 2, 5, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(10, 1, 11, 1, 2, 5, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(11, 1, 11, 1, 3, 1, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(12, 1, 11, 1, 3, 1, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(13, 1, 11, 1, 3, 2, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(14, 1, 11, 1, 3, 2, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(15, 1, 11, 1, 3, 3, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(16, 1, 11, 1, 3, 3, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(17, 1, 11, 1, 3, 4, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:30', '2024-12-09 05:56:30'),
-(18, 1, 11, 1, 3, 4, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(19, 1, 11, 1, 3, 5, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(20, 1, 11, 1, 3, 5, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(21, 1, 11, 1, 4, 1, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(22, 1, 11, 1, 4, 1, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(23, 1, 11, 1, 4, 2, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(24, 1, 11, 1, 4, 2, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(25, 1, 11, 1, 4, 3, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(26, 1, 11, 1, 4, 3, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(27, 1, 11, 1, 4, 4, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(28, 1, 11, 1, 4, 4, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(29, 1, 11, 1, 4, 5, 'SC-1', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31'),
-(30, 1, 11, 1, 4, 5, 'SC-2', 100, 33.00, 1.00, 0, '2024-12-09 05:56:31', '2024-12-09 05:56:31');
+(45, 1, 14, 1, 4, 1, 'SC-1', 100, 33.00, 0.70, '0.00', '2025-01-13 12:00:21', '2025-01-13 12:00:21'),
+(46, 1, 14, 1, 4, 1, 'MC-2', 30, 33.00, 1.00, '0.00', '2025-01-13 12:00:21', '2025-01-13 12:00:21'),
+(47, 1, 14, 1, 4, 3, 'SC-1', 100, 33.00, 0.70, '0.00', '2025-01-13 12:00:21', '2025-01-13 12:00:21'),
+(48, 1, 14, 1, 4, 3, 'MC-2', 30, 33.00, 1.00, '0.00', '2025-01-13 12:00:21', '2025-01-13 12:00:21'),
+(49, 1, 14, 1, 4, 5, 'SC-1', 100, 33.00, 0.70, '0.00', '2025-01-13 12:00:21', '2025-01-13 12:00:21'),
+(50, 1, 14, 1, 4, 5, 'MC-2', 30, 33.00, 1.00, '0.00', '2025-01-13 12:00:21', '2025-01-13 12:00:21');
 
 -- --------------------------------------------------------
 
@@ -437,6 +415,28 @@ INSERT INTO `exam_merit_process_types` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `exam_results`
+--
+
+CREATE TABLE `exam_results` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` bigint UNSIGNED NOT NULL,
+  `academic_year_id` bigint UNSIGNED NOT NULL,
+  `exam_id` bigint UNSIGNED NOT NULL,
+  `student_id` bigint UNSIGNED NOT NULL,
+  `total_marks` double(6,2) DEFAULT NULL,
+  `grand_total_marks` double(5,2) DEFAULT NULL,
+  `class_position` tinyint UNSIGNED NOT NULL DEFAULT '0',
+  `section_position` tinyint UNSIGNED NOT NULL DEFAULT '0',
+  `grade` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grade_point` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `exam_short_codes`
 --
 
@@ -459,11 +459,11 @@ CREATE TABLE `exam_short_codes` (
 
 INSERT INTO `exam_short_codes` (`id`, `branch_id`, `class_id`, `default_id`, `code_title`, `total_marks`, `pass_mark`, `acceptance`, `created_at`, `updated_at`) VALUES
 (1, 1, 14, 1, 'SC-1', 100, 33.00, 1.00, '2024-12-04 10:26:53', '2024-12-04 10:37:54'),
-(2, 1, 14, 2, 'SC-2', 100, 33.00, 1.00, '2024-12-04 10:26:53', '2024-12-04 10:26:53'),
+(2, 1, 14, 2, 'MC-2', 100, 33.00, 1.00, '2024-12-04 10:26:53', '2025-01-11 08:47:23'),
 (3, 1, 11, 1, 'SC-1', 100, 33.00, 1.00, '2024-12-08 09:37:15', '2024-12-08 09:37:15'),
 (4, 1, 11, 2, 'SC-2', 100, 33.00, 1.00, '2024-12-08 09:37:15', '2024-12-08 09:37:15'),
-(5, 1, 17, 1, 'SC-1', 100, 33.00, 1.00, '2024-12-08 10:59:27', '2024-12-08 10:59:27'),
-(6, 1, 17, 2, 'SC-2', 100, 33.00, 1.00, '2024-12-08 10:59:27', '2024-12-08 10:59:27');
+(7, 1, 15, 1, 'SC-1', 100, 33.00, 1.00, '2025-01-11 08:57:01', '2025-01-11 08:57:01'),
+(8, 1, 15, 2, 'SC-2', 100, 33.00, 1.00, '2025-01-11 08:57:01', '2025-01-11 08:57:01');
 
 -- --------------------------------------------------------
 
@@ -516,11 +516,16 @@ CREATE TABLE `exam_subjects` (
 --
 
 INSERT INTO `exam_subjects` (`id`, `branch_id`, `name`, `serial`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Bangla', 0, 1, '2024-12-04 06:59:44', '2024-12-04 06:59:44'),
-(2, 1, 'Bangla-II', 0, 1, '2024-12-04 07:43:58', '2024-12-06 03:38:02'),
-(3, 1, 'English', 0, 1, '2024-12-06 03:37:22', '2024-12-06 03:37:22'),
-(4, 1, 'English-II', 0, 1, '2024-12-06 03:37:40', '2024-12-06 03:37:40'),
-(5, 1, 'Mathematic', 0, 1, '2024-12-06 03:38:32', '2024-12-06 03:38:32');
+(1, 1, 'Bangla', 1, 1, '2024-12-04 06:59:44', '2025-01-11 07:40:14'),
+(2, 1, 'Sciences', 4, 1, '2024-12-04 07:43:58', '2025-01-13 11:08:34'),
+(3, 1, 'English', 2, 1, '2024-12-06 03:37:22', '2025-01-13 11:04:58'),
+(4, 1, 'Religion', 5, 1, '2024-12-06 03:37:40', '2025-01-13 11:09:13'),
+(5, 1, 'Mathematic', 3, 1, '2024-12-06 03:38:32', '2025-01-13 11:08:07'),
+(6, 1, 'Digital Technology', 6, 1, '2025-01-13 11:09:37', '2025-01-13 11:09:37'),
+(7, 1, 'History & Social Science', 7, 1, '2025-01-13 11:09:56', '2025-01-13 11:09:56'),
+(8, 1, 'Well Being', 8, 1, '2025-01-13 11:10:16', '2025-01-13 11:10:16'),
+(9, 1, 'Art & Culture', 9, 1, '2025-01-13 11:10:31', '2025-01-13 11:10:31'),
+(10, 1, 'Life & Livelyhood', 10, 1, '2025-01-13 11:10:46', '2025-01-13 11:10:46');
 
 -- --------------------------------------------------------
 
@@ -546,14 +551,19 @@ CREATE TABLE `exam_subject_configs` (
 --
 
 INSERT INTO `exam_subject_configs` (`id`, `branch_id`, `class_id`, `group_id`, `subject_id`, `subject_type_id`, `serial`, `merge`, `created_at`, `updated_at`) VALUES
-(19, 1, 11, 1, 1, 1, 0, 1, '2024-12-07 07:24:43', '2024-12-08 11:04:39'),
-(20, 1, 11, 1, 2, 1, 0, 1, '2024-12-07 07:24:43', '2024-12-08 11:04:39'),
-(21, 1, 11, 1, 3, 1, 0, 2, '2024-12-07 07:24:43', '2024-12-08 11:04:39'),
-(22, 1, 11, 1, 4, 1, 0, 2, '2024-12-07 07:24:43', '2024-12-08 11:04:39'),
-(23, 1, 11, 1, 5, 1, 0, NULL, '2024-12-07 07:24:43', '2024-12-08 11:04:39'),
-(24, 1, 14, 1, 1, 1, 0, 0, '2024-12-07 07:25:26', '2024-12-07 07:25:26'),
-(25, 1, 14, 1, 3, 1, 0, 0, '2024-12-07 07:25:26', '2024-12-07 07:25:26'),
-(26, 1, 14, 1, 5, 1, 0, 0, '2024-12-07 07:25:26', '2024-12-07 07:25:26');
+(24, 1, 14, 1, 1, 1, 1, 0, '2024-12-07 07:25:26', '2025-01-13 11:20:57'),
+(25, 1, 14, 1, 3, 1, 2, 0, '2024-12-07 07:25:26', '2025-01-13 11:20:57'),
+(26, 1, 14, 1, 5, 1, 3, 0, '2024-12-07 07:25:26', '2025-01-13 11:20:57'),
+(27, 1, 11, 1, 1, 1, 1, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
+(28, 1, 11, 1, 2, 1, 4, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
+(29, 1, 11, 1, 3, 1, 2, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
+(30, 1, 11, 1, 4, 1, 5, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
+(31, 1, 11, 1, 5, 1, 3, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
+(32, 1, 11, 1, 6, 1, 6, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
+(33, 1, 11, 1, 7, 1, 7, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
+(34, 1, 11, 1, 8, 1, 8, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:48'),
+(35, 1, 11, 1, 9, 1, 9, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:48'),
+(36, 1, 11, 1, 10, 1, 10, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:48');
 
 -- --------------------------------------------------------
 
@@ -644,6 +654,44 @@ INSERT INTO `group_configs` (`id`, `branch_id`, `group_id`, `class_id`, `serial`
 (2, 1, 1, 14, 2, 1, '2024-12-07 07:51:49', '2024-12-07 07:51:49'),
 (3, 1, 3, 17, 1, 1, '2024-12-07 07:54:05', '2024-12-07 07:54:05'),
 (4, 1, 4, 17, 5, 1, '2024-12-07 07:54:40', '2024-12-07 07:54:40');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `idcard_templates`
+--
+
+CREATE TABLE `idcard_templates` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` int UNSIGNED DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_5` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_6` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_5` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_6` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_7` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `idcard_templates`
+--
+
+INSERT INTO `idcard_templates` (`id`, `branch_id`, `title`, `slug`, `image`, `text_1`, `text_2`, `text_3`, `text_4`, `text_5`, `text_6`, `color_code_1`, `color_code_2`, `color_code_3`, `color_code_4`, `color_code_5`, `color_code_6`, `color_code_7`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Template 1', 'template1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, NULL, 'Template 2', 'template2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, NULL, 'Template 3', 'template3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1505,7 +1553,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (137, '2024_12_14_162910_create_student_ac_sub_head_configs_table', 56),
 (138, '2024_12_14_163333_create_student_ac_fee_configs_table', 56),
 (139, '2024_12_14_163728_create_student_ac_time_configs_table', 56),
-(140, '2024_12_14_163813_create_student_ac_free_waiver_configs_table', 56);
+(140, '2024_12_14_163813_create_student_ac_free_waiver_configs_table', 56),
+(141, '2025_01_12_070921_create_idcard_templates_table', 57),
+(142, '2025_01_13_131408_create_exam_results_table', 58);
 
 -- --------------------------------------------------------
 
@@ -1855,7 +1905,7 @@ CREATE TABLE `sms_contacts` (
 --
 
 INSERT INTO `sms_contacts` (`id`, `branch_id`, `name`, `mobile`, `category_id`, `note`, `status`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Zakir', '01740836439', '2', NULL, 1, '2023-11-08 02:27:35', '2023-11-08 02:27:35'),
+(1, 2, 'Zakir', '01740836439', '2', NULL, 1, '2023-11-08 02:27:35', '2023-11-08 02:27:35'),
 (2, NULL, 'Shahadat Hosain', '01757839516', '2', NULL, 1, '2024-10-28 09:26:23', '2024-10-28 09:26:23'),
 (3, NULL, 'Bulbul', '01912624881', '1', NULL, 1, '2024-10-28 09:26:52', '2024-10-28 09:26:52'),
 (4, 1, 'Shahadat', '01757839516', '3', NULL, 1, '2025-01-05 07:59:27', '2025-01-05 07:59:27'),
@@ -1881,7 +1931,7 @@ CREATE TABLE `sms_contact_categories` (
 --
 
 INSERT INTO `sms_contact_categories` (`id`, `branch_id`, `name`, `status`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'Family', 1, '2023-11-08 02:24:42', '2023-11-08 02:24:42'),
+(1, 1, 'Family', 1, '2023-11-08 02:24:42', '2023-11-08 02:24:42'),
 (2, NULL, 'Friend', 1, '2023-11-08 02:27:17', '2023-11-08 02:27:17'),
 (3, 1, 'Friends', 1, '2025-01-05 07:59:20', '2025-01-05 07:59:20');
 
@@ -1916,7 +1966,8 @@ INSERT INTO `sms_logs` (`id`, `branch_id`, `send_type`, `send_to`, `name`, `mobi
 (15, NULL, NULL, NULL, NULL, '8801912624881', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:25:26', '2024-11-30 03:25:26'),
 (16, NULL, NULL, NULL, NULL, '8801918136999', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:26:28', '2024-11-30 03:26:28'),
 (17, NULL, NULL, NULL, NULL, '8801757839516,8801740836439', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:27:24', '2024-11-30 03:27:24'),
-(18, NULL, NULL, NULL, NULL, '8801912624881', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:27:24', '2024-11-30 03:27:24');
+(18, NULL, NULL, NULL, NULL, '8801912624881', 'Hello Rajshahai', 'success', '1', 1, 'success', '2024-11-30 03:27:24', '2024-11-30 03:27:24'),
+(19, 1, NULL, NULL, NULL, '8801757839516', 'Hello Rajshahai', 'success', '1', 1, 'success', '2025-01-07 12:23:51', '2025-01-07 12:23:51');
 
 -- --------------------------------------------------------
 
@@ -2019,7 +2070,8 @@ INSERT INTO `students` (`id`, `branch_id`, `reg_no`, `class_roll`, `name`, `date
 (16, 1, '25002', 2, 'mazder', NULL, '01757839516', 'Hindu', 1, 11, 'jamil', NULL, 'mina', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:07:15', '2025-01-06 11:51:36'),
 (17, 1, '25003', 3, 'aslam', NULL, '01912624881', 'Muslim', 1, 11, 'akber', NULL, 'farah', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:07:15', '2025-01-06 11:39:59'),
 (18, 1, '25004', 1, 'Azmira', NULL, '01701063565', 'Muslim', 5, 14, 'Azam', NULL, 'Rozi', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:11:58', '2025-01-06 10:11:58'),
-(19, 1, '25005', 2, 'saima', NULL, '01701063566', 'Muslim', 5, 14, 'Shahadat', NULL, 'Azmira', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:11:58', '2025-01-06 10:11:58');
+(19, 1, '25005', 2, 'saima', NULL, '01701063566', 'Muslim', 5, 14, 'Shahadat', NULL, 'Azmira', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-06 10:11:58', '2025-01-06 10:11:58'),
+(20, 1, '25006', 25, 'Mahfuz', NULL, '01757839516', 'Muslim', 1, 11, 'Mahbub Ali', NULL, 'Nresa', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, '2025-01-09 06:04:13', '2025-01-09 06:04:13');
 
 -- --------------------------------------------------------
 
@@ -2388,6 +2440,12 @@ ALTER TABLE `exam_merit_process_types`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `exam_results`
+--
+ALTER TABLE `exam_results`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `exam_short_codes`
 --
 ALTER TABLE `exam_short_codes`
@@ -2434,6 +2492,12 @@ ALTER TABLE `groups`
 -- Indexes for table `group_configs`
 --
 ALTER TABLE `group_configs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `idcard_templates`
+--
+ALTER TABLE `idcard_templates`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2734,7 +2798,7 @@ ALTER TABLE `class_configs`
 -- AUTO_INCREMENT for table `exam_configurations`
 --
 ALTER TABLE `exam_configurations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `exam_grades`
@@ -2764,7 +2828,7 @@ ALTER TABLE `exam_marks`
 -- AUTO_INCREMENT for table `exam_mark_configs`
 --
 ALTER TABLE `exam_mark_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `exam_merit_process_types`
@@ -2773,10 +2837,16 @@ ALTER TABLE `exam_merit_process_types`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `exam_results`
+--
+ALTER TABLE `exam_results`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `exam_short_codes`
 --
 ALTER TABLE `exam_short_codes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `exam_short_code_defaults`
@@ -2788,13 +2858,13 @@ ALTER TABLE `exam_short_code_defaults`
 -- AUTO_INCREMENT for table `exam_subjects`
 --
 ALTER TABLE `exam_subjects`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `exam_subject_configs`
 --
 ALTER TABLE `exam_subject_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `exam_subject_types`
@@ -2819,6 +2889,12 @@ ALTER TABLE `groups`
 --
 ALTER TABLE `group_configs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `idcard_templates`
+--
+ALTER TABLE `idcard_templates`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `invoices`
@@ -2872,7 +2948,7 @@ ALTER TABLE `menu_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -2950,7 +3026,7 @@ ALTER TABLE `sms_contact_categories`
 -- AUTO_INCREMENT for table `sms_logs`
 --
 ALTER TABLE `sms_logs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `sms_templates`
@@ -2962,7 +3038,7 @@ ALTER TABLE `sms_templates`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `student_ac_fee_configs`

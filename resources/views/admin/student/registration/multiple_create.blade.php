@@ -14,7 +14,6 @@
     </div>
     <div class="card-body">
       @include('admin.layouts._message')
-      <div id="errorMsg"></div>
         <div class="row mb-2">
           <div class="col">
             {!! Form::select('academic_year_id',$academic_years,session('branch')['academic_year_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Year')]) !!}
