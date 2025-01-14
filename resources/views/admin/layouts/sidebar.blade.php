@@ -223,7 +223,7 @@
                     <i class="far fa-circle nav-icon"></i> {{__('General Process')}}</a>
                   </li>
                   <li class="nav-item"><a href="{{ route("exam.result_process.merit") }}" class="nav-link {{ (request()->routeIs('exam.result_process.merit')) ? ' active' : '' }}">
-                    <i class="far fa-circle nav-icon"></i> {{__('Mark Update')}}</a>
+                    <i class="far fa-circle nav-icon"></i> {{__('Merit Process')}}</a>
                   </li>
                 </ul>
               </li>
@@ -244,6 +244,9 @@
                   </li>
                   <li class="nav-item"><a href="{{ route("exam.result.marksheet") }}" class="nav-link {{ (request()->routeIs('exam.result.marksheet')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Marksheet')}}</a>
+                  </li>
+                  <li class="nav-item"><a href="{{ route("exam.result.tabulation_sheet") }}" class="nav-link {{ (request()->routeIs('exam.result.tabulation_sheet')) ? ' active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i> {{__('Tabulation Sheet')}}</a>
                   </li>
                 </ul>
               </li>

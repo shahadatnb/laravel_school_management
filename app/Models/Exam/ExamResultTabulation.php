@@ -16,4 +16,8 @@ class ExamResultTabulation extends Model
         'grade',
         'grade_point'
     ];
+
+    public function subject(){
+        return $this->belongsTo(ExamSubject::class, 'subject_id');
+    }
 }

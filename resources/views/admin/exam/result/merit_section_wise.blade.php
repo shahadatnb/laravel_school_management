@@ -1,18 +1,19 @@
 @extends('admin.layouts.layout')
-@section('title', __("Result Process"))
+@section('title', __("Merit Section Wise"))
 @section('css')
 
 @endsection
 @section('content')
 <div class="card">
   <div class="card-header">
-      <h3 class="card-title">{{__('Result Process')}}</h3>
+      <h3 class="card-title">{{__('Merit Section Wise')}}</h3>
       <div class="card-tools">
         {{-- <a class="btn btn-primary btn-sm" href="{{ route('exam.setup.examList.create')}}">New Item</a> --}}
       </div>
   </div>
   <div class="card-body">
-    {!! Form::open(['route' => ['exam.result_process.general_save'], 'id' => 'general_process']) !!}
+    {!! Form::open(['route' => ['exam.result.merit_section_wise'], 'method' => 'get']) !!}
+    @include('admin.layouts._message')
     <div class="row">
       <div class="col-2">
         <div class="form-group">
@@ -33,19 +34,43 @@
         </div>
       </div>
       <div class="col-2">
-        <button type="submit" class="btn btn-info btn-block">Process</button>
+        <button type="submit" class="btn btn-info btn-block">Result</button>
       </div>
     </div>    
     {!! Form::close() !!}
   </div>
 </div>
+{{-- Student ID	Student Name	Student Roll	Total Marks	Grand Total Marks	Section Position	Grade	CGPA --}}
 <div class="card">
-  <div class="card-header">
-      
-  </div>
   <div class="card-body">
-    @include('admin.layouts._message')
-    
+    <table id="example1" class="table table-bordered table-striped table-sm">
+      <thead>
+      <tr>
+        <th>{{__('Student ID')}}</th>
+        <th>{{__('Student Name')}}</th>
+        <th>{{__('Student Roll')}}</th>
+        <th>{{__('Total Marks')}}</th>
+        {{-- <th>{{__('Grand Total Marks')}}</th> --}}
+        <th>{{__('Section Position')}}</th>
+        <th>{{__('Grade')}}</th>
+        <th>{{__('CGPA')}}</th>
+      </tr>
+      </thead>
+      <tbody id="student_list">
+        @foreach($results as $result)
+        <tr>
+          <td>{{$result->student->reg_no}}</td>
+          <td>{{$result->student->name}}</td>
+          <td>{{$result->student->class_roll}}</td>
+          <td>{{$result->total_marks}}</td>
+          {{-- <td>{{$result->grand_total_marks}}</td> --}}
+          <td>{{$result->section_position}}</td>
+          <td>{{$result->grade}}</td>
+          <td>{{$result->grade_point}}</td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -77,38 +102,6 @@
             `;
           })
           $("#exam_id").html(htmlData);
-        }
-      });
-    });
-
-    $("#general_process").submit(function(e){
-      e.preventDefault();
-      let data = new FormData(this);
-      $.LoadingOverlay("show");
-      $("#errorMsg").empty();
-      $.ajax({
-        type: "post",
-        url: $(this).attr('action'),
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(json){
-          //console.log(data);
-          if(json.status == true){
-            if(json.message){
-                $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${json.message}</div>`);
-              }
-          }else{
-            //console.log(data);
-            if(json.message){
-              $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${json.message}</div>`);
-            }
-            json.errors.forEach(function(element){
-                $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${element}</div>`);
-            });
-          }
-          $.LoadingOverlay("hide");
         }
       });
     });

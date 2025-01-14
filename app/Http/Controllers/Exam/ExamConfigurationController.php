@@ -95,4 +95,16 @@ class ExamConfigurationController extends Controller
         session()->flash('success', "Final Exam Config Updated Successfully");
         return redirect()->route('exam.config.final_mark_config.index');
     }
+
+    public function get_exam_by_semester(Request $request){
+        $examLists = ExamConfiguration::where('branch_id',session('branch')['id'])->where('class_id',$request->class_id)->get();
+        $exams = [];
+        foreach($examLists as $key => $value){
+            $exams[$key] = [
+                'id' => $value->exam_id,
+                'name' => $value->exam? $value->exam->name:''
+            ];
+        }
+        return response()->json($exams);
+    }
 }

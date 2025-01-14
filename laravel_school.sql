@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 14, 2025 at 11:37 AM
+-- Generation Time: Jan 14, 2025 at 06:13 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -90,13 +90,13 @@ CREATE TABLE `branches` (
   `head_contact` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `favicon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `website` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `website` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `academic_year_id` int UNSIGNED DEFAULT NULL,
   `exp_date` date DEFAULT NULL,
-  `sms_domain_url` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sms_api_key` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sms_secretkey` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sms_client` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_domain_url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_api_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_secretkey` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sms_client` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -388,6 +388,7 @@ CREATE TABLE `exam_results` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` bigint UNSIGNED NOT NULL,
   `academic_year_id` bigint UNSIGNED NOT NULL,
+  `class_id` bigint UNSIGNED NOT NULL,
   `section_id` bigint UNSIGNED NOT NULL,
   `exam_id` bigint UNSIGNED NOT NULL,
   `student_id` bigint UNSIGNED NOT NULL,
@@ -395,7 +396,7 @@ CREATE TABLE `exam_results` (
   `grand_total_marks` double(5,2) DEFAULT NULL,
   `class_position` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `section_position` tinyint UNSIGNED NOT NULL DEFAULT '0',
-  `grade` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grade` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `grade_point` float(3,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -405,9 +406,9 @@ CREATE TABLE `exam_results` (
 -- Dumping data for table `exam_results`
 --
 
-INSERT INTO `exam_results` (`id`, `branch_id`, `academic_year_id`, `section_id`, `exam_id`, `student_id`, `total_marks`, `grand_total_marks`, `class_position`, `section_position`, `grade`, `grade_point`, `created_at`, `updated_at`) VALUES
-(22, 1, 3, 5, 4, 18, 221.50, NULL, 0, 0, 'A', 4.17, '2025-01-14 11:30:42', '2025-01-14 11:30:43'),
-(23, 1, 3, 5, 4, 19, 180.60, NULL, 0, 0, 'B', 3.33, '2025-01-14 11:30:43', '2025-01-14 11:30:43');
+INSERT INTO `exam_results` (`id`, `branch_id`, `academic_year_id`, `class_id`, `section_id`, `exam_id`, `student_id`, `total_marks`, `grand_total_marks`, `class_position`, `section_position`, `grade`, `grade_point`, `created_at`, `updated_at`) VALUES
+(24, 1, 3, 14, 5, 4, 18, 221.50, NULL, 1, 1, 'A', 4.17, '2025-01-14 16:52:29', '2025-01-14 16:53:28'),
+(25, 1, 3, 14, 5, 4, 19, 180.60, NULL, 2, 2, 'B', 3.33, '2025-01-14 16:52:29', '2025-01-14 16:53:28');
 
 -- --------------------------------------------------------
 
@@ -421,8 +422,8 @@ CREATE TABLE `exam_result_tabulations` (
   `subject_id` bigint UNSIGNED NOT NULL,
   `full_marks` smallint DEFAULT NULL,
   `marks` double(7,2) DEFAULT NULL,
-  `grade` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `grade_point` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grade` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grade_point` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -432,12 +433,12 @@ CREATE TABLE `exam_result_tabulations` (
 --
 
 INSERT INTO `exam_result_tabulations` (`id`, `exam_result_id`, `subject_id`, `full_marks`, `marks`, `grade`, `grade_point`, `created_at`, `updated_at`) VALUES
-(25, 22, 1, 100, 84.50, 'A+', '5', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
-(26, 22, 3, 100, 72.50, 'A', '4', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
-(27, 22, 5, 100, 64.50, 'A-', '3.5', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
-(28, 23, 1, 100, 71.50, 'A', '4', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
-(29, 23, 3, 100, 58.00, 'B', '3', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
-(30, 23, 5, 100, 51.10, 'B', '3', '2025-01-14 11:30:43', '2025-01-14 11:30:43');
+(31, 24, 1, 100, 84.50, 'A+', '5', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
+(32, 24, 3, 100, 72.50, 'A', '4', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
+(33, 24, 5, 100, 64.50, 'A-', '3.5', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
+(34, 25, 1, 100, 71.50, 'A', '4', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
+(35, 25, 3, 100, 58.00, 'B', '3', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
+(36, 25, 5, 100, 51.10, 'B', '3', '2025-01-14 16:52:29', '2025-01-14 16:52:29');
 
 -- --------------------------------------------------------
 
@@ -669,22 +670,22 @@ INSERT INTO `group_configs` (`id`, `branch_id`, `group_id`, `class_id`, `serial`
 CREATE TABLE `idcard_templates` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` int UNSIGNED DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text_1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text_2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text_3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text_4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text_5` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `text_6` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color_code_1` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color_code_2` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color_code_3` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color_code_4` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color_code_5` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color_code_6` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `color_code_7` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text_6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `color_code_7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -2855,13 +2856,13 @@ ALTER TABLE `exam_merit_process_types`
 -- AUTO_INCREMENT for table `exam_results`
 --
 ALTER TABLE `exam_results`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `exam_result_tabulations`
 --
 ALTER TABLE `exam_result_tabulations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `exam_short_codes`

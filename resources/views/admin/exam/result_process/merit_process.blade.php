@@ -1,18 +1,18 @@
 @extends('admin.layouts.layout')
-@section('title', __("Result Process"))
+@section('title', __("Merit Process"))
 @section('css')
 
 @endsection
 @section('content')
 <div class="card">
   <div class="card-header">
-      <h3 class="card-title">{{__('Result Process')}}</h3>
+      <h3 class="card-title">{{__('Merit Process')}}</h3>
       <div class="card-tools">
         {{-- <a class="btn btn-primary btn-sm" href="{{ route('exam.setup.examList.create')}}">New Item</a> --}}
       </div>
   </div>
   <div class="card-body">
-    {!! Form::open(['route' => ['exam.result_process.general_save'], 'id' => 'general_process']) !!}
+    {!! Form::open(['route' => ['exam.result_process.merit_save'], 'id' => 'general_process']) !!}
     <div class="row">
       <div class="col-2">
         <div class="form-group">

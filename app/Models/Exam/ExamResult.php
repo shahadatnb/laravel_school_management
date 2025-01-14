@@ -11,6 +11,7 @@ class ExamResult extends Model
     protected $fillable = [
         'branch_id',
         'academic_year_id',
+        'class_id',
         'section_id',
         'exam_id',
         'student_id',
@@ -21,4 +22,16 @@ class ExamResult extends Model
         'grade',
         'grade_point',
     ];
+
+    public function student(){
+        return $this->belongsTo('App\Models\Student\Student');
+    }
+
+    public function exam(){
+        return $this->belongsTo(ExamList::class);
+    }
+
+    public function tabulation(){
+        return $this->hasMany(ExamResultTabulation::class);
+    }
 }

@@ -13,6 +13,7 @@ use App\Models\Exam\ExamMark;
 use App\Models\Exam\ExamGrade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Student\Semester;
 
 class ExamResultController extends Controller
 {
@@ -60,6 +61,7 @@ class ExamResultController extends Controller
             $result = ExamResult::create([
                 'branch_id' => session('branch')['id'],
                 'academic_year_id' => $request->academic_year_id,
+                'class_id' => $class_config->class_id,
                 'section_id' => $request->section_id,
                 'exam_id' => $request->exam_id,
                 'student_id' => $student->id,
@@ -133,17 +135,55 @@ class ExamResultController extends Controller
 
     public function merit_process_save(Request $request)
     {
-        //
+        $resultData = ExamResult::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
+        ->where('exam_id', $request->exam_id)->where('section_id', $request->section_id)->orderBy('total_marks','DESC')->get();
+
+        $class_position = 1;
+        foreach($resultData->groupBy('class_id') as $results){
+            $section_position = 1;
+            foreach($results as $result){
+                $result->section_position = $section_position;
+                $result->class_position = $class_position;
+                $result->save();
+                $section_position++;
+                $class_position++;
+            }
+        }
+
+        return response()->json(['status'=>true, 'message'=>'Merit Processed Successfully']);
     }
 
     public function merit_class_wise(Request $request)
-    {
-        //
+    {        
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $class_configs = Semester::where('branch_id', session('branch')['id'])->orderBy('serial','ASC')->where('status',1)->pluck('name', 'id');
+        $results = [];
+        //return $request->all();
+        if(!empty($request->class_id) && !empty($request->exam_id) && !empty($request->academic_year_id)){        
+            $results = ExamResult::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
+            ->where('exam_id', $request->exam_id)->where('class_id', $request->class_id)->orderBy('class_position','ASC')->get();
+        }
+        return view('admin.exam.result.merit_class_wise',compact('results','academic_years','class_configs'));
     }
 
     public function merit_section_wise(Request $request)
     {
-        //
+        $data = ['academic_year_id'=>session('branch')['academic_year_id'],'section_id'=>'','exam_id'=>''];
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $class_config = ClassConfig::where('branch_id', session('branch')['id'])->orderBy('serial','ASC')->where('status',1)->get();
+        $class_configs = [];
+        foreach ($class_config as $key => $value) {
+            $class_configs[$value->id] = $value->name;
+        }
+        $results = [];
+        if(!empty($request->section_id) && !empty($request->exam_id) && !empty($request->academic_year_id)){
+            $data['section_id'] = $request->section_id;
+            $data['exam_id'] = $request->exam_id;
+            $data['academic_year_id'] = $request->academic_year_id;
+            $results = ExamResult::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
+            ->where('exam_id', $request->exam_id)->where('section_id', $request->section_id)->orderBy('section_position','ASC')->get();
+        }
+        return view('admin.exam.result.merit_section_wise',compact('results','academic_years','class_configs','data'));
     }
 
     public function marksheet(Request $request)
@@ -153,6 +193,22 @@ class ExamResultController extends Controller
 
     public function tabulation_sheet(Request $request)
     {
-        //
+        $data = ['academic_year_id'=>session('branch')['academic_year_id'],'section_id'=>'','exam_id'=>''];
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $class_config = ClassConfig::where('branch_id', session('branch')['id'])->orderBy('serial','ASC')->where('status',1)->get();
+        $class_configs = [];
+        foreach ($class_config as $key => $value) {
+            $class_configs[$value->id] = $value->name;
+        }
+        $results = [];
+        if(!empty($request->section_id) && !empty($request->exam_id) && !empty($request->academic_year_id)){
+            $data['section_id'] = $request->section_id;
+            $data['exam_id'] = $request->exam_id;
+            $data['academic_year_id'] = $request->academic_year_id;
+            $results = ExamResult::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
+            ->where('exam_id', $request->exam_id)->where('section_id', $request->section_id)->orderBy('section_position','ASC')
+            ->with('tabulation')->get();
+        }
+        return view('admin.exam.result.tabulation_sheet',compact('results','academic_years','class_configs','data'));
     }
 }

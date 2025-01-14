@@ -1,35 +1,36 @@
 @extends('admin.layouts.layout')
-@section('title', __("Result Process"))
+@section('title', __("Tabulation Sheet"))
 @section('css')
 
 @endsection
 @section('content')
 <div class="card">
   <div class="card-header">
-      <h3 class="card-title">{{__('Result Process')}}</h3>
+      <h3 class="card-title">{{__('Tabulation Sheet')}}</h3>
       <div class="card-tools">
         {{-- <a class="btn btn-primary btn-sm" href="{{ route('exam.setup.examList.create')}}">New Item</a> --}}
       </div>
   </div>
   <div class="card-body">
-    {!! Form::open(['route' => ['exam.result_process.general_save'], 'id' => 'general_process']) !!}
+    @include('admin.layouts._message')
+    {!! Form::open(['route' => ['exam.result.tabulation_sheet'], 'method' => 'get']) !!}
     <div class="row">
       <div class="col-2">
         <div class="form-group">
           {!! Form::label('academic_year_id', __('Year'),['class'=>'']) !!}
-          {!! Form::select('academic_year_id', $academic_years,session('branch')['academic_year_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Year')]) !!}
+          {!! Form::select('academic_year_id', $academic_years,$data['academic_year_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Year')]) !!}
         </div>
       </div>
       <div class="col-2">
         <div class="form-group">
           {!! Form::label('section_id', __('Select Section'),['class'=>'']) !!}
-          {!! Form::select('section_id', $class_configs,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Section')]) !!}
+          {!! Form::select('section_id', $class_configs,$data['section_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Section')]) !!}
         </div>
       </div>
       <div class="col-2">
         <div class="form-group">
           {!! Form::label('exam_id', __('Select Exam'),['class'=>'']) !!}
-          {!! Form::select('exam_id', [],null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Exam')]) !!}
+          {!! Form::select('exam_id', [],$data['exam_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Select Exam')]) !!}
         </div>
       </div>
       <div class="col-2">
@@ -41,10 +42,45 @@
 </div>
 <div class="card">
   <div class="card-header">
-      
+      <table class="table table-sm">
+        <tr>
+          <th>Academic Year</th>
+          <th>Section</th>
+          <th>Group Name</th>
+          <th>Exam</th>
+        </tr>
+        <tr>
+          <td>{{$academic_years[$data['academic_year_id']]}}</td>
+          <td>{{$class_configs[$data['section_id']]}}</td>
+          <td></td>
+          <td>{{ $results != [] ? $results->first() ? $results->first()->exam->name : '' : '' }}</td>
+        </tr>
+      </table>
+      <table class="table table-sm table-bordered table-striped">
+        <tr>
+          <th>Name of Subjects</th>
+          <th>Mark</th>
+          <th>Grade</th>
+          <th>Point</th>
+        </tr>
+        @foreach($results as $result)
+          <tr>
+            <th colspan="4">{{$result->student->name}} Roll:{{$result->student->class_roll}} 
+            Position: {{$result->class_position}} GPA: {{$result->grade_point}} Grade: {{$result->grade}}
+            </th>
+          </tr>
+          @foreach($result->tabulation as $tabulation)
+          <tr>
+            <td>{{$tabulation->subject->name}}</td>
+            <td>{{$tabulation->marks}}</td>
+            <td>{{$tabulation->grade}}</td>
+            <td>{{$tabulation->grade_point}}</td>
+          </tr>
+          @endforeach
+        @endforeach
+      </table>
   </div>
   <div class="card-body">
-    @include('admin.layouts._message')
     
   </div>
 </div>
@@ -81,36 +117,8 @@
       });
     });
 
-    $("#general_process").submit(function(e){
-      e.preventDefault();
-      let data = new FormData(this);
-      $.LoadingOverlay("show");
-      $("#errorMsg").empty();
-      $.ajax({
-        type: "post",
-        url: $(this).attr('action'),
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function(json){
-          //console.log(data);
-          if(json.status == true){
-            if(json.message){
-                $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${json.message}</div>`);
-              }
-          }else{
-            //console.log(data);
-            if(json.message){
-              $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${json.message}</div>`);
-            }
-            json.errors.forEach(function(element){
-                $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${element}</div>`);
-            });
-          }
-          $.LoadingOverlay("hide");
-        }
-      });
+    $( document ).ready(function() {
+      $("#section_id").trigger("change");
     });
 
 </script>

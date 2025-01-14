@@ -168,6 +168,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::get('final_mark_config', [ExamConfigurationController::class, 'finalMarkConfig'])->name('final_mark_config.index');
             Route::get('final_mark_config/edit/{id}', [ExamConfigurationController::class, 'finalMarkConfigEdit'])->name('final_mark_config.edit');
             Route::post('final_mark_config/update', [ExamConfigurationController::class, 'finalMarkConfigUpdate'])->name('final_mark_config.update');
+            Route::get('get_exam_by_semester', [ExamConfigurationController::class, 'get_exam_by_semester'])->name('get_exam_by_semester');
             
         });
 
@@ -196,6 +197,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::get('merit_class_wise',[ExamResultController::class,'merit_class_wise'])->name('merit_class_wise');
             Route::get('merit_section_wise',[ExamResultController::class,'merit_section_wise'])->name('merit_section_wise');
             Route::get('marksheet',[ExamResultController::class,'marksheet'])->name('marksheet');
+            Route::get('tabulation_sheet',[ExamResultController::class,'tabulation_sheet'])->name('tabulation_sheet');
         });
 
     });

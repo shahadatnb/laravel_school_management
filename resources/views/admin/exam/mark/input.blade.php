@@ -144,7 +144,7 @@
         data: {academic_year_id:academic_year_id,section_id:section_id,group_id:group_id,exam_id:exam_id,subject_id:subject_id},
         success: function(data){
           if(data.status == true){
-            console.log(data);
+            //console.log(data);
             let htmlData = '';
             let headData = '';
             data.mark_configs.forEach(function(mark_config,index){
