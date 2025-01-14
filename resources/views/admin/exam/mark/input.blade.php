@@ -104,6 +104,7 @@
             `;
           })
           $("#exam_id").html(htmlData);
+          $("#exam_id").trigger("change");
         }
       });
     });
@@ -176,8 +177,10 @@
     $("#mark_input_form").submit(function(e){
       e.preventDefault();
       let academic_year_id = $("#academic_year_id").val();
+      let section_id = $("#section_id").val();
       let data = new FormData(this);
       data.append('academic_year_id',academic_year_id);
+      data.append('section_id',section_id);
       $.ajax({
         type: "post",
         url: $(this).attr('action'),

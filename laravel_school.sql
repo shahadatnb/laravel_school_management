@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 13, 2025 at 12:22 PM
+-- Generation Time: Jan 14, 2025 at 11:37 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -309,52 +309,18 @@ CREATE TABLE `exam_marks` (
 --
 
 INSERT INTO `exam_marks` (`id`, `branch_id`, `academic_year_id`, `student_id`, `section_id`, `mark_config_id`, `is_absent`, `marks`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 1, 1, 3, NULL, 50.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(2, 1, 3, 1, 1, 4, NULL, 62.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(3, 1, 3, 3, 1, 3, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(4, 1, 3, 3, 1, 4, NULL, 56.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(5, 1, 3, 4, 1, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(6, 1, 3, 4, 1, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(7, 1, 3, 7, 1, 3, NULL, 47.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(8, 1, 3, 7, 1, 4, NULL, 55.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(9, 1, 3, 10, 1, 3, NULL, 78.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(10, 1, 3, 10, 1, 4, NULL, 25.00, '2024-12-10 12:40:44', '2024-12-10 12:40:44'),
-(11, 1, 3, 12, 1, 3, 1, NULL, '2024-12-10 12:40:44', '2024-12-11 10:52:00'),
-(12, 1, 3, 12, 1, 4, 1, NULL, '2024-12-10 12:40:44', '2024-12-11 10:52:01'),
-(13, 1, 3, 13, 1, 3, NULL, 15.00, '2024-12-10 12:40:44', '2024-12-11 10:48:45'),
-(14, 1, 3, 13, 1, 4, NULL, 30.00, '2024-12-10 12:40:44', '2024-12-11 10:48:45'),
-(15, 1, 3, 14, 1, 3, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45'),
-(16, 1, 3, 14, 1, 4, 1, NULL, '2024-12-10 12:40:45', '2024-12-10 12:40:45'),
-(17, 1, 3, 2, 7, 5, NULL, 54.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
-(18, 1, 3, 2, 7, 6, NULL, 88.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
-(19, 1, 3, 5, 7, 5, NULL, 45.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
-(20, 1, 3, 5, 7, 6, NULL, 65.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
-(21, 1, 3, 6, 7, 5, NULL, 25.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
-(22, 1, 3, 6, 7, 6, NULL, 65.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
-(23, 1, 3, 8, 7, 5, NULL, 32.00, '2024-12-11 05:06:18', '2024-12-11 05:06:18'),
-(24, 1, 3, 8, 7, 6, NULL, 78.00, '2024-12-11 05:06:19', '2024-12-11 05:06:19'),
-(25, 1, 3, 9, 7, 5, NULL, 52.00, '2024-12-11 05:06:19', '2024-12-11 05:06:19'),
-(26, 1, 3, 9, 7, 6, NULL, 32.00, '2024-12-11 05:06:19', '2024-12-11 05:06:19'),
-(27, 1, 3, 2, 7, 1, NULL, 45.00, '2024-12-11 05:10:12', '2024-12-11 05:10:12'),
-(28, 1, 3, 2, 7, 2, NULL, 56.00, '2024-12-11 05:10:12', '2024-12-11 05:10:12'),
-(29, 1, 3, 5, 7, 1, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(30, 1, 3, 5, 7, 2, NULL, 78.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(31, 1, 3, 6, 7, 1, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(32, 1, 3, 6, 7, 2, NULL, 12.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(33, 1, 3, 8, 7, 1, NULL, 45.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(34, 1, 3, 8, 7, 2, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(35, 1, 3, 9, 7, 1, NULL, 45.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(36, 1, 3, 9, 7, 2, NULL, 56.00, '2024-12-11 05:10:13', '2024-12-11 05:10:13'),
-(37, 1, 3, 2, NULL, 3, NULL, 45.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(38, 1, 3, 2, NULL, 4, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(39, 1, 3, 5, NULL, 3, NULL, 89.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(40, 1, 3, 5, NULL, 4, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(41, 1, 3, 6, NULL, 3, NULL, 56.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(42, 1, 3, 6, NULL, 4, NULL, 45.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(43, 1, 3, 8, NULL, 3, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(44, 1, 3, 8, NULL, 4, NULL, 89.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(45, 1, 3, 9, NULL, 3, NULL, 56.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43'),
-(46, 1, 3, 9, NULL, 4, NULL, 78.00, '2024-12-11 06:22:43', '2024-12-11 06:22:43');
+(1, 1, 3, 18, 5, 45, NULL, 85.00, '2025-01-14 07:07:30', '2025-01-14 07:07:30'),
+(2, 1, 3, 18, 5, 46, NULL, 25.00, '2025-01-14 07:07:30', '2025-01-14 07:07:30'),
+(3, 1, 3, 19, 5, 45, NULL, 75.00, '2025-01-14 07:07:30', '2025-01-14 07:07:30'),
+(4, 1, 3, 19, 5, 46, NULL, 19.00, '2025-01-14 07:07:30', '2025-01-14 07:07:30'),
+(5, 1, 3, 18, 5, 47, NULL, 75.00, '2025-01-14 07:07:56', '2025-01-14 07:07:56'),
+(6, 1, 3, 18, 5, 48, NULL, 20.00, '2025-01-14 07:07:56', '2025-01-14 07:07:56'),
+(7, 1, 3, 19, 5, 47, NULL, 60.00, '2025-01-14 07:07:56', '2025-01-14 07:07:56'),
+(8, 1, 3, 19, 5, 48, NULL, 16.00, '2025-01-14 07:07:56', '2025-01-14 07:07:56'),
+(9, 1, 3, 18, 5, 49, NULL, 65.00, '2025-01-14 07:08:28', '2025-01-14 07:08:28'),
+(10, 1, 3, 18, 5, 50, NULL, 19.00, '2025-01-14 07:08:28', '2025-01-14 07:08:28'),
+(11, 1, 3, 19, 5, 49, NULL, 53.00, '2025-01-14 07:08:28', '2025-01-14 07:08:28'),
+(12, 1, 3, 19, 5, 50, NULL, 14.00, '2025-01-14 07:08:28', '2025-01-14 07:08:28');
 
 -- --------------------------------------------------------
 
@@ -422,6 +388,7 @@ CREATE TABLE `exam_results` (
   `id` bigint UNSIGNED NOT NULL,
   `branch_id` bigint UNSIGNED NOT NULL,
   `academic_year_id` bigint UNSIGNED NOT NULL,
+  `section_id` bigint UNSIGNED NOT NULL,
   `exam_id` bigint UNSIGNED NOT NULL,
   `student_id` bigint UNSIGNED NOT NULL,
   `total_marks` double(6,2) DEFAULT NULL,
@@ -429,10 +396,48 @@ CREATE TABLE `exam_results` (
   `class_position` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `section_position` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `grade` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `grade_point` float(3,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_results`
+--
+
+INSERT INTO `exam_results` (`id`, `branch_id`, `academic_year_id`, `section_id`, `exam_id`, `student_id`, `total_marks`, `grand_total_marks`, `class_position`, `section_position`, `grade`, `grade_point`, `created_at`, `updated_at`) VALUES
+(22, 1, 3, 5, 4, 18, 221.50, NULL, 0, 0, 'A', 4.17, '2025-01-14 11:30:42', '2025-01-14 11:30:43'),
+(23, 1, 3, 5, 4, 19, 180.60, NULL, 0, 0, 'B', 3.33, '2025-01-14 11:30:43', '2025-01-14 11:30:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_result_tabulations`
+--
+
+CREATE TABLE `exam_result_tabulations` (
+  `id` bigint UNSIGNED NOT NULL,
+  `exam_result_id` bigint UNSIGNED NOT NULL,
+  `subject_id` bigint UNSIGNED NOT NULL,
+  `full_marks` smallint DEFAULT NULL,
+  `marks` double(7,2) DEFAULT NULL,
+  `grade` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `grade_point` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_result_tabulations`
+--
+
+INSERT INTO `exam_result_tabulations` (`id`, `exam_result_id`, `subject_id`, `full_marks`, `marks`, `grade`, `grade_point`, `created_at`, `updated_at`) VALUES
+(25, 22, 1, 100, 84.50, 'A+', '5', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
+(26, 22, 3, 100, 72.50, 'A', '4', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
+(27, 22, 5, 100, 64.50, 'A-', '3.5', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
+(28, 23, 1, 100, 71.50, 'A', '4', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
+(29, 23, 3, 100, 58.00, 'B', '3', '2025-01-14 11:30:43', '2025-01-14 11:30:43'),
+(30, 23, 5, 100, 51.10, 'B', '3', '2025-01-14 11:30:43', '2025-01-14 11:30:43');
 
 -- --------------------------------------------------------
 
@@ -1555,7 +1560,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (139, '2024_12_14_163728_create_student_ac_time_configs_table', 56),
 (140, '2024_12_14_163813_create_student_ac_free_waiver_configs_table', 56),
 (141, '2025_01_12_070921_create_idcard_templates_table', 57),
-(142, '2025_01_13_131408_create_exam_results_table', 58);
+(142, '2025_01_13_131408_create_exam_results_table', 58),
+(143, '2025_01_14_135140_create_exam_result_tabulations_table', 59);
 
 -- --------------------------------------------------------
 
@@ -2425,7 +2431,9 @@ ALTER TABLE `exam_lists`
 -- Indexes for table `exam_marks`
 --
 ALTER TABLE `exam_marks`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`),
+  ADD KEY `academic_year_id` (`academic_year_id`);
 
 --
 -- Indexes for table `exam_mark_configs`
@@ -2444,6 +2452,13 @@ ALTER TABLE `exam_merit_process_types`
 --
 ALTER TABLE `exam_results`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `exam_result_tabulations`
+--
+ALTER TABLE `exam_result_tabulations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `exam_result_tabulations_exam_result_id_foreign` (`exam_result_id`);
 
 --
 -- Indexes for table `exam_short_codes`
@@ -2822,7 +2837,7 @@ ALTER TABLE `exam_lists`
 -- AUTO_INCREMENT for table `exam_marks`
 --
 ALTER TABLE `exam_marks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `exam_mark_configs`
@@ -2840,7 +2855,13 @@ ALTER TABLE `exam_merit_process_types`
 -- AUTO_INCREMENT for table `exam_results`
 --
 ALTER TABLE `exam_results`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `exam_result_tabulations`
+--
+ALTER TABLE `exam_result_tabulations`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `exam_short_codes`
@@ -2948,7 +2969,7 @@ ALTER TABLE `menu_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -3115,6 +3136,12 @@ ALTER TABLE `user_branches`
 --
 ALTER TABLE `attendances`
   ADD CONSTRAINT `attendances_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `exam_result_tabulations`
+--
+ALTER TABLE `exam_result_tabulations`
+  ADD CONSTRAINT `exam_result_tabulations_exam_result_id_foreign` FOREIGN KEY (`exam_result_id`) REFERENCES `exam_results` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `invoices`

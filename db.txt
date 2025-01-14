@@ -3,3 +3,5 @@ ALTER TABLE `branches` CHANGE `sms_domain_url` `sms_domain_url` VARCHAR(200) NUL
 
 ALTER TABLE `exam_mark_configs` CHANGE `sc_merge` `sc_merge` DECIMAL(8,2) UNSIGNED NOT NULL DEFAULT '1'; 
 ALTER TABLE `branches` ADD `website` VARCHAR(100) NULL DEFAULT NULL AFTER `favicon`; 
+ALTER TABLE `exam_marks` ADD INDEX(`branch_id`);
+ALTER TABLE `exam_marks` ADD INDEX(`academic_year_id`);

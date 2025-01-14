@@ -105,6 +105,7 @@
             `;
           })
           $("#exam_id").html(htmlData);
+          $("#exam_id").trigger("change");
         }
       });
     });

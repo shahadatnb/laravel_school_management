@@ -111,6 +111,8 @@ class ExamMarkController extends Controller
     public function input_save(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'academic_year_id'=>'required',
+            'section_id'=>'required',
             'mark_list'=>'required',
             'mark_list.*.*'=>'nullable|numeric|required_without:is_absent.*',
         ]);
