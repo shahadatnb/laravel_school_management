@@ -1,19 +1,19 @@
 @extends('admin.layouts.layout')
-@section('title', __("Tabulation Sheet"))
+@section('title', __("Marksheet"))
 @section('css')
 
 @endsection
 @section('content')
 <div class="card">
   <div class="card-header">
-      <h3 class="card-title">{{__('Tabulation Sheet')}}</h3>
+      <h3 class="card-title">{{__('Mark Sheet')}}</h3>
       <div class="card-tools">
         {{-- <a class="btn btn-primary btn-sm" href="{{ route('exam.setup.examList.create')}}">New Item</a> --}}
       </div>
   </div>
   <div class="card-body">
     @include('admin.layouts._message')
-    {!! Form::open(['route' => ['exam.result.tabulation_sheet'], 'method' => 'get']) !!}
+    {!! Form::open(['route' => ['exam.result.marksheet'], 'method' => 'get']) !!}
     <div class="row">
       <div class="col-2">
         <div class="form-group">
@@ -42,45 +42,7 @@
 </div>
 <div class="card">
   <div class="card-header">
-      <table class="table table-sm">
-        <tr>
-          <th>Academic Year</th>
-          <th>Section</th>
-          <th>Group Name</th>
-          <th>Exam</th>
-        </tr>
-        <tr>
-          <td>{{$academic_years[$data['academic_year_id']]}}</td>
-          <td>{{$data['section_id'] != '' ? $class_configs[$data['section_id']] : ''}}</td>
-          <td></td>
-          <td>{{ $results != [] ? $results->first() ? $results->first()->exam->name : '' : '' }}</td>
-        </tr>
-      </table>
-      <table class="table table-sm table-bordered table-striped">
-        <tr>
-          <th>Name of Subjects</th>
-          <th>Full Mark</th>
-          <th>Mark</th>
-          <th>Grade</th>
-          <th>Point</th>
-        </tr>
-        @foreach($results as $result)
-          <tr>
-            <th colspan="5">{{$result->student->name}} Roll:{{$result->student->class_roll}} 
-            Position: {{$result->class_position}} GPA: {{$result->grade_point}} Grade: {{$result->grade}}
-            </th>
-          </tr>
-          @foreach($result->tabulation as $tabulation)
-          <tr>
-            <td>{{$tabulation->subject->name}}</td>
-            <td>{{$tabulation->full_marks}}</td>
-            <td>{{$tabulation->marks}}</td>
-            <td>{{$tabulation->grade}}</td>
-            <td>{{$tabulation->grade_point}}</td>
-          </tr>
-          @endforeach
-        @endforeach
-      </table>
+      @include('admin.exam.result.marksheet_pdf')
   </div>
   <div class="card-body">
     

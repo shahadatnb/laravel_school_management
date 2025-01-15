@@ -4,6 +4,9 @@ namespace App\Models\Exam;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Student\Student;
+use App\Models\Student\AcademicYear;
+use App\Models\Student\Section;
 
 class ExamResult extends Model
 {
@@ -33,5 +36,13 @@ class ExamResult extends Model
 
     public function tabulation(){
         return $this->hasMany(ExamResultTabulation::class);
+    }
+
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
+
+    public function year(){
+        return $this->belongsTo(AcademicYear::class,'academic_year_id');
     }
 }

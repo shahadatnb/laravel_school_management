@@ -28,10 +28,11 @@ class ExamResultController extends Controller
         return view('admin.exam.result_process.general_process',compact('academic_years','class_configs'));
     }
 
-    private function grade_calc($grades,$marks){
+    private function grade_calc($grades,$marks,$total_marks){
         //dd($grades);
+        $calc_marks = $marks/$total_marks*100;
         foreach($grades as $grade){
-            if($marks >= $grade['grade_range']){
+            if($calc_marks >= $grade['grade_range']){
                 return ['grade' => $grade['grade'], 'grade_point' => $grade['grade_point']];
                 break;
             }
@@ -74,10 +75,10 @@ class ExamResultController extends Controller
             $subjects = ExamSubjectConfig::where('class_id',$class_config->class_id)->where('branch_id',session('branch')['id'])->orderBy('serial','ASC')->get();
             
             foreach($subjects as $subject){
-                $mark_config = MarkConfig::where('class_id',$class_config->class_id)->where('branch_id',session('branch')['id'])
-                ->where('exam_id',$request->exam_id)->where('subject_id',$subject->subject_id)->get()->first();
+                $mark_configs = MarkConfig::where('class_id',$class_config->class_id)->where('branch_id',session('branch')['id'])
+                ->where('exam_id',$request->exam_id)->where('subject_id',$subject->subject_id)->get();
                 $marks = ExamMark::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
-                ->where('student_id', $student->id)->with('mark_config')->whereHas('mark_config',function($q) use($subject){
+                ->where('student_id', $student->id)->with('mark_config')->where('exam_id',$request->exam_id)->whereHas('mark_config',function($q) use($subject){
                     $q->where('subject_id',$subject->subject_id);
                 })->get();
                 
@@ -86,13 +87,18 @@ class ExamResultController extends Controller
                 foreach($marks as $m){
                     $mark += $m->mark_config->acceptance * $m->marks;
                 }
+
+                $total_marks = 0;
+                foreach($mark_configs as $mark_config){
+                    $total_marks += $mark_config->total_marks * $mark_config->acceptance;
+                }
                 
-                $grade_calc = $this->grade_calc($grades,$mark);
+                $grade_calc = $this->grade_calc($grades,$mark,$total_marks);
                 //dd($grade_calc);
                 ExamResultTabulation::create([
                     'exam_result_id'=>$result->id,
                     'subject_id'=>$subject->subject_id,
-                    'full_marks'=>$mark_config->total_marks,
+                    'full_marks'=>$total_marks,
                     'marks'=>$mark,
                     'grade'=>$grade_calc['grade'],
                     'grade_point'=>$grade_calc['grade_point'],
@@ -188,7 +194,33 @@ class ExamResultController extends Controller
 
     public function marksheet(Request $request)
     {
-        //
+        $data = ['academic_year_id'=>session('branch')['academic_year_id'],'section_id'=>'','exam_id'=>''];
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $class_config = ClassConfig::where('branch_id', session('branch')['id'])->orderBy('serial','ASC')->where('status',1)->get();
+        $class_configs = [];
+        foreach ($class_config as $key => $value) {
+            $class_configs[$value->id] = $value->name;
+        }
+        $results = [];
+        if(!empty($request->section_id) && !empty($request->exam_id) && !empty($request->academic_year_id)){
+            $marks_data = ExamMark::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
+            ->with('mark_config')->whereHas('mark_config',function($q) use($request){ $q->where('exam_id',$request->exam_id);})->get();
+
+            $marks = [];
+            foreach($marks_data as $mark){
+                $marks[$mark->student_id][$mark->mark_config->subject_id][$mark->mark_config->sc_title] = $mark->marks; 
+            }
+
+            //dd($marks);
+
+            $data['section_id'] = $request->section_id;
+            $data['exam_id'] = $request->exam_id;
+            $data['academic_year_id'] = $request->academic_year_id;
+            $results = ExamResult::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
+            ->where('exam_id', $request->exam_id)->where('section_id', $request->section_id)->orderBy('section_position','ASC')
+            ->with('tabulation','student','section','exam','year')->get();
+        }
+        return view('admin.exam.result.marksheet',compact('results','academic_years','class_configs','data','marks'));
     }
 
     public function tabulation_sheet(Request $request)
