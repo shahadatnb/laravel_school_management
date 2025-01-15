@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 14, 2025 at 06:13 PM
+-- Generation Time: Jan 15, 2025 at 12:12 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -407,8 +407,8 @@ CREATE TABLE `exam_results` (
 --
 
 INSERT INTO `exam_results` (`id`, `branch_id`, `academic_year_id`, `class_id`, `section_id`, `exam_id`, `student_id`, `total_marks`, `grand_total_marks`, `class_position`, `section_position`, `grade`, `grade_point`, `created_at`, `updated_at`) VALUES
-(24, 1, 3, 14, 5, 4, 18, 221.50, NULL, 1, 1, 'A', 4.17, '2025-01-14 16:52:29', '2025-01-14 16:53:28'),
-(25, 1, 3, 14, 5, 4, 19, 180.60, NULL, 2, 2, 'B', 3.33, '2025-01-14 16:52:29', '2025-01-14 16:53:28');
+(38, 1, 3, 14, 5, 4, 18, 221.50, NULL, 0, 0, 'A', 4.17, '2025-01-15 10:43:38', '2025-01-15 10:43:38'),
+(39, 1, 3, 14, 5, 4, 19, 180.60, NULL, 0, 0, 'B', 3.33, '2025-01-15 10:43:38', '2025-01-15 10:43:39');
 
 -- --------------------------------------------------------
 
@@ -433,12 +433,12 @@ CREATE TABLE `exam_result_tabulations` (
 --
 
 INSERT INTO `exam_result_tabulations` (`id`, `exam_result_id`, `subject_id`, `full_marks`, `marks`, `grade`, `grade_point`, `created_at`, `updated_at`) VALUES
-(31, 24, 1, 100, 84.50, 'A+', '5', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
-(32, 24, 3, 100, 72.50, 'A', '4', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
-(33, 24, 5, 100, 64.50, 'A-', '3.5', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
-(34, 25, 1, 100, 71.50, 'A', '4', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
-(35, 25, 3, 100, 58.00, 'B', '3', '2025-01-14 16:52:29', '2025-01-14 16:52:29'),
-(36, 25, 5, 100, 51.10, 'B', '3', '2025-01-14 16:52:29', '2025-01-14 16:52:29');
+(73, 38, 1, 100, 84.50, 'A+', '5', '2025-01-15 10:43:38', '2025-01-15 10:43:38'),
+(74, 38, 3, 100, 72.50, 'A', '4', '2025-01-15 10:43:38', '2025-01-15 10:43:38'),
+(75, 38, 5, 100, 64.50, 'A-', '3.5', '2025-01-15 10:43:38', '2025-01-15 10:43:38'),
+(76, 39, 1, 100, 71.50, 'A', '4', '2025-01-15 10:43:39', '2025-01-15 10:43:39'),
+(77, 39, 3, 100, 58.00, 'B', '3', '2025-01-15 10:43:39', '2025-01-15 10:43:39'),
+(78, 39, 5, 100, 51.10, 'B', '3', '2025-01-15 10:43:39', '2025-01-15 10:43:39');
 
 -- --------------------------------------------------------
 
@@ -2316,7 +2316,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `username`, `mobile`, `Designation`, `email`, `banned_till`, `email_verified_at`, `password`, `remember_token`, `photo`, `created_at`, `updated_at`) VALUES
 (1, 'Shahadat Hosain', 'shahadat', '01757839516', 'IT Engineer', 'shahadat@asiancoder.com', NULL, NULL, '$2y$10$MA6Q/mISlCRrdduJ8HHT0uOziOlXSUZrm04emRs6zKI3LoJzrrrHS', NULL, NULL, '2020-10-31 19:51:35', '2024-11-24 15:21:33'),
-(6, 'Nawdapara School', NULL, NULL, NULL, 'ns@gmail.com', NULL, NULL, '$2y$10$PV3A9DFiGcarj1NgdN.S3ulxW0nGHd8a4eWZVicz2xdSe32PHjFXO', NULL, NULL, '2024-11-25 11:22:01', '2024-11-25 11:22:01');
+(6, 'Nawdapara School', NULL, NULL, NULL, 'ns@gmail.com', NULL, NULL, '$2y$10$PV3A9DFiGcarj1NgdN.S3ulxW0nGHd8a4eWZVicz2xdSe32PHjFXO', NULL, NULL, '2024-11-25 11:22:01', '2024-11-25 11:22:01'),
+(7, 'Superadmin', 'superadmin', '01700000000', 'Superadmin', 'superadmin@asiancoder.com', NULL, NULL, '$2y$12$5GxkwswHBfRCtEpfJhtfiO9iXhogjK/Vs2ssRINFNs8Be3RXmb0TK', NULL, NULL, '2025-01-15 12:10:42', '2025-01-15 12:10:42');
 
 -- --------------------------------------------------------
 
@@ -2346,7 +2347,8 @@ CREATE TABLE `users_roles` (
 --
 
 INSERT INTO `users_roles` (`id`, `user_id`, `role_id`) VALUES
-(1, 1, 1);
+(1, 1, 1),
+(13, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -2856,13 +2858,13 @@ ALTER TABLE `exam_merit_process_types`
 -- AUTO_INCREMENT for table `exam_results`
 --
 ALTER TABLE `exam_results`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `exam_result_tabulations`
 --
 ALTER TABLE `exam_result_tabulations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `exam_short_codes`
@@ -3114,13 +3116,13 @@ ALTER TABLE `taxonomies`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` smallint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` smallint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users_roles`
 --
 ALTER TABLE `users_roles`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user_branches`
