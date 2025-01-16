@@ -91,21 +91,26 @@
 @section('js')
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
-    const academic_years = {!! json_encode($academic_years) !!};
-    const default_year = {{ session('branch')['academic_year_id'] }};
-    const academic_years_options = Object.keys(academic_years).map((key) => `<option ${default_year == key ? 'selected' : ''} value="${key}">${academic_years[key]}</option>`);
+    //const academic_years = {!! json_encode($academic_years) !!};
+    //const default_year = {{ session('branch')['academic_year_id'] }};
+    //const academic_years_options = Object.keys(academic_years).map((key) => `<option ${default_year == key ? 'selected' : ''} value="${key}">${academic_years[key]}</option>`);
+    const years = [...Array(8)].map((a,b)=> (new Date().getFullYear()-3) + b);
+    const years_options = years.map((year) => `<option ${new Date().getFullYear() == year ? 'selected' : ''} value="${year}">${year}</option>`);
     //console.log(academic_years_options);
     // academic_years.forEach(function(value,index){
       //   console.log(value);
       // });
-      const months = {!! json_encode($months) !!};
+      //const months = {!! json_encode($months) !!};
+      const months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
       //console.log(months);
-      const month_options = Object.keys(months).map((key) => `<option value="${key}">${months[key]}</option>`);
-      console.log(month_options);
+      //const month_options = Object.keys(months).map((key) => `<option value="${key}">${months[key]}</option>`);
+      const month_options = months.map((month) => `<option value="${month}">${month}</option>`);
+      //console.log(month_options);
 
     $("#head_id").change(function(){
       let head_id = $("#head_id").val();
       if(head_id == '') return false;
+      console.log(years);
       $.LoadingOverlay("show");
       $.ajax({
         type: "get",
@@ -118,10 +123,10 @@
             htmlData += `<tr>
             <td>${value.name}
             <input type="hidden" name="sub_head_ids[${value.id}]" value="${value.id}"></td>
-            <td><select name="academic_year_ids[${value.id}]" class="form-control form-control-sm select2" required>`;
-              academic_years_options.forEach(function(value1,index1){
-              htmlData += value1;
-            });
+            <td><select name="years[${value.id}]" class="form-control form-control-sm select2" required>`;
+              years_options.forEach(function(value1,index1){
+                htmlData += value1;
+              });
             htmlData += `</select></td>
             <td><select name="months[${value.id}]" class="form-control form-control-sm select2" required>`;
               month_options.forEach(function(value1,index1){

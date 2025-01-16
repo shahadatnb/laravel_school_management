@@ -219,7 +219,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::get('timeConfig', [StudentAcTimeConfigController::class,'index'])->name('timeConfig');
             Route::get('get_sub_head', [StudentAcTimeConfigController::class,'get_sub_head'])->name('get_sub_head');
             Route::post('save_fee_time', [StudentAcTimeConfigController::class,'save_fee_time'])->name('save_fee_time');
-            Route::get('get_fee_time', [StudentAcTimeConfigController::class,'get_fee_time'])->name('get_fee_time');
+            Route::get('get_time_config', [StudentAcTimeConfigController::class,'get_time_config'])->name('get_time_config');
 
             Route::resource('feeWaiverConfig', StudentAcFreeWaiverConfigController::class)->except('show','create');
             

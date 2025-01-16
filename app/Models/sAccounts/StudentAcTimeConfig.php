@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class StudentAcTimeConfig extends Model
 {
     use HasFactory;
+
+    public function sub_head()
+    {
+        return $this->belongsTo(StudentAcSubHead::class);
+    }
 }
