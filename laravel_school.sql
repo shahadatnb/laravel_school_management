@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 15, 2025 at 12:12 PM
+-- Generation Time: Jan 19, 2025 at 12:36 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -2106,7 +2106,6 @@ CREATE TABLE `student_ac_fee_configs` (
 --
 
 INSERT INTO `student_ac_fee_configs` (`id`, `branch_id`, `academic_year_id`, `class_id`, `group_id`, `category_id`, `head_id`, `sub_head_id`, `fee_amount`, `fine_amount`, `created_at`, `updated_at`) VALUES
-(2, 1, 3, 11, 1, 1, 1, 1, '20.00', '0.00', '2024-12-17 09:29:09', '2024-12-17 09:29:09'),
 (4, 1, 3, 11, 1, 1, 2, 2, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
 (5, 1, 3, 11, 1, 1, 2, 3, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
 (6, 1, 3, 11, 1, 1, 2, 4, '50.00', '10.00', '2024-12-17 09:32:20', '2024-12-17 09:32:20'),
@@ -2266,10 +2265,29 @@ CREATE TABLE `student_ac_time_configs` (
   `branch_id` bigint UNSIGNED DEFAULT NULL,
   `academic_year_id` bigint UNSIGNED DEFAULT NULL,
   `sub_head_id` bigint UNSIGNED DEFAULT NULL,
+  `year` year NOT NULL,
   `month` tinyint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `student_ac_time_configs`
+--
+
+INSERT INTO `student_ac_time_configs` (`id`, `branch_id`, `academic_year_id`, `sub_head_id`, `year`, `month`, `created_at`, `updated_at`) VALUES
+(15, 1, 3, 2, 2025, 1, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(16, 1, 3, 3, 2025, 2, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(17, 1, 3, 4, 2025, 3, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(18, 1, 3, 5, 2025, 4, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(19, 1, 3, 6, 2025, 5, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(20, 1, 3, 7, 2025, 6, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(21, 1, 3, 8, 2025, 7, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(22, 1, 3, 9, 2025, 8, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(23, 1, 3, 10, 2025, 9, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(24, 1, 3, 11, 2025, 10, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(25, 1, 3, 12, 2025, 11, '2025-01-19 05:16:10', '2025-01-19 05:16:10'),
+(26, 1, 3, 13, 2025, 12, '2025-01-19 05:16:10', '2025-01-19 05:16:10');
 
 -- --------------------------------------------------------
 
@@ -2398,25 +2416,29 @@ ALTER TABLE `branches`
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `class_configs`
 --
 ALTER TABLE `class_configs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_configurations`
 --
 ALTER TABLE `exam_configurations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_grades`
 --
 ALTER TABLE `exam_grades`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_grade_defaults`
@@ -2428,7 +2450,8 @@ ALTER TABLE `exam_grade_defaults`
 -- Indexes for table `exam_lists`
 --
 ALTER TABLE `exam_lists`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_marks`
@@ -2442,7 +2465,8 @@ ALTER TABLE `exam_marks`
 -- Indexes for table `exam_mark_configs`
 --
 ALTER TABLE `exam_mark_configs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_merit_process_types`
@@ -2454,7 +2478,9 @@ ALTER TABLE `exam_merit_process_types`
 -- Indexes for table `exam_results`
 --
 ALTER TABLE `exam_results`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`),
+  ADD KEY `academic_year_id` (`academic_year_id`);
 
 --
 -- Indexes for table `exam_result_tabulations`
@@ -2467,7 +2493,8 @@ ALTER TABLE `exam_result_tabulations`
 -- Indexes for table `exam_short_codes`
 --
 ALTER TABLE `exam_short_codes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_short_code_defaults`
@@ -2479,13 +2506,15 @@ ALTER TABLE `exam_short_code_defaults`
 -- Indexes for table `exam_subjects`
 --
 ALTER TABLE `exam_subjects`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_subject_configs`
 --
 ALTER TABLE `exam_subject_configs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `exam_subject_types`
@@ -2504,13 +2533,15 @@ ALTER TABLE `failed_jobs`
 -- Indexes for table `groups`
 --
 ALTER TABLE `groups`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `group_configs`
 --
 ALTER TABLE `group_configs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `idcard_templates`
@@ -2640,13 +2671,15 @@ ALTER TABLE `roles_permissions`
 -- Indexes for table `sections`
 --
 ALTER TABLE `sections`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `semesters`
 --
 ALTER TABLE `semesters`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `sessions`
@@ -2666,44 +2699,52 @@ ALTER TABLE `settings`
 -- Indexes for table `shifts`
 --
 ALTER TABLE `shifts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `sms_contacts`
 --
 ALTER TABLE `sms_contacts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `sms_contact_categories`
 --
 ALTER TABLE `sms_contact_categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `sms_logs`
 --
 ALTER TABLE `sms_logs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `sms_templates`
 --
 ALTER TABLE `sms_templates`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`);
 
 --
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `students_semester_id_index` (`semester_id`) USING BTREE;
+  ADD KEY `branch_id` (`branch_id`),
+  ADD KEY `academic_year_id` (`academic_year_id`);
 
 --
 -- Indexes for table `student_ac_fee_configs`
 --
 ALTER TABLE `student_ac_fee_configs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `branch_id` (`branch_id`),
+  ADD KEY `academic_year_id` (`academic_year_id`);
 
 --
 -- Indexes for table `student_ac_fee_waivers`
@@ -3068,7 +3109,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `student_ac_fee_configs`
 --
 ALTER TABLE `student_ac_fee_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `student_ac_fee_waivers`
@@ -3104,7 +3145,7 @@ ALTER TABLE `student_ac_sub_head_configs`
 -- AUTO_INCREMENT for table `student_ac_time_configs`
 --
 ALTER TABLE `student_ac_time_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `taxonomies`

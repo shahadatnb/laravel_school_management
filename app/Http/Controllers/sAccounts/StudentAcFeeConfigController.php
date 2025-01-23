@@ -40,11 +40,32 @@ class StudentAcFeeConfigController extends Controller
             return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
         }
 
+        $fee_config_data = StudentAcFeeConfig::with('sub_head','head','category','group','semester')->where('branch_id',session('branch')['id'])
+        ->where('academic_year_id',$request->academic_year_id)
+        ->where('class_id',$request->class_id)
+        ->where('group_id',$request->group_id)
+        ->where('category_id',$request->category_id)
+        ->where('head_id',$request->head_id)
+        ->get();
+        
+        $fee_configs = [];
+        foreach ($fee_config_data as $key => $value) {
+            $fee_configs[$key] = [
+                'id' => $value->id,
+                'class' => $value->semester? $value->semester->name : '',
+                'group' => $value->group? $value->group->name : '',
+                'category' => $value->category? $value->category->name : '',
+                'sub_head_name' =>  $value->sub_head? $value->sub_head->name : '',
+                'fee_amount' =>  $value->fee_amount,
+                'fine_amount' => $value->fine_amount
+            ];
+        }
+
         $sub_heads = StudentAcSubHead::whereHas('head',function($q)use($request){
             $q->where('head_id',$request->head_id);
         })->where('branch_id',session('branch')['id'])->where('status',1)->get();
 
-        return response()->json(['status'=>true,'sub_heads'=>$sub_heads]);
+        return response()->json(['status'=>true,'sub_heads'=>$sub_heads,'fee_configs'=>$fee_configs]);
     }
 
     public function save_fee_config(Request $request)
@@ -87,9 +108,38 @@ class StudentAcFeeConfigController extends Controller
 
         return response()->json(['status'=>true,'message'=>'Success']);
     }
-    
-    public function destroy(StudentAcFeeConfig $studentAcFeeConfig)
+
+    public function update_fee_config(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'fee_config_id'=>'required',
+            'fee_amount'=>'numeric|required',
+            'fine_amount'=>'nullable|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status'=>false,'errors'=>$validator->errors()->all()]);
+        }
+
+        $fee_config = StudentAcFeeConfig::where('id',$request->fee_config_id)->where('branch_id',session('branch')['id'])->first();
+        if($fee_config){
+            $fee_config->fee_amount = $request->fee_amount;
+            $fee_config->fine_amount = $request->fine_amount;
+            $fee_config->save();
+            return response()->json(['status'=>true,'message'=>'Success']);
+        }else{
+            return response()->json(['status'=>false,'message'=>'Failed']);
+        }
+    }
+    
+    public function destroy(Request $request)
+    {
+        $fee_config = StudentAcFeeConfig::where('id',$request->fee_config_id)->where('branch_id',session('branch')['id'])->first();
+        if($fee_config){
+            $fee_config->delete();
+            return response()->json(['status'=>true,'message'=>'Success']);
+        }else{
+            return response()->json(['status'=>false,'message'=>'Failed']);
+        }
     }
 }

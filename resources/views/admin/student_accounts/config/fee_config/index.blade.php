@@ -73,6 +73,33 @@
       </table>
     </div>
   </div>
+  {{-- Class	Group	Student Category	Fee Head	Fee SubHead	Fee Amount	Fine Amount	Update	Delete --}}
+  <div class="card">
+    <div class="card-header">
+        <h3 class="card-title">{{__('Fee Amount Configuraed List')}}</h3>
+        <div class="card-tools">
+        </div>
+    </div>
+    <div class="card-body">
+      <table id="example2" class="table table-bordered table-striped table-sm">
+        <thead>
+        <tr>
+          <th>{{__('Class')}}</th>
+          <th>{{__('Group')}}</th>
+          <th>{{__('Category')}}</th>
+          <th>{{__('Fee SubHead')}}</th>
+          <th>{{__('Fee Amount')}}</th>
+          <th>{{__('Fine Amount')}}</th>
+          <th>{{__('Update')}}</th>
+          <th>{{__('Delete')}}</th>
+        </tr>
+        </thead>
+        <tbody id="fee_config_list_update">
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
   {{ Form::submit('Save',array('class'=>'btn btn-primary')) }}
 {!! Form::close() !!}
 @endsection
@@ -91,7 +118,9 @@
       data: {academic_year_id:academic_year_id,class_id:class_id,group_id:group_id,category_id:category_id,head_id:head_id},
       success: function(data){
         $("#fee_config_list").empty();
+        $("#fee_config_list_update").empty();
         let html_data = '';
+        let html_data_config = '';
         console.log(data);
         if(data.status == true){
           data.sub_heads.forEach((data) => {
@@ -105,6 +134,41 @@
           `;
           });
           $("#fee_config_list").append(html_data);
+
+          if(data.fee_configs.length > 0){
+            console.log(data.fee_configs);
+            data.fee_configs.forEach((data) => {
+              html_data_config += `
+              <tr>
+                <td>
+                  ${data.class} 
+                </td>
+                <td>
+                  ${data.group} 
+                </td>
+                <td>
+                  ${data.category} 
+                </td>
+                <td>
+                  ${data.sub_head_name} 
+                </td>
+                <td>
+                  <input type="number" name="fee_amount" value="${data.fee_amount}" class="form-control form-control-sm">
+                </td>
+                <td>
+                  <input type="number" name="fine_amount" value="${data.fine_amount}" class="form-control form-control-sm">
+                </td>
+                <td>
+                  <a href="javascript:void(0)" data-id="${data.id}" class="btn btn-primary btn-sm update"><i class="fas fa-edit"></i></a>
+                </td>
+                <td>
+                  <a href="javascript:void(0)" data-id="${data.id}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></a>
+                </td>
+              </tr>
+              `;
+            });
+            $("#fee_config_list_update").append(html_data_config);            
+          }
         }
         
       }
@@ -132,5 +196,46 @@
       }
     });
   });
+
+  $("#fee_config_list_update").on('click','.update',function(){
+    let id = $(this).data('id');
+    let fee_amount = $(this).closest('tr').find('input[name="fee_amount"]').val();
+    let fine_amount = $(this).closest('tr').find('input[name="fine_amount"]').val();
+    let tr = $(this).closest('tr');
+    $.ajax({
+      url: "{{route('sac.config.update_fee_config')}}",
+      type: "post",
+      data: {fee_config_id:id,fee_amount:fee_amount,fine_amount:fine_amount,_token:"{{csrf_token()}}"},
+      success: function(data){
+        tr.remove();
+        if(data.status == true){
+          if(data.message){
+            $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${data.message}</div>`);
+          }
+        }
+      }
+    })
+  });
+
+  $("#fee_config_list_update").on('click','.delete',function(){
+    let id = $(this).data('id');
+    let tr = $(this).closest('tr');
+    if(confirm('Are You Sure To Delete This Item?')){      
+      $.ajax({
+        url: "{{route('sac.config.delete_fee_config')}}",
+        type: "post",
+        data: {fee_config_id:id,_token:"{{csrf_token()}}"},
+        success: function(data){
+          tr.remove();
+          if(data.status == true){
+            if(data.message){
+              $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${data.message}</div>`);
+            }
+          }
+        }
+      });
+    }
+  });
+
   </script>
 @endsection

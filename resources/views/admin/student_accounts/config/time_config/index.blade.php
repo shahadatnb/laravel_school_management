@@ -16,10 +16,21 @@
       <div class="card-body">
         @include('admin.layouts._message')
         {!! Form::open(array('route'=>['sac.config.save_fee_time'],'id'=>'save_fee_time')) !!}
-          <div class="form-group">
-            {!! Form::label('head_id', __('Head Name'),['class'=>'']) !!}
-            {!! Form::select('head_id', $heads,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Class Name')]) !!}
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              {!! Form::label('academic_year_id', __('Year'),['class'=>'']) !!}
+              {!! Form::select('academic_year_id', $academic_years,session('branch')['academic_year_id'],['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Year')]) !!}
+            </div>
           </div>
+          <div class="col-8">
+            <div class="form-group">
+              {!! Form::label('head_id', __('Head Name'),['class'=>'']) !!}
+              {!! Form::select('head_id', $heads,null,['class'=>'form-control form-control-sm select2','required'=>true,'placeholder'=> __('Class Name')]) !!}
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-12">
             <h3 class="text-center">{{__('Fee Head List')}}</h3>
             <table class="table table-sm table-bordered table-striped">
@@ -37,6 +48,7 @@
               </tbody>
             </table>
           </div>
+        </div>
         </div>
         {{ Form::submit('Save',array('class'=>'btn btn-primary')) }}
         {!! Form::close() !!}          
@@ -100,11 +112,11 @@
     // academic_years.forEach(function(value,index){
       //   console.log(value);
       // });
-      //const months = {!! json_encode($months) !!};
-      const months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+      const months_php = {!! json_encode($months) !!};
+      const months = [['01','January'],['02','February'],['03','March'],['04','April'],['05','May'],['06','June'],['07','July'],['08','August'],['09','September'],['10','October'],['11','November'],['12','December']];
       //console.log(months);
       //const month_options = Object.keys(months).map((key) => `<option value="${key}">${months[key]}</option>`);
-      const month_options = months.map((month) => `<option value="${month}">${month}</option>`);
+      const month_options = months.map((month) => `<option value="${month[0]}">${month[1]}</option>`);
       //console.log(month_options);
 
     $("#head_id").change(function(){
@@ -185,9 +197,14 @@
         success: function(data){
           console.log(data);
           let htmlData = '';
-          data.forEach(function(value,index){
+          data.time_configs.forEach(function(value,index){
             htmlData += `
             <tr>
+              <td>${value.head_name}</td>
+              <td>${value.sub_head_name}</td>
+              <td>${value.year}</td>
+              <td>${months_php[value.month]}</td>
+              <td><a href="javascript:void(0)" data-id="${value.id}" class="btn btn-danger btn-sm delete"><i class="fas fa-trash"></i></a></td>
             </tr>
             `;
           });
@@ -195,6 +212,25 @@
           $.LoadingOverlay("hide");
         }
       });
+    });
+
+    $("#time_config_list").on('click','.delete',function(){      
+      let id = $(this).data('id');
+      let tr = $(this).closest('tr');
+      $.ajax({
+        url: "{{route('sac.config.delete_time_config')}}",
+        type: "post",
+        data: {studentAcTimeConfig_id:id,_token:"{{csrf_token()}}"},
+        success: function(data){
+          tr.remove();
+          if(data.status == true){
+            if(data.message){
+              $("#errorMsg").append(`<div class="alert alert-success"><strong>Success: </strong>${data.message}</div>`);
+            }
+          }
+        }
+      })
+      
     });
     
   </script>
