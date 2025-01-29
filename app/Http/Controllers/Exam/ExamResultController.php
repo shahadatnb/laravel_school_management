@@ -201,12 +201,17 @@ class ExamResultController extends Controller
         foreach ($class_config as $key => $value) {
             $class_configs[$value->id] = $value->name;
         }
+
         $results = [];
+        $marks = [];
+        $grades = [];
         if(!empty($request->section_id) && !empty($request->exam_id) && !empty($request->academic_year_id)){
+            $class_config = ClassConfig::find($request->section_id);
+            $grades = ExamGrade::where('branch_id', session('branch')['id'])->where('class_id', $class_config->class_id)->get();
+
             $marks_data = ExamMark::where('branch_id', session('branch')['id'])->where('academic_year_id', $request->academic_year_id)
             ->with('mark_config')->whereHas('mark_config',function($q) use($request){ $q->where('exam_id',$request->exam_id);})->get();
 
-            $marks = [];
             foreach($marks_data as $mark){
                 $marks[$mark->student_id][$mark->mark_config->subject_id][$mark->mark_config->sc_title] = $mark->marks; 
             }
@@ -220,7 +225,7 @@ class ExamResultController extends Controller
             ->where('exam_id', $request->exam_id)->where('section_id', $request->section_id)->orderBy('section_position','ASC')
             ->with('tabulation','student','section','exam','year')->get();
         }
-        return view('admin.exam.result.marksheet',compact('results','academic_years','class_configs','data','marks'));
+        return view('admin.exam.result.marksheet',compact('results','academic_years','class_configs','data','marks','grades'));
     }
 
     public function tabulation_sheet(Request $request)

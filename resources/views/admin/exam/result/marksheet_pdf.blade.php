@@ -14,6 +14,7 @@
             height: 94%;
             padding: 25px;
             border: 5px double black;
+            position: relative;
         }
         .certifecket::before{
             background-image: url('{{public_path('/upload/site_file/'.config('settings.siteLogo',''))}}');
@@ -51,6 +52,29 @@
             border-bottom: 2px solid #000;
         }
 
+        .grade_list {
+            position: absolute;
+            top: 25mm;
+            right: 15mm;
+            width: 65mm;
+        }
+
+        .grade_list th, .grade_list td {
+            border: 1px solid #000;
+            padding: 2px;
+            text-align: center;
+        }
+
+        .mark_table {
+            width: 100%;
+        }
+
+        .mark_table th, .mark_table td {
+            border: 1px solid #000;
+            padding: 2px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -73,6 +97,21 @@
         </table>    
     </div>
     <h1 class="text-center"><span class="border-b-2">ACADEMIC TRANSCRIPT</span></h1>
+    <table border="1" class="grade_list">
+        <tr>
+            <th>Range</th>
+            <th>Grade</th>
+            <th>GP</th>
+        </tr>
+        @foreach ($grades as $grade)
+            <tr>
+                <td>{{$grade->grade_range}}</td>
+                <td>{{$grade->grade}}</td>
+                <td>{{$grade->grade_point}}</td>
+            </tr>
+        @endforeach
+    </table>
+
     <br>  <br><br>{{-- --}}
     <table border="0" width="100%">
         <tr>
@@ -106,7 +145,7 @@
             <td></td>
         </tr>
     </table>
-    <table class="table">
+    <table class="mark_table">
         <tr>
             <th rowspan="2">Subject</th>
             <th rowspan="2">Full Mark</th>
@@ -125,7 +164,7 @@
         </tr>
         @foreach ($result->tabulation as $tabulation)
         <tr>
-            <td>{{$tabulation->subject->name}}</td>
+            <td class="text-left">{{$tabulation->subject->name}}</td>
             <td>{{$tabulation->full_marks}}</td>
             @foreach ($marks[$result->student_id][$tabulation->subject_id] as $mark)
                     <td>{{$mark}}</td>

@@ -182,7 +182,7 @@
         formData.append('category_id', $('select[name="category_id"]').val());
         formData.append('file', $(this)[0].files[0]);
         formData.append('_token', '{{ csrf_token() }}');
-        console.log(formData);
+        
         $.ajax({
             url: "{{ route('student.reg.file_process') }}",
             type: "POST",
