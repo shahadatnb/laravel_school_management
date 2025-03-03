@@ -78,7 +78,7 @@
 
 @endsection
 @section('js')
-
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 <script>
     $("#section_id").change(function(){
       let section_id = $("#section_id").val();
@@ -138,6 +138,8 @@
       let subject_id = $("#subject_id").val();
       $("#student_list").empty();
       $("#student_header .head_td").remove();
+      $.LoadingOverlay("show");
+      $("#errorMsg").empty();
       $.ajax({
         type: "get",
         url: "{{route('exam.mark.get_input_student')}}",
@@ -168,8 +170,15 @@
             //console.log(data);
             $("#student_list").html(htmlData);            
           }else{
-            console.log(data);
+            //console.log(data);
+            if(data.message){
+              $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${data.message}</div>`);
+            }
+            data.errors.forEach(function(element){
+                $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${element}</div>`);
+            });
           }
+          $.LoadingOverlay("hide");
         }
       });
     });
@@ -181,6 +190,8 @@
       let data = new FormData(this);
       data.append('academic_year_id',academic_year_id);
       data.append('section_id',section_id);
+      $.LoadingOverlay("show");
+      $("#errorMsg").empty();
       $.ajax({
         type: "post",
         url: $(this).attr('action'),
@@ -195,9 +206,15 @@
             alert(data.message);
             $("#student_list").empty();
           }else{
-            console.log(data);
-            //alert(data.errors);
+            //console.log(data);
+            if(data.message){
+              $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${data.message}</div>`);
+            }
+            data.errors.forEach(function(element){
+                $("#errorMsg").append(`<div class="alert alert-danger"><strong>Warning: </strong>${element}</div>`);
+            });
           }
+          $.LoadingOverlay("hide");
         }
       });
     });

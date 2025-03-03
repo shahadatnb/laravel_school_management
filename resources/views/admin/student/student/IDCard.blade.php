@@ -42,12 +42,13 @@
               <div class="btn btn-group">
                 <button type="submit" class="btn btn-success"><i class="fas fa-search"></i> Filter</button>
                 <button type="button" class="btn btn-info" onclick="window.print();">Print</button>
+                <button type="button" class="btn btn-info" id="generate-pdf">PDF</button>
               </div>
             </div>
           </div>
           {!! Form::close() !!}
     </div>
-    <div class="card-body">
+    <div class="card-body" id="content-to-pdf">
       <div class="d-flex flex-wrap">
         @foreach ($students as $key => $student)
           <div class="id-card flex-row d-flex">
@@ -85,4 +86,43 @@
     <!-- /.card-body -->
 </div>
 <!-- /.card -->
+@endsection
+@section('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+// JavaScript to Generate PDF
+document.getElementById('generate-pdf').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+
+            // Get the HTML element
+            const element = document.getElementById('content-to-pdf');
+
+            // Use html2canvas to render the element as an image
+            html2canvas(element).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png'); // Convert canvas to image data
+                const pdf = new jsPDF('p', 'mm', 'a4'); // Create a new PDF instance
+
+                // Add the image to the PDF
+                const imgWidth = 190; // Width of the image in the PDF
+                const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculate height to maintain aspect ratio
+                let heightLeft = imgHeight;
+                let position = 20; // Start position for the image
+
+    // Add first page
+                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                heightLeft -= pdf.internal.pageSize.height - 30; // Subtract the height of the first page
+
+                  // Add additional pages if needed
+                  while (heightLeft > 0) {
+                      position = heightLeft - imgHeight; // Adjust position for the next page
+                      pdf.addPage();
+                      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                      heightLeft -= pdf.internal.pageSize.height - 30;
+                  }
+                // Save the PDF
+                pdf.save("student-info.pdf");
+            });
+        });
+</script>
 @endsection
