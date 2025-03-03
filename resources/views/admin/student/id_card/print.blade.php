@@ -12,27 +12,21 @@
 </head>
 <body>
     <div class="d-flex flex-wrap">
-        @foreach ($students as $student)
-          <div class="id-card flex-row d-flex">
-          <div class="id-card-front">
-            <div class="text-center id-card-logo">
-              <img width="50" src="{{asset('/upload/site_file/'.config('settings.siteLogo'))}}" alt="">
-              <h3 class="inst-name">{{ config('settings.siteTitle','') }}</h3>
-            </div>
-            <div class="text-center student-photo">
-              <img width="80" src="{{asset('/storage/'.$student->photo)}}" alt="">
-            </div>
-            <div class="id-card-info">              
-              <div style="fomt-weight: bold" class="text-center">{{ $student->name }}</div>
-              Class: {{ $student->semester? $student->semester->title : '' }} <br>
-              Class Roll: {{ $student->classRoll }}
-            </div>
-          </div>
-          <div class="id-card-back text-center align-middle">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, quos error reprehenderit voluptatem nisi ullam itaque perferendis repudiandae et iste!
-          </div>
-        </div>
-        @endforeach
+      @foreach ($students as $key => $student)
+      <div class="id-card flex-row d-flex">
+      @if($data['print_style'] == 'front' || $data['print_style'] == 'both')
+        @include('admin.student.id_card.'.$template->slug.'.front')
+      @endif
+      @if($data['print_style'] == 'back' || $data['print_style'] == 'both')
+        @include('admin.student.id_card.'.$template->slug.'.back')
+      @endif
+    </div>
+    @if($data['print_style'] == 'both' && ($key+1)/8 == 0)
+      <div class="break"></div>
+    @elseIf(($key+1)/16 == 0)
+      <div class="break"></div>
+    @endif
+    @endforeach
     </div>
 </body>
 </html>

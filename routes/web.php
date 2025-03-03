@@ -235,6 +235,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
 
     Route::post('student/import-cgpa', [StudentController::class,'importCgpa'])->name('student.import.cgpa');
     Route::get('student/id_card', [StudentController::class,'IDCard'])->name('id_card');
+    Route::get('student/id_card_download', [StudentController::class,'IDCardDownload'])->name('id_card_download');
     Route::get('student/student_statitics', [StudentController::class,'student_statitics'])->name('student_statitics');
     Route::get('student/incomeList', [InvoiceController::class,'incomeList'])->name('incomeList');
     Route::resource('invoice', InvoiceController::class);

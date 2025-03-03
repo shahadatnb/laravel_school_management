@@ -8,6 +8,83 @@
     page-break-inside: avoid;
   }
 }
+  #content-to-pdf {
+    width: 297mm;
+  }
+  .id-card-front, .id-card-back {
+    width: 2.125in;
+    height: 3.375in;
+    border: 1px dashed #363a20;
+    margin: 4px;
+    padding: 5px;
+  }
+    
+    .id-card-logo img {
+      max-height: 12mm !important;
+      max-width: 100%;
+    }
+    
+    .id-card-title {
+      background: #df002d;
+      padding: 2px;
+      margin: .5mm 0 .5mm 0;
+    }
+    
+    .id-card-title h4 {
+      color: #fff;
+      font-family: arial;
+      margin: 0;
+      font-size: 5mm;
+    }
+    
+    .inst-name {
+      font-size: 4mm;
+      font-family: arial;
+      line-height: 4mm;
+      margin: 0;
+    }
+    
+    .id-card-id {
+      margin: 0;
+      line-height: 4mm;
+      font-size: 4mm;
+      margin-bottom: 1mm;
+    }
+    .student-photo {
+      height: 22mm;
+    }
+    .student-photo img {
+      border: 3px solid #635bcd;
+      max-height: 100%;
+    }
+    .id-card-info {
+      line-height: 3.8mm;
+      margin-top: 5px;
+      font-size: 4mm;
+    }
+    
+    .id-card-info span {
+      width: 18mm;
+      display: inline-block;
+    }
+    
+    .signature {
+      width: 50%;
+      right: 0;
+      bottom: 0;
+      text-align: center;
+    }
+    
+    .signature img {
+      max-width: 80%;
+      max-height: 6mm;
+      margin-bottom: -2.5mm;
+    }
+    
+    .signature span {
+      border-top: 1px solid #000;
+      font-size: 4mm;
+    }
  </style>
 <!-- Default box -->
 <div class="card">
@@ -42,7 +119,7 @@
               <div class="btn btn-group">
                 <button type="submit" class="btn btn-success"><i class="fas fa-search"></i> Filter</button>
                 <button type="button" class="btn btn-info" onclick="window.print();">Print</button>
-                <button type="button" class="btn btn-info" id="generate-pdf">PDF</button>
+                <button data-url="{{route('id_card_download')}}" type="button" class="btn btn-primary" id="generate-pdf">PDF</button>
               </div>
             </div>
           </div>
@@ -91,6 +168,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
+  /*
+  $('#generate-pdf').click(function() {
+    let url = $(this).data('url');
+    let formData = $('form').serialize();
+    $.LoadingOverlay("show");
+    $.ajax({
+      url: url,
+      method: 'get',
+      data: formData,
+      success: function(response) {
+        */
+        
 // JavaScript to Generate PDF
 document.getElementById('generate-pdf').addEventListener('click', () => {
             const { jsPDF } = window.jspdf;
@@ -101,7 +190,7 @@ document.getElementById('generate-pdf').addEventListener('click', () => {
             // Use html2canvas to render the element as an image
             html2canvas(element).then((canvas) => {
                 const imgData = canvas.toDataURL('image/png'); // Convert canvas to image data
-                const pdf = new jsPDF('p', 'mm', 'a4'); // Create a new PDF instance
+                const pdf = new jsPDF('l', 'mm', 'a4'); // Create a new PDF instance
 
                 // Add the image to the PDF
                 const imgWidth = 190; // Width of the image in the PDF
@@ -124,5 +213,6 @@ document.getElementById('generate-pdf').addEventListener('click', () => {
                 pdf.save("student-info.pdf");
             });
         });
+        
 </script>
 @endsection
