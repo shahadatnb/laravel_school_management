@@ -3,11 +3,12 @@
 @section('content')
  <style>
  @media print {
-  .break {page-break-before: always; width: 100%;}
+  @page {size: landscape}
+}
+.break {page-break-before: always; width: 100%;}
   .id-card{
     page-break-inside: avoid;
   }
-}
   #content-to-pdf {
     width: 297mm;
   }
@@ -125,8 +126,9 @@
           </div>
           {!! Form::close() !!}
     </div>
-    <div class="card-body" id="content-to-pdf">
-      <div class="d-flex flex-wrap">
+    <div class="card-body">
+      <div class="d-flex flex-wrap" id="content-to-pdf">
+        @php $counter = 0; @endphp
         @foreach ($students as $key => $student)
           <div class="id-card flex-row d-flex">
           @if($data['print_style'] == 'front' || $data['print_style'] == 'both')
@@ -136,9 +138,9 @@
             @include('admin.student.id_card.'.$template->slug.'.back')
           @endif
         </div>
-        @if($data['print_style'] == 'both' && ($key+1)/8 == 0)
+        @if($data['print_style'] == 'both' && ($counter+1)/8 == 0)
           <div class="break"></div>
-        @elseIf(($key+1)/16 == 0)
+        @elseIf((++$counter)%10 == 0)
           <div class="break"></div>
         @endif
         @endforeach
@@ -165,8 +167,10 @@
 <!-- /.card -->
 @endsection
 @section('js')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> --}}
 <script>
   /*
   $('#generate-pdf').click(function() {
@@ -181,6 +185,7 @@
         */
         
 // JavaScript to Generate PDF
+/*
 document.getElementById('generate-pdf').addEventListener('click', () => {
             const { jsPDF } = window.jspdf;
 
@@ -213,6 +218,19 @@ document.getElementById('generate-pdf').addEventListener('click', () => {
                 pdf.save("student-info.pdf");
             });
         });
-        
+        */
+    document.getElementById('generate-pdf').addEventListener('click', () => {
+        var element = document.getElementById('content-to-pdf');
+        var opt = {
+          margin:       .3,
+          filename:     'myfile.pdf',
+          image:        { type: 'jpeg', quality: 0.98 },
+          html2canvas:  { scale: 2 },
+          jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+        };
+
+        // New Promise-based usage:
+        html2pdf().set(opt).from(element).save();
+    });
 </script>
 @endsection

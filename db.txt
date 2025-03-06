@@ -1,2 +1,3 @@
 ALTER TABLE `student_ac_time_configs` ADD `year` YEAR NOT NULL AFTER `sub_head_id`; 
 ALTER TABLE `exam_marks` ADD `exam_id` BIGINT UNSIGNED NOT NULL AFTER `section_id`; 
+ALTER TABLE `exam_marks` CHANGE `exam_id` `exam_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL;

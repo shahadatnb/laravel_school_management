@@ -20,10 +20,12 @@ use App\Imports\StudentsImport;
 use App\Imports\ImportCgpa;
 use App\Models\Student\ClassConfig;
 use Illuminate\Support\Facades\Validator;
-use Image;
+//use Image;
+use Intervention\Image\Laravel\Facades\Image;
 //use PDF;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Storage;
+//use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -345,9 +347,9 @@ class StudentController extends Controller
         $image = $request->file('photo');
         if ($image) {
             Storage::delete('public/'.$student->photo);
-            $imgFile  = Image::make($request->photo)->resize(300, 300, function ($constraint) {
+            $imgFile  = Image::read($request->photo)->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
-            })->encode('jpg',80);
+            })->toJpeg(80);
             $file_name = 'students/'. session('branch')['id'] .'/'.time() .'.jpg';
             Storage::disk('public')->put($file_name, $imgFile);
             //$filename = time().'.'.$image->extension();
@@ -474,9 +476,9 @@ class StudentController extends Controller
         $image = $request->file('photo');
         if ($image) {
             Storage::delete('public/'.$student->photo);
-            $imgFile  = Image::make($request->photo)->resize(300, 300, function ($constraint) {
+            $imgFile  = Image::read($request->photo)->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
-            })->encode('jpg',80);
+            })->toJpeg(80);
             $file_name = 'students/'. session('branch')['id'] . '/'. time() .'.jpg';
             Storage::disk('public')->put($file_name, $imgFile);            
             //$filename = time().'.'.$image->extension();
@@ -544,6 +546,9 @@ class StudentController extends Controller
             $data['valid_date'] = $request->valid_date;
             $data['print_style'] = $request->print_style;
             $students = $students->paginate(100);
+            //return view('admin.student.id_card.print', compact('students','template','data'));
+            //$pdf = Pdf::loadView('admin.student.id_card.print', compact('students','template','data'))->setPaper('a4', 'landscape');
+            //return $pdf->download('IDCard.pdf');
         }
         return view('admin.student.student.IDCard', compact('students','sections','data','templates','template'));
     }
