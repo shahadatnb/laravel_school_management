@@ -22,6 +22,7 @@ use App\Http\Controllers\Student\GroupConfigController;
 
 use App\Http\Controllers\Exam\ExamListController;
 use App\Http\Controllers\Exam\ExamSubjectController;
+use App\Http\Controllers\Exam\ExamFourthAssignController;
 use App\Http\Controllers\Exam\ExamShortCodeController;
 use App\Http\Controllers\Exam\ExamGradeController;
 use App\Http\Controllers\Exam\ExamSubjectConfigController;
@@ -85,6 +86,8 @@ Route::get('ac_config', function()
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+Route::post('/attendance', [HomeController::class,'attendance'])->name('attendance');
 
 Route::prefix(config('app.admin_prefix','admin'))->group(function() {
     //Auth::routes(['register' => false]);//['verify'=> false]
@@ -156,6 +159,8 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::post('subject/multiple_update', [ExamSubjectConfigController::class,'multiple_update'])->name('subject.multiple_update');
             Route::resource('subject', ExamSubjectConfigController::class)->except('show','create','edit');
             Route::resource('exam_config', ExamConfigurationController::class)->except('show','create');
+
+            Route::resource('fourth_assign', ExamFourthAssignController::class)->except('show','create');
 
             Route::get('mark_config', [MarkConfigController::class, 'index'])->name('mark_config.index');
             Route::get('get_group', [MarkConfigController::class, 'get_group'])->name('mark_config.get_group');

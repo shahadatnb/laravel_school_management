@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Branch;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
     public function homepage(){
         return view('frontend.pages.index');
         //return redirect()->route('login');
+    }
+
+    public function attendance(Request $request){
+        Log::info($request->all());
+        return response()->json('success');
     }
 
    public function page(Request $request, $branch, $page){
