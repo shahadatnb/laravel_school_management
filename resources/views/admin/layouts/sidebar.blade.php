@@ -179,9 +179,9 @@
                   <li class="nav-item"><a href="{{ route("exam.config.final_mark_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.final_mark_config.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Exam Final')}}</a>
                   </li>
-                  {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
+                  <li class="nav-item"><a href="{{ route("exam.config.fourth_assign.index") }}" class="nav-link {{ (request()->routeIs('exam.config.fourth_assign.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Fourth Subject')}}</a>
-                  </li> --}}
+                  </li>
                   {{-- <li class="nav-item"><a href="{{ route("exam.config.exam_config.index") }}" class="nav-link {{ (request()->routeIs('exam.config.exam_config.*')) ? ' active' : '' }}">
                     <i class="far fa-circle nav-icon"></i> {{__('Admit Instruction')}}</a>
                   </li> --}}

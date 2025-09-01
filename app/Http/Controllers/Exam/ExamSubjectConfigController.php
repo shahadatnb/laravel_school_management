@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Exam\ExamSubjectConfig;
 use App\Models\Student\Semester;
-use App\Models\Student\Group;
+use App\Models\Student\ClassConfig;
 use App\Models\Exam\ExamSubject;
 use App\Models\Exam\ExamSubjectType;
 
@@ -102,5 +102,20 @@ class ExamSubjectConfigController extends Controller
             $examSubjectConfig->delete();
             return response()->json(['success'=>'Subject Config Deleted Successfully']);
         }
+    }
+
+
+    public function get_forth_subject_by_section_and_group(Request $request)
+    {
+        $class_config = ClassConfig::where('id',$request->section_id)->where('branch_id', session('branch')['id'])->first();
+        if(!$class_config){
+            return response()->json(['status' => false]);
+        }
+
+        $optional_subjects = ExamSubject::whereHas('subjectConfig', function ($query) use ($class_config,$request) {
+            $query->where('class_id',$class_config->class_id)->where('group_id',$request->group_id)->where('subject_type_id',2);
+        })->where('branch_id',session('branch')['id'])->select('id','name')->get()->toArray();
+
+        return response()->json(['status' => true,'forth_subjects' => $optional_subjects]);
     }
 }

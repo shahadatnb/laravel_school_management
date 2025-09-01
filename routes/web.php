@@ -94,7 +94,7 @@ Route::prefix(config('app.admin_prefix','admin'))->group(function() {
 });
 
 Route::get('/dashboard', function () {
-    return redirect()->route('home');
+    return redirect()->route('dashboard');
 });
 
 Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=>'auth'], function(){  
@@ -135,6 +135,7 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
             Route::post('multiple_delete', [StudentController::class,'multiple_delete'])->name('multiple_delete');
         });
 
+        Route::get('get_group_by_section', [GroupController::class,'get_group_by_section'])->name('get_group_by_section');
         Route::get('get_student_by_section', [StudentController::class,'get_student_by_section'])->name('get_student_by_section');
         Route::get('get_student_by_class', [StudentController::class,'get_student_by_class'])->name('get_student_by_class');
 
@@ -154,13 +155,15 @@ Route::group(['prefix'=>config('app.admin_prefix','admin'),'middleware'=> ['auth
         });
         
         Route::prefix('configation')->as('config.')->group(function() {
+            Route::get('subject/get_forth_subject_by_section_and_group', [ExamSubjectConfigController::class,'get_forth_subject_by_section_and_group'])->name('get_forth_subject_by_section_and_group');
             Route::get('subject/delete', [ExamSubjectConfigController::class,'destroy'])->name('subject.delete');
             Route::get('subject/list', [ExamSubjectConfigController::class,'list'])->name('subject.list');
             Route::post('subject/multiple_update', [ExamSubjectConfigController::class,'multiple_update'])->name('subject.multiple_update');
             Route::resource('subject', ExamSubjectConfigController::class)->except('show','create','edit');
             Route::resource('exam_config', ExamConfigurationController::class)->except('show','create');
 
-            Route::resource('fourth_assign', ExamFourthAssignController::class)->except('show','create');
+            Route::get('fourth_assign/show', [ExamFourthAssignController::class, 'show'])->name('fourth_assign.show');
+            Route::resource('fourth_assign', ExamFourthAssignController::class)->except('edit','update','show');
 
             Route::get('mark_config', [MarkConfigController::class, 'index'])->name('mark_config.index');
             Route::get('get_group', [MarkConfigController::class, 'get_group'])->name('mark_config.get_group');

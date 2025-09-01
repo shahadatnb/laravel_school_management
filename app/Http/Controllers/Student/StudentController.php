@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Student\Student;
 use App\Models\Student\Section;
 use App\Models\Student\Shift;
-use App\Models\Student\AcademicYear;
 use App\Models\Student\Group;
 use App\Models\Student\StudentMark;
 use App\Models\Student\InvoicePayment;
@@ -85,7 +84,7 @@ class StudentController extends Controller
 
     public function multiple_create(){
         $semesters = $this->semesterArray();
-        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $academic_years = $this->academicYears();
         $sections = $this->sectionArray();
         $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
         $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');
@@ -179,7 +178,7 @@ class StudentController extends Controller
 
     public function multiple_edit(){
         $semesters = $this->semesterArray();
-        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        $academic_years = $this->academicYears();
         $sections = $this->sectionArray();
         $groups = Group::where('branch_id', session('branch')['id'])->pluck('name', 'id');
         $catetories = Category::where('branch_id', session('branch')['id'])->pluck('name', 'id');

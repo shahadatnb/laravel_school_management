@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Models\Student\Group;
+use App\Models\Student\ClassConfig;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -68,5 +69,20 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+
+    public function get_group_by_section(Request $request)
+    {
+        $class_config = ClassConfig::where('id',$request->section_id)->where('branch_id', session('branch')['id'])->first();
+        if(!$class_config){
+            return response()->json(['status' => false]);
+        }
+
+        $groups = Group::where('branch_id',session('branch')['id'])->whereHas('groupConfig', function ($query) use ($class_config) { 
+            $query->where('class_id', $class_config->class_id); 
+        } )->select('id','name')->get()->toArray();
+
+
+        return response()->json(['status' => true,'groups' => $groups]);
     }
 }

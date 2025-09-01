@@ -4,6 +4,7 @@ namespace App\Traits;
 use App\Models\Student\Student;
 use App\Models\Student\Semester;
 use App\Models\Student\ClassConfig;
+use App\Models\Student\AcademicYear;
 
 trait StudentTrait {
 
@@ -14,6 +15,11 @@ trait StudentTrait {
             $datas[$semester->id] = $semester->name;
         }
         return $datas;
+    }
+
+    public function academicYears() {
+        $academic_years = AcademicYear::where('branch_id', session('branch')['id'])->orderBy('sl','ASC')->where('status',1)->pluck('year', 'id');
+        return $academic_years;
     }
 
     public function sectionArray() {

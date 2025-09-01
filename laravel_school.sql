@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 30, 2025 at 04:32 PM
+-- Generation Time: Sep 01, 2025 at 05:34 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -193,6 +193,31 @@ INSERT INTO `exam_configurations` (`id`, `branch_id`, `class_id`, `exam_id`, `me
 (4, 1, 11, 3, 1, 0, 1, '2024-12-08 11:03:48', '2024-12-08 11:03:48'),
 (5, 1, 11, 4, 1, 0, 1, '2024-12-08 11:03:48', '2024-12-08 11:03:48'),
 (6, 1, 14, 4, 1, 0, 1, '2025-01-13 11:25:11', '2025-01-13 11:25:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `exam_fourth_assigns`
+--
+
+CREATE TABLE `exam_fourth_assigns` (
+  `id` bigint UNSIGNED NOT NULL,
+  `branch_id` int UNSIGNED NOT NULL,
+  `academic_year_id` bigint UNSIGNED NOT NULL,
+  `student_id` bigint UNSIGNED NOT NULL,
+  `subject_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `exam_fourth_assigns`
+--
+
+INSERT INTO `exam_fourth_assigns` (`id`, `branch_id`, `academic_year_id`, `student_id`, `subject_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 15, 9, '2025-09-01 17:30:41', '2025-09-01 17:30:41'),
+(2, 1, 3, 16, 9, '2025-09-01 17:30:41', '2025-09-01 17:30:41'),
+(3, 1, 3, 17, 10, '2025-09-01 17:31:53', '2025-09-01 17:31:53');
 
 -- --------------------------------------------------------
 
@@ -666,16 +691,16 @@ INSERT INTO `exam_subject_configs` (`id`, `branch_id`, `class_id`, `group_id`, `
 (24, 1, 14, 1, 1, 1, 1, 0, '2024-12-07 07:25:26', '2025-01-13 11:20:57'),
 (25, 1, 14, 1, 3, 1, 2, 0, '2024-12-07 07:25:26', '2025-01-13 11:20:57'),
 (26, 1, 14, 1, 5, 1, 3, 0, '2024-12-07 07:25:26', '2025-01-13 11:20:57'),
-(27, 1, 11, 1, 1, 1, 1, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
-(28, 1, 11, 1, 2, 1, 4, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
-(29, 1, 11, 1, 3, 1, 2, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
-(30, 1, 11, 1, 4, 1, 5, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
-(31, 1, 11, 1, 5, 1, 3, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
-(32, 1, 11, 1, 6, 1, 6, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
-(33, 1, 11, 1, 7, 1, 7, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:47'),
-(34, 1, 11, 1, 8, 1, 8, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:48'),
-(35, 1, 11, 1, 9, 1, 9, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:48'),
-(36, 1, 11, 1, 10, 1, 10, 0, '2025-01-13 11:18:58', '2025-01-13 11:19:48');
+(27, 1, 11, 1, 1, 1, 1, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(28, 1, 11, 1, 2, 1, 4, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(29, 1, 11, 1, 3, 1, 2, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(30, 1, 11, 1, 4, 1, 5, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(31, 1, 11, 1, 5, 1, 3, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(32, 1, 11, 1, 6, 1, 6, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(33, 1, 11, 1, 7, 1, 7, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(34, 1, 11, 1, 8, 1, 8, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(35, 1, 11, 1, 9, 2, 9, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45'),
+(36, 1, 11, 1, 10, 2, 10, 0, '2025-01-13 11:18:58', '2025-09-01 15:16:45');
 
 -- --------------------------------------------------------
 
@@ -765,7 +790,8 @@ INSERT INTO `group_configs` (`id`, `branch_id`, `group_id`, `class_id`, `serial`
 (1, 1, 1, 11, 1, 1, '2024-12-07 07:51:32', '2024-12-07 07:51:32'),
 (2, 1, 1, 14, 2, 1, '2024-12-07 07:51:49', '2024-12-07 07:51:49'),
 (3, 1, 3, 17, 1, 1, '2024-12-07 07:54:05', '2024-12-07 07:54:05'),
-(4, 1, 4, 17, 5, 1, '2024-12-07 07:54:40', '2024-12-07 07:54:40');
+(4, 1, 4, 17, 5, 1, '2024-12-07 07:54:40', '2024-12-07 07:54:40'),
+(5, 1, 3, 11, 2, 1, '2025-09-01 13:26:13', '2025-09-01 13:26:13');
 
 -- --------------------------------------------------------
 
@@ -1668,7 +1694,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (140, '2024_12_14_163813_create_student_ac_free_waiver_configs_table', 56),
 (141, '2025_01_12_070921_create_idcard_templates_table', 57),
 (142, '2025_01_13_131408_create_exam_results_table', 58),
-(143, '2025_01_14_135140_create_exam_result_tabulations_table', 59);
+(143, '2025_01_14_135140_create_exam_result_tabulations_table', 59),
+(144, '2025_08_29_165357_create_exam_fourth_assigns_table', 60);
 
 -- --------------------------------------------------------
 
@@ -2540,6 +2567,12 @@ ALTER TABLE `exam_configurations`
   ADD KEY `branch_id` (`branch_id`);
 
 --
+-- Indexes for table `exam_fourth_assigns`
+--
+ALTER TABLE `exam_fourth_assigns`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `exam_grades`
 --
 ALTER TABLE `exam_grades`
@@ -2966,6 +2999,12 @@ ALTER TABLE `exam_configurations`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `exam_fourth_assigns`
+--
+ALTER TABLE `exam_fourth_assigns`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `exam_grades`
 --
 ALTER TABLE `exam_grades`
@@ -3059,7 +3098,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT for table `group_configs`
 --
 ALTER TABLE `group_configs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `idcard_templates`
@@ -3119,7 +3158,7 @@ ALTER TABLE `menu_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `permissions`

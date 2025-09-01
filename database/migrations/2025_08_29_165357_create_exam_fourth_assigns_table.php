@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedInteger('branch_id')->references('id')->on('branches');
             $table->unsignedBigInteger('academic_year_id')->references('id')->on('academic_years');
             $table->unsignedBigInteger('student_id')->references('id')->on('students');
-            $table->unsignedBigInteger('section_id')->referances('id')->on('sections');
-            $table->unsignedBigInteger('group_id')->references('id')->on('groups');
+            //$table->unsignedBigInteger('section_id')->referances('id')->on('sections');
+            //$table->unsignedBigInteger('group_id')->references('id')->on('groups');
             $table->unsignedBigInteger('subject_id')->references('id')->on('subjects');
             $table->timestamps();
         });
